@@ -4,18 +4,17 @@ class Like {
     }
 
     handleLike() {
+        const likeButtons = document.querySelectorAll('[data-like-icon]');
+
         this.amountOfLikedPosts(this.getLocalStorage());
         this.setLiked(this.getLocalStorage());
-        this.setListeners();
+        likeButtons && this.setListeners(likeButtons);
     }
 
-    setListeners() {
-        const likeButtons = document.querySelectorAll('[data-like-icon]');
-        if(!likeButtons || likeButtons.length < 0) {
-            return;
-        }
+    setListeners(likeButtons) {
         likeButtons.forEach(button => {
-            button.addEventListener('click', () => {
+            button.addEventListener('click', (e) => {
+                console.log("click");
                 const postId = button.getAttribute('data-post-id');
                 this.setLocalStorage(postId);
             });
