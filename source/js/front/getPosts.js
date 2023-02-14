@@ -34,19 +34,15 @@ class GetPosts {
 
         filteredPosts.forEach(post => {
             if (post._embedded['wp:featuredmedia']) {
-                let featuredImageId = post._embedded['wp:featuredmedia'][0].id;
-
                 if((post._embedded['wp:featuredmedia'][0].media_details)) {
                     let featuredImageUrl;
                     featuredImageUrl = post._embedded['wp:featuredmedia'][0].media_details.sizes.medium;
-                    console.log(featuredImageUrl);
                     post.image = featuredImageUrl;
                 };
 
             }
         });
 
-        console.log(filteredPosts);
         this.renderInstance.renderComponents(filteredPosts);
     }
 }
