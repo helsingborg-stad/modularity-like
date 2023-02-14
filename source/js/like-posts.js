@@ -5,4 +5,3 @@ import Render from './front/render';
 const LikeInstance = new Like();
 const RenderInstance = new Render(likedPostsComponents, LikeInstance);
 const GetPostsInstance = new GetPosts(RenderInstance);
-
