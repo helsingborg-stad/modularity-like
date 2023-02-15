@@ -12,9 +12,16 @@ class App
 
         //Init module
         add_action('plugins_loaded', array($this, 'registerModule'));
+        add_filter('accessibility_items', array($this, 'addLikeIcon'));
 
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
     }
+
+    public function addLikeIcon() {
+        return [['icon' => 'favorite', 'icon__filled' => false, 'icon__size' => 'lg', 'icon__attributeList' => ['data-post-id' => get_the_ID(), 'data-like-icon' => '', 'style' => 'color: #cc5249; right: .5rem; top: .5rem; cursor: pointer;']]];
+    }
+
+    
 
     /**
      * Enqueue required style
