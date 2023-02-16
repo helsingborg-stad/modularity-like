@@ -11,17 +11,50 @@ class App
         add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 
         //Init module
+        add_filter('acf/load_field/name=select_post_type', array($this, 'setPostTypes'));
         add_action('plugins_loaded', array($this, 'registerModule'));
-        add_filter('accessibility_items', array($this, 'addLikeIcon'));
+        add_filter('accessibility_items', array($this, 'pageIcons'));
+        add_filter('post_icons', array($this, 'addLikeIcons'));
+
 
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
     }
 
-    public function addLikeIcon() {
-        return [['icon' => 'favorite', 'icon__filled' => false, 'icon__size' => 'lg', 'icon__attributeList' => ['data-post-id' => get_the_ID(), 'data-like-icon' => '', 'style' => 'color: #cc5249; right: .5rem; top: .5rem; cursor: pointer;']]];
+    public function setPostTypes( $field ) {
+        $args = array(
+            'public' => true,
+            '_builtin' => false
+        );
+
+        $postTypes = get_post_types( $args, 'names' );
+        $newChoices = [];
+        if (!empty($postTypes)) {
+            foreach ($postTypes as $postType) {
+                $newChoices[$postType] = ucfirst($postType);
+            }
+        }
+
+        $field['choices'] = array_merge( $field['choices'], $newChoices );
+
+    return $field;
     }
 
-    
+    public function pageIcons() {
+        global $post;
+        $postTypes = get_field('select_post_type', 'option') ?? [];
+        
+        if ($postTypes && !empty($postTypes)) {
+            foreach ($postTypes as $postType) {
+                if ($post->post_type == $postType) {
+                    return $this->addLikeIcons();
+                }
+            }
+        }
+    }
+
+    public function addLikeIcons() {
+        return [['icon' => 'favorite', 'icon__filled' => false, 'icon__size' => 'lg', 'icon__attributeList' => ['data-post-id' => get_the_ID(), 'data-like-icon' => '', 'style' => 'color: #cc5249; right: .5rem; top: .5rem; cursor: pointer;'], 'postTypes' => get_field('select_post_type', 'option') ?? []]];
+    }
 
     /**
      * Enqueue required style
