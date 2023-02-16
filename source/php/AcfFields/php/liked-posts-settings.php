@@ -31,10 +31,10 @@
             'save_other_choice' => 0,
         ),
         1 => array(
-            'key' => 'field_63eb934a4165a',
-            'label' => __('Like page', 'liked-posts'),
-            'name' => 'like_page',
-            'type' => 'post_object',
+            'key' => 'field_63ee48da2d607',
+            'label' => __('Liked post types to show', 'liked-posts'),
+            'name' => 'liked_post_types_to_show',
+            'type' => 'checkbox',
             'instructions' => '',
             'required' => 0,
             'conditional_logic' => 0,
@@ -43,19 +43,21 @@
                 'class' => '',
                 'id' => '',
             ),
-            'post_type' => array(
-                0 => 'page',
+            'choices' => array(
+                'showAll' => __('Show all', 'liked-posts'),
+                'posts' => __('Posts', 'liked-posts'),
+                'event' => __('Event', 'liked-posts'),
+                'local-events' => __('Local-events', 'liked-posts'),
+                'test' => __('Test', 'liked-posts'),
             ),
-            'taxonomy' => '',
-            'return_format' => 'object',
-            'multiple' => 0,
+            'default_value' => array(
+                0 => __('showAll', 'liked-posts'),
+            ),
+            'return_format' => 'value',
+            'allow_custom' => 0,
+            'layout' => 'vertical',
+            'toggle' => 0,
             'save_custom' => 0,
-            'save_post_status' => 'publish',
-            'acfe_bidirectional' => array(
-                'acfe_bidirectional_enabled' => '0',
-            ),
-            'allow_null' => 0,
-            'ui' => 1,
         ),
     ),
     'location' => array(
@@ -63,7 +65,7 @@
             0 => array(
                 'param' => 'post_type',
                 'operator' => '==',
-                'value' => 'mod-liked-posts',
+                'value' => 'post',
             ),
         ),
         1 => array(
@@ -71,13 +73,6 @@
                 'param' => 'block',
                 'operator' => '==',
                 'value' => 'all',
-            ),
-        ),
-        2 => array(
-            0 => array(
-                'param' => 'block',
-                'operator' => '==',
-                'value' => 'acf/liked-posts',
             ),
         ),
     ),

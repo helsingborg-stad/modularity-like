@@ -7,11 +7,15 @@ class App
     public function __construct()
     {
         new ComponentsJs();
+        $this->setAcfFields = new \ModularityLikePosts\Helper\CheckboxPostTypes();
+
         add_action('admin_enqueue_scripts', array($this, 'enqueueStyles'));
         add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 
         //Init module
         add_filter('acf/load_field/name=select_post_type', array($this, 'setPostTypes'));
+        add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setPostTypes'));
+
         add_action('plugins_loaded', array($this, 'registerModule'));
         add_filter('accessibility_items', array($this, 'pageIcons'));
         add_filter('post_icons', array($this, 'addLikeIcons'));
@@ -21,6 +25,17 @@ class App
     }
 
     public function setPostTypes( $field ) {
+        return $this->setAcfFields->setAcfCheckboxes($field);
+    }
+
+   /**
+    * It takes the existing choices in the field and merges them with the new choices.
+    * 
+    * @param field The field array.
+    * 
+    * @return The field array with the new choices added.
+    */
+/*     public function setPostTypes( $field ) {
         $args = array(
             'public' => true,
             '_builtin' => false
@@ -38,7 +53,12 @@ class App
 
     return $field;
     }
-
+ */
+    /**
+     * If the post type is in the array of post types, then add the icons.
+     * 
+     * @return The return value is the result of the addLikeIcons() method.
+     */
     public function pageIcons() {
         global $post;
         $postTypes = get_field('select_post_type', 'option') ?? [];
@@ -53,7 +73,7 @@ class App
     }
 
     public function addLikeIcons() {
-        return [['icon' => 'favorite', 'icon__filled' => false, 'icon__size' => 'lg', 'icon__attributeList' => ['data-post-id' => get_the_ID(), 'data-like-icon' => '', 'style' => 'color: #cc5249; right: .5rem; top: .5rem; cursor: pointer;'], 'postTypes' => get_field('select_post_type', 'option') ?? []]];
+        return [['icon' => 'favorite_outline', 'icon__size' => 'lg', 'icon__attributeList' => ['data-post-id' => get_the_ID(), 'data-like-icon' => '', 'style' => 'color: #cc5249; right: .5rem; top: .5rem; cursor: pointer;'], 'postTypes' => get_field('select_post_type', 'option') ?? []]];
     }
 
     /**

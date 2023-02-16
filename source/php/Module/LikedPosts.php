@@ -6,16 +6,16 @@ class LikedPosts extends \Modularity\Module
 {
     public $slug = 'liked-posts';
     public $supports = array();
-    public $isBlockCompatible = false;
 
     public function init()
-    {
+    {   
         //Define module
         $this->nameSingular = __("Liked posts", 'like-posts');
         $this->namePlural = __("Liked posts", 'like-posts');
         $this->description = __("Shows the users liked posts", 'like-posts');
-    }
 
+    }
+    
      /**
      * View data
      * @return array
@@ -23,10 +23,18 @@ class LikedPosts extends \Modularity\Module
     public function data(): array
     {
         $fields = get_fields($this->ID);
-
+        $data['postTypes'] = $this->getPostTypes();
         $data['display_as'] = $fields['display_liked_posts_as'];
 
         return $data;
+    }
+
+
+    public function getPostTypes() {
+        $postTypes = get_field('select_post_type', 'option') ?? [];
+        if (!empty($postTypes)) {   
+            return json_encode($postTypes);
+        } 
     }
 
     public function template(): string

@@ -13,6 +13,13 @@ class GetPosts {
         if (this.posts) {
             return this.handlePosts();
         }
+        const containers = document.querySelectorAll('[js-like-container]');
+        let arr = [];
+        containers.forEach(container => {
+            arr.push(JSON.parse(container.getAttribute('js-post-types')));
+            console.log(arr);
+        });
+
         const endpoint = "https://localhost/wptest/wp-json/wp/v2/posts?_embed";
         fetch(endpoint)
             .then(response => response.json())
