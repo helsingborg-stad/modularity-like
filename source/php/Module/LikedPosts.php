@@ -15,7 +15,7 @@ class LikedPosts extends \Modularity\Module
         $this->description = __("Shows the users liked posts", 'like-posts');
 
     }
-    
+
      /**
      * View data
      * @return array
@@ -23,18 +23,10 @@ class LikedPosts extends \Modularity\Module
     public function data(): array
     {
         $fields = get_fields($this->ID);
-        $data['postTypes'] = $this->getPostTypes();
         $data['display_as'] = $fields['display_liked_posts_as'];
+        $data['postTypes'] = json_encode($fields['liked_post_types_to_show']);
 
         return $data;
-    }
-
-
-    public function getPostTypes() {
-        $postTypes = get_field('select_post_type', 'option') ?? [];
-        if (!empty($postTypes)) {   
-            return json_encode($postTypes);
-        } 
     }
 
     public function template(): string

@@ -44,14 +44,10 @@
                 'id' => '',
             ),
             'choices' => array(
-                'showAll' => __('Show all', 'liked-posts'),
                 'posts' => __('Posts', 'liked-posts'),
-                'event' => __('Event', 'liked-posts'),
-                'local-events' => __('Local-events', 'liked-posts'),
                 'test' => __('Test', 'liked-posts'),
             ),
             'default_value' => array(
-                0 => __('showAll', 'liked-posts'),
             ),
             'return_format' => 'value',
             'allow_custom' => 0,
@@ -65,14 +61,14 @@
             0 => array(
                 'param' => 'post_type',
                 'operator' => '==',
-                'value' => 'post',
+                'value' => 'mod-liked-posts',
             ),
         ),
         1 => array(
             0 => array(
                 'param' => 'block',
                 'operator' => '==',
-                'value' => 'all',
+                'value' => 'acf/liked-posts',
             ),
         ),
     ),

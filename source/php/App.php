@@ -13,8 +13,8 @@ class App
         add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
 
         //Init module
-        add_filter('acf/load_field/name=select_post_type', array($this, 'setPostTypes'));
-        add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setPostTypes'));
+        add_filter('acf/load_field/name=select_post_type', array($this, 'setOptionsPostTypes'));
+        add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
 
         add_action('plugins_loaded', array($this, 'registerModule'));
         add_filter('accessibility_items', array($this, 'pageIcons'));
@@ -24,24 +24,15 @@ class App
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
     }
 
-    public function setPostTypes( $field ) {
-        return $this->setAcfFields->setAcfCheckboxes($field);
-    }
-
-   /**
-    * It takes the existing choices in the field and merges them with the new choices.
-    * 
-    * @param field The field array.
-    * 
-    * @return The field array with the new choices added.
-    */
-/*     public function setPostTypes( $field ) {
+    public function setOptionsPostTypes($field) {
+        
         $args = array(
             'public' => true,
             '_builtin' => false
         );
 
-        $postTypes = get_post_types( $args, 'names' );
+        $postTypes = get_post_types($args, 'names');
+
         $newChoices = [];
         if (!empty($postTypes)) {
             foreach ($postTypes as $postType) {
@@ -49,11 +40,21 @@ class App
             }
         }
 
-        $field['choices'] = array_merge( $field['choices'], $newChoices );
+        $field['choices'] = array_merge($field['choices'], $newChoices);
 
-    return $field;
+        return $field;
     }
- */
+
+    public function setModulePostTypes ($field) {
+        $choices = get_field('select_post_type', 'option');
+        $field['choices'] = array_combine($choices, $choices);
+        foreach ($field['choices'] as $key => $value) {
+            $field['choices'][$key] = ucfirst($value);
+        }
+
+        return $field;
+    }
+
     /**
      * If the post type is in the array of post types, then add the icons.
      * 
@@ -66,14 +67,14 @@ class App
         if ($postTypes && !empty($postTypes)) {
             foreach ($postTypes as $postType) {
                 if ($post->post_type == $postType) {
-                    return $this->addLikeIcons();
+                    return $this->addLikeIcons($postType);
                 }
             }
         }
     }
 
-    public function addLikeIcons() {
-        return [['icon' => 'favorite_outline', 'icon__size' => 'lg', 'icon__attributeList' => ['data-post-id' => get_the_ID(), 'data-like-icon' => '', 'style' => 'color: #cc5249; right: .5rem; top: .5rem; cursor: pointer;'], 'postTypes' => get_field('select_post_type', 'option') ?? []]];
+    public function addLikeIcons($postType = false) {
+        return [['icon' => 'favorite_outline', 'icon__size' => 'lg', 'icon__attributeList' => ['data-post-id' => get_the_ID(), 'data-like-icon' => '', 'data-post-type' => $postType ?? '',  'style' => 'color: #cc5249; right: .5rem; top: .5rem; cursor: pointer;'], 'postTypes' => get_field('select_post_type', 'option') ?? []]];
     }
 
     /**

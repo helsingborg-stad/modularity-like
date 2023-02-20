@@ -41,15 +41,10 @@
                 "id": ""
             },
             "choices": {
-                "showAll": "Show all",
                 "posts": "Posts",
-                "event": "Event",
-                "local-events": "Local-events",
                 "test": "Test"
             },
-            "default_value": [
-                "showAll"
-            ],
+            "default_value": [],
             "return_format": "value",
             "allow_custom": 0,
             "layout": "vertical",
@@ -62,14 +57,14 @@
             {
                 "param": "post_type",
                 "operator": "==",
-                "value": "post"
+                "value": "mod-liked-posts"
             }
         ],
         [
             {
                 "param": "block",
                 "operator": "==",
-                "value": "all"
+                "value": "acf\/liked-posts"
             }
         ]
     ],

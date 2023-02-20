@@ -16,7 +16,8 @@ class Like {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 const postId = button.getAttribute('data-post-id');
-                this.setLocalStorage(postId);
+                const postType = button.getAttribute('data-post-type');
+                this.setLocalStorage(postId, postType);
             });
         });
     }
@@ -25,15 +26,16 @@ class Like {
         return JSON.parse(localStorage.getItem('liked-posts')) || [];
     }
 
-    setLocalStorage(postId) {
+    setLocalStorage(postId, postType) {
         let likedPostIds = this.getLocalStorage();
 
-        if (!likedPostIds.includes(postId)) {
-            likedPostIds.push(postId);
+        const index = likedPostIds.findIndex(item => item.id === postId && item.type === postType);
+        if (index === -1) {
+            likedPostIds.push({ id: postId, type: postType });
         } else {
-            likedPostIds.splice(likedPostIds.indexOf(postId), 1);
+            likedPostIds.splice(index, 1);
         }
-
+        
         localStorage.setItem('liked-posts', JSON.stringify(likedPostIds));
         this.toggleLiked(postId);
         this.amountOfLikedPosts(likedPostIds);
@@ -47,9 +49,9 @@ class Like {
         })
     }
 
-    setLiked(likedPostIds) {
-        likedPostIds.forEach(postId => {
-            const icons = document.querySelectorAll(`[data-post-id="${postId}"]`);
+    setLiked(likedPosts) {
+        likedPosts.forEach(post => {
+            const icons = document.querySelectorAll(`[data-post-id="${post.id}"]`);
             icons && icons.forEach(icon => {
                 icon.classList.add('is-liked');
                 this.changeIcon(icon);
