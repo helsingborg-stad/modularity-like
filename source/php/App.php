@@ -74,7 +74,7 @@ class App
     }
 
     public function addLikeIcons($postType = false) {
-        return [['icon' => 'favorite_outline', 'icon__size' => 'lg', 'icon__attributeList' => ['data-post-id' => get_the_ID(), 'data-like-icon' => '', 'data-post-type' => $postType ?? '',  'style' => 'color: #cc5249; right: .5rem; top: .5rem; cursor: pointer;'], 'postTypes' => get_field('select_post_type', 'option') ?? []]];
+        return [['icon' => 'favorite_outline', 'iconSize' => 'lg', 'iconAttributes' => ['data-post-id' => !empty(get_the_ID()) ? get_the_ID() : "", 'data-like-icon' => '', 'data-post-type' => $postType ?? '']]];
     }
 
     /**
