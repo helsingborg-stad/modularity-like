@@ -18,7 +18,7 @@ class App
 
         add_action('plugins_loaded', array($this, 'registerModule'));
         add_filter('accessibility_items', array($this, 'pageIcons'));
-        add_filter('post_icons', array($this, 'addLikeIcons'));
+        add_filter('post_icons', array($this, 'postsIcon'));
 
 
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
@@ -64,17 +64,17 @@ class App
         global $post;
         $postTypes = get_field('select_post_type', 'option') ?? [];
         
-        if ($postTypes && !empty($postTypes)) {
+        if (!empty($postTypes)) {
             foreach ($postTypes as $postType) {
                 if ($post->post_type == $postType) {
-                    return $this->addLikeIcons($postType);
+                    return [['icon' => 'favorite_outline', 'size' => 'lg', 'attributes' => ['data-post-id' => !empty(get_the_ID()) ? get_the_ID() : "", 'data-like-icon' => '', 'data-post-type' => $postType ?? '']]];
                 }
             }
         }
     }
 
-    public function addLikeIcons($postType = false) {
-        return [['icon' => 'favorite_outline', 'iconSize' => 'lg', 'iconAttributes' => ['data-post-id' => !empty(get_the_ID()) ? get_the_ID() : "", 'data-like-icon' => '', 'data-post-type' => $postType ?? '']]];
+    public function postsIcon($postType = false) {
+        return ['icon' => 'favorite_outline', 'size' => 'md', 'attributes' => ['data-like-icon' => '']];
     }
 
     /**
