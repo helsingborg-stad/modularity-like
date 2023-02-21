@@ -1,1 +1,9 @@
-.like-posts {}
+$like-icon-color: var(--like-icon-color, #e84666) !default;
+
+.like-icon {
+    position: absolute;
+    right: var(--base, 8px); 
+    top: var(--base, 8px); 
+    z-index: 5000;
+    color: $like-icon-color;
+}

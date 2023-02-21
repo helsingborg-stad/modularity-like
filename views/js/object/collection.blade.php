@@ -6,8 +6,8 @@
     @icon([
         'icon' => 'favorite',
         'size' => 'md',
-        'classList' => ['u-position--absolute', 'u-level-3', 'is-liked'],
-        'attributeList' => ['data-post-id' => '{LIKE_POST_ID}', 'data-like-icon' => '', 'style' => 'color: #cc5249; right: .5rem; top: .5rem; cursor: pointer;'],
+        'classList' => ['u-position--absolute', 'u-level-3', 'is-liked', 'like-icon'],
+        'attributeList' => ['data-post-id' => '{LIKE_POST_ID}', 'data-post-type' => '{LIKE_POST_TYPE}', 'data-like-icon' => ''],
     ])
     @endicon
     @group([

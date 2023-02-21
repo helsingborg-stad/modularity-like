@@ -18,7 +18,6 @@ class Render {
                     container.appendChild(childElement);
                     likeButtons.push(childElement.querySelector('[data-like-icon]'));
                     childElement.classList.add('u-position--relative');
-                    console.log(html);
                 });
                 this.likeInstance.setListeners(likeButtons);
             })

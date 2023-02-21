@@ -9,8 +9,7 @@ class App
         new ComponentsJs();
         $this->setAcfFields = new \ModularityLikePosts\Helper\CheckboxPostTypes();
 
-        add_action('admin_enqueue_scripts', array($this, 'enqueueStyles'));
-        add_action('wp_enqueue_scripts', array($this, 'enqueueScripts'));
+        add_action('wp_enqueue_scripts', array($this, 'enqueueFrontend'));
 
         //Init module
         add_filter('acf/load_field/name=select_post_type', array($this, 'setOptionsPostTypes'));
@@ -67,22 +66,23 @@ class App
         if (!empty($postTypes)) {
             foreach ($postTypes as $postType) {
                 if ($post->post_type == $postType) {
-                    return [['icon' => 'favorite_outline', 'size' => 'lg', 'attributes' => ['data-post-id' => !empty(get_the_ID()) ? get_the_ID() : "", 'data-like-icon' => '', 'data-post-type' => $postType ?? '']]];
+                    return [['icon' => 'favorite_outline', 'size' => 'lg', 'classes' => ['like-icon'], 'attributes' => ['data-post-id' => !empty(get_the_ID()) ? get_the_ID() : "", 'data-like-icon' => '', 'data-post-type' => $postType ?? '']]];
                 }
             }
         }
     }
 
     public function postsIcon($postType = false) {
-        return ['icon' => 'favorite_outline', 'size' => 'md', 'attributes' => ['data-like-icon' => '']];
+        return ['icon' => 'favorite_outline', 'size' => 'md', 'attributes' => ['data-like-icon' => ''], 'classes' => ['like-icon']];
     }
 
     /**
-     * Enqueue required style
+     * Enqueue required scripts
      * @return void
      */
-    public function enqueueStyles()
+    public function enqueueFrontend()
     {
+        
         wp_register_style(
             'like-posts-css',
             MODULARITYLIKEPOSTS_URL . '/dist/' .
@@ -90,14 +90,7 @@ class App
         );
 
         wp_enqueue_style('like-posts-css');
-    }
 
-    /**
-     * Enqueue required scripts
-     * @return void
-     */
-    public function enqueueScripts()
-    {
         wp_register_script(
             'like-posts-js',
             MODULARITYLIKEPOSTS_URL . '/dist/' .
