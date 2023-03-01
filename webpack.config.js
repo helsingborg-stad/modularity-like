@@ -63,7 +63,19 @@ module.exports = {
                     'import-glob-loader'
                 ],
             },
+            /* Scripts */
+            /**
+             * TypeScript
+             */
+            {
+                test: /\.ts?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
         ],
+    },
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
     },
     plugins: removeEmpty([
         /**
