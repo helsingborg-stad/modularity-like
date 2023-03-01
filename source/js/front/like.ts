@@ -8,25 +8,33 @@ class Like {
 
         this.amountOfLikedPosts(this.getLocalStorage());
         this.setLiked(this.getLocalStorage());
-        likeButtons && this.setListeners(likeButtons);
+        likeButtons && this.setListeners(Array.from(likeButtons));
     }
 
-    setListeners(likeButtons) {
+    setListeners(likeButtons:Element[]) {
         likeButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 e.preventDefault();
                 const postId = button.getAttribute('data-post-id');
                 const postType = button.getAttribute('data-post-type');
+
+                if( postId === null ) return
+                if( postType === null ) return
+
                 this.setLocalStorage(postId, postType);
             });
         });
     }
 
-    getLocalStorage() {
-        return JSON.parse(localStorage.getItem('liked-posts')) || [];
+    
+
+    getLocalStorage() :LikedPost[] {
+        const item = localStorage.getItem('liked-posts');
+        if( item === null ) return []
+        return JSON.parse(item);
     }
 
-    setLocalStorage(postId, postType) {
+    setLocalStorage(postId:LikedPost['id'], postType:LikedPost['type']) {
         let likedPostIds = this.getLocalStorage();
 
         const index = likedPostIds.findIndex(item => item.id === postId && item.type === postType);
@@ -41,7 +49,7 @@ class Like {
         this.amountOfLikedPosts(likedPostIds);
     }
 
-    toggleLiked(postId) {
+    toggleLiked(postId:LikedPost['id']) {
         const icons = document.querySelectorAll(`[data-post-id="${postId}"]`);
         icons && icons.forEach(icon => {
             icon.classList.toggle('is-liked');
@@ -49,7 +57,7 @@ class Like {
         })
     }
 
-    setLiked(likedPosts) {
+    setLiked(likedPosts:LikedPost[]) {
         likedPosts.forEach(post => {
             const icons = document.querySelectorAll(`[data-post-id="${post.id}"]`);
             icons && icons.forEach(icon => {
@@ -59,22 +67,25 @@ class Like {
         });
     }
 
-    changeIcon(icon) {
+    changeIcon(icon:Element) {
+        const iconInnerElement = icon.querySelector('span')
+        if( iconInnerElement === null ) return
+        
         if(icon.classList.contains('is-liked')) {
-            icon.querySelector('span').innerHTML = icon.querySelector('span').innerHTML.replace("_outline", '');
+            iconInnerElement.innerHTML = iconInnerElement.innerHTML.replace("_outline", '');
         } else {
-            icon.querySelector('span').innerHTML = icon.querySelector('span').innerHTML + "_outline";
+            iconInnerElement.innerHTML = iconInnerElement.innerHTML + "_outline";
         }
     }
 
-    amountOfLikedPosts(likedPostIds) {
+    amountOfLikedPosts(likedPostIds:LikedPost[]) {
         const likedPostIdsAmount = document.querySelector('#liked-posts-amount');
 
         if (!likedPostIdsAmount || !likedPostIds) {
             return;
         }
 
-        likedPostIdsAmount.innerHTML = likedPostIds.length;
+        likedPostIdsAmount.innerHTML = likedPostIds.length.toString();
     }
 }
 

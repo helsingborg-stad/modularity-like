@@ -1,7 +1,13 @@
+import Render from './render';
+
 class GetPosts {
-    constructor(RenderInstance) {
+
+    private posts:Post[]
+    private renderInstance: Render
+
+    constructor(RenderInstance:Render) {
         this.getPosts();
-        this.posts = null;
+        this.posts = [];
         this.renderInstance = RenderInstance;
     }
 
@@ -28,11 +34,9 @@ class GetPosts {
         if (urls.length > 0) {
             this.fetchPosts(urls);
         }
-
-
     }
 
-    fetchPosts(urls) {
+    fetchPosts(urls:string[]) {
         const requests = urls.map(url => fetch(url));
         Promise.all(requests)
             .then(responses => {
@@ -49,11 +53,11 @@ class GetPosts {
             })
     }
 
-    getUrls(key, ids) {
+    getUrls(key:string, likedPosts:LikedPost[]) {
         let idString = '';
-            ids.forEach((id, index) => {
+            likedPosts.forEach((id, index) => {
                 idString += id.id;
-                if (index < ids.length - 1) {
+                if (index < likedPosts.length - 1) {
                     idString += ',';
                 }
             });
@@ -61,14 +65,16 @@ class GetPosts {
         return endpoint;
     }
 
-    getContainersPostTypes() {
+    getContainersPostTypes():string[] {
         const containers = document.querySelectorAll('[js-like-container]');
-        let arr = [];
+        let arr:string[] = [];
         containers.forEach((container) => {
             if (!container.hasAttribute('js-post-types')) {
                 return;
             }
-            const postTypes = JSON.parse(container.getAttribute('js-post-types'));
+            const jsPostTypesElement = container.getAttribute('js-post-types')
+            if( jsPostTypesElement === null ) return []
+            const postTypes:string[] = JSON.parse(jsPostTypesElement);
             postTypes.forEach((postType) => {
                 if (!arr.includes(postType)) {
                     arr.push(postType);
@@ -84,10 +90,11 @@ class GetPosts {
      * @returns An object with the keys of the different types of posts and the values being an array
      * of the posts of that type.
      */
+    // [{}, {}] {post: [{}, {}]}
     handleEndpoints() {
         let posts = this.getLocalStorage();
 
-        const sortedData = posts.reduce((acc, current) => {
+        const sortedData = posts.reduce((acc:Record<string, LikedPost[]>, current) => {
             if (acc[current.type]) {
                 acc[current.type].push(current);
             } else {
@@ -99,8 +106,10 @@ class GetPosts {
         return sortedData;
     }
 
-    getLocalStorage() {
-        return JSON.parse(localStorage.getItem('liked-posts')) || [];
+    getLocalStorage():LikedPost[] {
+        const items = localStorage.getItem('liked-posts')
+        if( items === null ) return []
+        return JSON.parse(items);
     }
 
     renderPosts() {
