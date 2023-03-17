@@ -66,7 +66,7 @@ class App
         if (!empty($postTypes)) {
             foreach ($postTypes as $postType) {
                 if ($post->post_type == $postType) {
-                    return [['icon' => 'favorite_outline', 'size' => 'lg', 'classes' => ['like-icon'], 'attributes' => ['data-post-id' => !empty(get_the_ID()) ? get_the_ID() : "", 'data-like-icon' => '', 'data-post-type' => $postType ?? '']]];
+                    return [['icon' => 'favorite_outline', 'size' => 'lg', 'classList' => ['like-icon'], 'attributeList' => ['data-post-id' => !empty(get_the_ID()) ? get_the_ID() : "", 'data-like-icon' => '', 'data-post-type' => $postType ?? '']]];
                 }
             }
         }
