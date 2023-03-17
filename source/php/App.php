@@ -73,7 +73,7 @@ class App
     }
 
     public function postsIcon($postType = false) {
-        return ['icon' => 'favorite_outline', 'size' => 'md', 'attributes' => ['data-like-icon' => ''], 'classes' => ['like-icon']];
+        return ['icon' => 'favorite_outline', 'size' => 'md', 'attributeList' => ['data-like-icon' => ''], 'classList' => ['like-icon']];
     }
 
     /**
