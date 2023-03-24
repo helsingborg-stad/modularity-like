@@ -17,7 +17,7 @@ class App
 
         add_action('plugins_loaded', array($this, 'registerModule'));
         add_filter('accessibility_items', array($this, 'pageIcons'));
-        add_filter('post_icons', array($this, 'postsIcon'));
+        add_filter('Modularity/Module/Posts/Icon', array($this, 'postsIcon'));
 
 
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
