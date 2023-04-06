@@ -1,0 +1,80 @@
+[{
+    "key": "group_63ecfd0993f44",
+    "title": "Like",
+    "fields": [
+        {
+            "key": "26827",
+            "label": "Select post types",
+            "name": "select_post_type",
+            "type": "checkbox",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "post": "Post",
+                "event": "Event",
+                "local-events": "Local-events",
+                "test": "Test",
+                "place": "Place",
+                "guide": "Guide",
+                "custompost": "Custompost"
+            },
+            "default_value": [
+                "post"
+            ],
+            "return_format": "value",
+            "allow_custom": 0,
+            "layout": "vertical",
+            "toggle": 0,
+            "save_custom": 0
+        },
+        {
+            "key": "field_642ed30b73d2b",
+            "label": "asdasd",
+            "name": "asdasd",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "like"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "left",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "acfe_display_title": "Liked posts",
+    "acfe_autosync": "",
+    "acfe_form": 0,
+    "acfe_meta": "",
+    "acfe_note": ""
+}]
+

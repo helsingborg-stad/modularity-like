@@ -43,7 +43,8 @@ add_action('acf/init', function () {
     $acfExportManager->setTextdomain('liked-posts');
     $acfExportManager->setExportFolder(MODULARITYLIKEPOSTS_PATH . 'source/php/AcfFields/');
     $acfExportManager->autoExport(array(
-        'liked-posts-settings' => 'group_63e9fb49ad0f4' //Update with acf id here, settings view
+        'liked-posts-settings' => 'group_63e9fb49ad0f4',
+        'liked-posts-options' => 'group_63ecfd0993f44'
     ));
     $acfExportManager->import();
 });
