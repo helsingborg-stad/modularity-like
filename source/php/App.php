@@ -12,7 +12,6 @@ class App
         add_action('wp_enqueue_scripts', array($this, 'enqueueFrontend'));
 
         //Init module
-        add_filter('acf/load_field/name=select_post_type', array($this, 'setOptionsPostTypes'));
         add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
 
         add_action('plugins_loaded', array($this, 'registerModule'));
@@ -21,27 +20,6 @@ class App
 
 
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
-    }
-
-    public function setOptionsPostTypes($field) {
-        
-        $args = array(
-            'public' => true,
-            '_builtin' => false
-        );
-
-        $postTypes = get_post_types($args, 'names');
-
-        $newChoices = [];
-        if (!empty($postTypes)) {
-            foreach ($postTypes as $postType) {
-                $newChoices[$postType] = ucfirst($postType);
-            }
-        }
-
-        $field['choices'] = array_merge($field['choices'], $newChoices);
-
-        return $field;
     }
 
     public function setModulePostTypes ($field) {

@@ -6,7 +6,7 @@
             "key": "26827",
             "label": "Select post types",
             "name": "select_post_type",
-            "type": "checkbox",
+            "type": "posttype_select",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -15,23 +15,13 @@
                 "class": "",
                 "id": ""
             },
-            "choices": {
-                "post": "Post",
-                "event": "Event",
-                "local-events": "Local-events",
-                "test": "Test",
-                "place": "Place",
-                "guide": "Guide",
-                "custompost": "Custompost"
-            },
-            "default_value": [
-                "post"
-            ],
-            "return_format": "value",
-            "allow_custom": 0,
-            "layout": "vertical",
-            "toggle": 0,
-            "save_custom": 0
+            "default_value": "",
+            "allow_null": 0,
+            "multiple": 1,
+            "placeholder": "",
+            "disabled": 0,
+            "readonly": 0,
+            "choices": null
         }
     ],
     "location": [
