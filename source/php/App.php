@@ -44,14 +44,14 @@ class App
         if (!empty($postTypes)) {
             foreach ($postTypes as $postType) {
                 if ($post->post_type == $postType) {
-                    return [['icon' => 'favorite_outline', 'size' => 'lg', 'classList' => ['like-icon'], 'attributeList' => ['data-post-id' => !empty(get_the_ID()) ? get_the_ID() : "", 'data-like-icon' => '', 'data-post-type' => $postType ?? '']]];
+                    return [['icon' => 'favorite', 'filled' => false, 'size' => 'lg', 'classList' => ['like-icon'], 'attributeList' => ['data-post-id' => !empty(get_the_ID()) ? get_the_ID() : "", 'data-like-icon' => '', 'data-post-type' => $postType ?? '']]];
                 }
             }
         }
     }
 
     public function postsIcon($postType = false) {
-        return ['icon' => 'favorite_outline', 'size' => 'md', 'attributeList' => ['data-like-icon' => ''], 'classList' => ['like-icon']];
+        return ['icon' => 'favorite', 'filled' => false, 'size' => 'md', 'attributeList' => ['data-like-icon' => ''], 'classList' => ['like-icon']];
     }
 
     /**
