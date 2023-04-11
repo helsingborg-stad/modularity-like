@@ -36,32 +36,13 @@
             'toggle' => 0,
             'save_custom' => 0,
         ),
-        1 => array(
-            'key' => 'field_642ed30b73d2b',
-            'label' => __('asdasd', 'liked-posts'),
-            'name' => 'asdasd',
-            'type' => 'text',
-            'instructions' => '',
-            'required' => 0,
-            'conditional_logic' => 0,
-            'wrapper' => array(
-                'width' => '',
-                'class' => '',
-                'id' => '',
-            ),
-            'default_value' => '',
-            'maxlength' => '',
-            'placeholder' => '',
-            'prepend' => '',
-            'append' => '',
-        ),
     ),
     'location' => array(
         0 => array(
             0 => array(
                 'param' => 'options_page',
                 'operator' => '==',
-                'value' => 'like',
+                'value' => 'modularity_like',
             ),
         ),
     ),

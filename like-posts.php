@@ -39,6 +39,12 @@ add_filter('/Modularity/externalViewPath', function ($arr) {
 
 // Acf auto import and export
 add_action('acf/init', function () {
+    if (function_exists('acf_add_options_page')) {
+        acf_add_options_page([
+            'page_title' => 'Modularity Like',
+            'menu_slug' => 'modularity_like',
+        ]);
+    }
     $acfExportManager = new \AcfExportManager\AcfExportManager();
     $acfExportManager->setTextdomain('liked-posts');
     $acfExportManager->setExportFolder(MODULARITYLIKEPOSTS_PATH . 'source/php/AcfFields/');

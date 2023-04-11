@@ -32,25 +32,6 @@
             "layout": "vertical",
             "toggle": 0,
             "save_custom": 0
-        },
-        {
-            "key": "field_642ed30b73d2b",
-            "label": "asdasd",
-            "name": "asdasd",
-            "type": "text",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "maxlength": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": ""
         }
     ],
     "location": [
@@ -58,7 +39,7 @@
             {
                 "param": "options_page",
                 "operator": "==",
-                "value": "like"
+                "value": "modularity_like"
             }
         ]
     ],
