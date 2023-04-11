@@ -50,8 +50,10 @@ class App
         }
     }
 
-    public function postsIcon($postType = false) {
-        return ['icon' => 'favorite', 'filled' => false, 'size' => 'md', 'attributeList' => ['data-like-icon' => ''], 'classList' => ['like-icon']];
+    public function postsIcon() {
+        $postTypes = get_field('select_post_type', 'option') ?? [];
+
+        return ['icon' => 'favorite', 'filled' => false, 'size' => 'md', 'attributeList' => ['data-like-icon' => ''], 'classList' => ['like-icon'], 'postTypes' => $postTypes];
     }
 
     /**
