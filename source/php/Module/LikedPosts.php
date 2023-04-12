@@ -25,7 +25,7 @@ class LikedPosts extends \Modularity\Module
         $fields = get_fields($this->ID);
         $data['display_as'] = $fields['display_liked_posts_as'];
         $data['postTypes'] = json_encode($fields['liked_post_types_to_show']);
-        $data['postColumns'] = $fields['liked_posts_columns'];
+        $data['postColumns'] = apply_filters('Modularity/Display/replaceGrid', $fields['liked_posts_columns']);
 
         return $data;
     }

@@ -59,7 +59,7 @@ class GetPosts {
                 this.renderPosts();
             })
             .catch(error => {
-                /* eslint-disable */console.log(...oo_oo(`9fa3fbcd_0`,error));
+                /* eslint-disable */console.log(...oo_oo(`8b60ce1f_0`,error));
             })
     }
 
@@ -127,7 +127,6 @@ class GetPosts {
             return post;
         });
 
-        
         this.renderInstance.renderComponents(updatedPosts);
     }
 }
@@ -254,12 +253,19 @@ class Render {
                 const component = container.getAttribute('js-display-as');
                 const filteredPosts = this.filterPosts(posts, JSON.parse(container.getAttribute('js-post-types')));
                 const postColumns = container.hasAttributes('js-columns') ? container.getAttribute('js-columns') : 'grid-md-12';
+                let hasPreloaders = true;
                 let likeButtons = [];
                 filteredPosts && filteredPosts.forEach(post => {
                     const childElement = document.createElement('div');
                     const html = this.components[`${component}`].html.replace('{LIKE_POST_TITLE}', post.title.rendered).replace('{LIKE_POST_CONTENT}', post.excerpt.rendered).replace('{LIKE_POST_ID}', post.id).replace('{LIKE_POST_LINK}', post.link).replace('{LIKE_POST_IMAGE}', post.image ? post.image.source_url : '').replace('{LIKE_POST_TYPE}', post.type).replace('{LIKE_POST_CLASSES}', postColumns); 
                     childElement.innerHTML = html;
                     container.appendChild(childElement);
+                    if (hasPreloaders) {
+                        container.querySelectorAll('.liked-posts__preloader').forEach(preloader => {
+                            preloader.remove();
+                            hasPreloaders = false;
+                        });
+                    }
                     likeButtons.push(childElement.querySelector('[data-like-icon]'));
                     childElement.replaceWith(...childElement.childNodes);
                 });
@@ -354,4 +360,4 @@ const GetPostsInstance = new _front_getPosts__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /******/ })()
 ;
-//# sourceMappingURL=like-posts.7b41ff1ba0975a667d6f.js.map
+//# sourceMappingURL=like-posts.49b645ce67daebc86800.js.map

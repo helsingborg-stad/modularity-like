@@ -11,12 +11,19 @@ class Render {
                 const component = container.getAttribute('js-display-as');
                 const filteredPosts = this.filterPosts(posts, JSON.parse(container.getAttribute('js-post-types')));
                 const postColumns = container.hasAttributes('js-columns') ? container.getAttribute('js-columns') : 'grid-md-12';
+                let hasPreloaders = true;
                 let likeButtons = [];
                 filteredPosts && filteredPosts.forEach(post => {
                     const childElement = document.createElement('div');
                     const html = this.components[`${component}`].html.replace('{LIKE_POST_TITLE}', post.title.rendered).replace('{LIKE_POST_CONTENT}', post.excerpt.rendered).replace('{LIKE_POST_ID}', post.id).replace('{LIKE_POST_LINK}', post.link).replace('{LIKE_POST_IMAGE}', post.image ? post.image.source_url : '').replace('{LIKE_POST_TYPE}', post.type).replace('{LIKE_POST_CLASSES}', postColumns); 
                     childElement.innerHTML = html;
                     container.appendChild(childElement);
+                    if (hasPreloaders) {
+                        container.querySelectorAll('.liked-posts__preloader').forEach(preloader => {
+                            preloader.remove();
+                            hasPreloaders = false;
+                        });
+                    }
                     likeButtons.push(childElement.querySelector('[data-like-icon]'));
                     childElement.replaceWith(...childElement.childNodes);
                 });

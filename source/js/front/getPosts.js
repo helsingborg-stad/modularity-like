@@ -113,7 +113,6 @@ class GetPosts {
             return post;
         });
 
-        
         this.renderInstance.renderComponents(updatedPosts);
     }
 }
