@@ -5,6 +5,6 @@
 ])
 @endcollection
 @else
-<div js-like-container js-display-as="{{$display_as}}" js-post-types="{{$postTypes}}"></div>
+<div class="o-grid" js-like-container js-display-as="{{$display_as}}" js-post-types="{{$postTypes}}"></div>
 @endif
 

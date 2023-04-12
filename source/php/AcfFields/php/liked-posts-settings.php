@@ -44,8 +44,7 @@
                 'id' => '',
             ),
             'choices' => array(
-                'posts' => __('Posts', 'liked-posts'),
-                'test' => __('Test', 'liked-posts'),
+                'post' => __('Post', 'liked-posts'),
             ),
             'default_value' => array(
             ),
@@ -54,6 +53,33 @@
             'layout' => 'vertical',
             'toggle' => 0,
             'save_custom' => 0,
+        ),
+        2 => array(
+            'key' => 'field_643685be6d8ea',
+            'label' => __('Columns', 'liked-posts'),
+            'name' => 'liked_posts_columns',
+            'type' => 'select',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array(
+                'grid-md-12' => __('1', 'liked-posts'),
+                'grid-md-6' => __('2', 'liked-posts'),
+                'grid-md-4' => __('3', 'liked-posts'),
+                'grid-md-3' => __('4', 'liked-posts'),
+            ),
+            'default_value' => __('grid-md-12', 'liked-posts'),
+            'return_format' => 'value',
+            'multiple' => 0,
+            'allow_null' => 0,
+            'ui' => 0,
+            'ajax' => 0,
+            'placeholder' => '',
         ),
     ),
     'location' => array(

@@ -26,6 +26,7 @@ class GetPosts {
             }
         }
         if (urls.length > 0) {
+            console.log(urls);
             this.fetchPosts(urls);
         }
 
@@ -57,7 +58,8 @@ class GetPosts {
                     idString += ',';
                 }
             });
-        const endpoint = `https://localhost/wptest/wp-json/wp/v2/${key === 'post' ? 'posts' : key}?_embed&include=${idString}`;
+        const endpoint = `${pageUrl}/wp-json/wp/v2/${key === 'post' ? 'posts' : key}?_embed&include=${idString}`;
+
         return endpoint;
     }
 
@@ -111,6 +113,7 @@ class GetPosts {
             }
             return post;
         });
+
         
         this.renderInstance.renderComponents(updatedPosts);
     }
