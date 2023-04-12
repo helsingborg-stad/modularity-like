@@ -3,7 +3,7 @@
     'content' => '{LIKE_POST_CONTENT}',
     'link' => '{LIKE_POST_LINK}',
     'image' => '{LIKE_POST_IMAGE}',
-    'classList' => ['grid-md-4']
+    'classList' => ['{LIKE_POST_CLASSES}']
 ])
 @slot('floating')
     @icon([

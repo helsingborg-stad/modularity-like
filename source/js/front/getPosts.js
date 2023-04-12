@@ -26,7 +26,6 @@ class GetPosts {
             }
         }
         if (urls.length > 0) {
-            console.log(urls);
             this.fetchPosts(urls);
         }
 
