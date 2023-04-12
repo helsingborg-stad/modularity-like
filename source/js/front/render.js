@@ -15,7 +15,7 @@ class Render {
                 let likeButtons = [];
                 filteredPosts && filteredPosts.forEach(post => {
                     const childElement = document.createElement('div');
-                    const html = this.components[`${component}`].html.replace('{LIKE_POST_TITLE}', post.title.rendered).replace('{LIKE_POST_CONTENT}', post.excerpt.rendered).replace('{LIKE_POST_ID}', post.id).replace('{LIKE_POST_LINK}', post.link).replace('{LIKE_POST_IMAGE}', post.image ? post.image.source_url : '').replace('{LIKE_POST_TYPE}', post.type).replace('{LIKE_POST_CLASSES}', postColumns); 
+                    const html = this.components[`${component}`].html.replace('{LIKE_POST_TITLE}', post.title?.rendered).replace('{LIKE_POST_CONTENT}', post.excerpt?.rendered).replace('{LIKE_POST_ID}', post.id).replace('{LIKE_POST_LINK}', post.link).replace('{LIKE_POST_IMAGE}', post.image ? post.image.source_url : '').replace('{LIKE_POST_TYPE}', post.type).replace('{LIKE_POST_CLASSES}', postColumns); 
                     childElement.innerHTML = html;
                     container.appendChild(childElement);
                     if (hasPreloaders) {
@@ -29,7 +29,17 @@ class Render {
                 });
                 this.likeInstance.setListeners(likeButtons);
             })
+        } else {
+            this.handlePreloaders(containers);
         }
+    }
+
+    handlePreloaders(containers) {
+        containers.forEach(container => {
+            container.querySelectorAll('.liked-posts__preloader').forEach(preloader => {
+                preloader.remove();
+            });
+        });
     }
 
     filterPosts(posts, postTypes) {
