@@ -1,27 +1,47 @@
-@collection__item([
-    'link' => '{LIKE_POST_LINK}',
-    'image' => '{LIKE_POST_IMAGE}',
-    'classList' => ['c-collection__item--post', 'u-flex-direction--column@xs']
+<div>
+    @collection__item([
+        'link' => '{LIKE_POST_LINK}',
+        'classList' => ['c-collection__item--post', 'c-collection__item--size-xs'],
+        'containerAware' => true,
 ])
-    @icon([
-        'icon' => 'favorite',
-        'size' => 'md',
-        'classList' => ['u-position--absolute', 'u-level-3', 'is-liked', 'like-icon'],
-        'attributeList' => ['data-post-id' => '{LIKE_POST_ID}', 'data-post-type' => '{LIKE_POST_TYPE}', 'data-like-icon' => ''],
-    ])
-    @endicon
-    @group([
-        'direction' => 'vertical'
-    ])
-    @typography([
-        'element' => 'h2',
-        'variant' => 'h3',
-    ])
-        {LIKE_POST_TITLE}
-    @endtypography
-    @typography([])
-        {LIKE_POST_CONTENT}
-    @endtypography
+    @slot('floating')
+        @icon([
+            'icon' => 'favorite', 
+            'classList' => ['is-liked', 'like-icon'], 
+            'size' => 'md',
+            'attributeList' => [
+                'data-like-icon' => '', 
+                'data-post-type' => '{LIKE_POST_TYPE}', 
+                'data-post-id' => '{LIKE_POST_ID}'
+            ],
 
-    @endgroup
-@endcollection__item
+        ])
+        @endicon
+    @endslot
+    @slot('before')
+        @image([
+            'src' => '{LIKE_POST_IMAGE}' ,
+            'classList' => ['u-width--100'],
+        ])
+        @endimage
+    @endslot
+        @group([
+            'direction' => 'vertical'
+        ])
+        @group([
+            'justifyContent' => 'space-between'
+        ])
+            @typography([
+                'element' => 'h2',
+                'variant' => 'h3',
+            ])
+                {LIKE_POST_TITLE}
+            @endtypography
+        @endgroup
+        @typography([])
+            {LIKE_POST_CONTENT}
+        @endtypography
+
+        @endgroup
+    @endcollection__item
+</div>

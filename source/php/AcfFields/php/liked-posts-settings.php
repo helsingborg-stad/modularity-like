@@ -21,7 +21,6 @@
             'choices' => array(
                 'collection' => __('Collection', 'liked-posts'),
                 'card' => __('Card', 'liked-posts'),
-                'block' => __('Block', 'liked-posts'),
             ),
             'default_value' => __('collection', 'liked-posts'),
             'return_format' => 'value',
@@ -61,7 +60,15 @@
             'type' => 'select',
             'instructions' => '',
             'required' => 0,
-            'conditional_logic' => 0,
+            'conditional_logic' => array(
+                0 => array(
+                    0 => array(
+                        'field' => 'field_63e9fb4a67244',
+                        'operator' => '!=',
+                        'value' => 'card',
+                    ),
+                ),
+            ),
             'wrapper' => array(
                 'width' => '',
                 'class' => '',

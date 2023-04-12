@@ -17,8 +17,7 @@
             },
             "choices": {
                 "collection": "Collection",
-                "card": "Card",
-                "block": "Block"
+                "card": "Card"
             },
             "default_value": "collection",
             "return_format": "value",
@@ -57,7 +56,15 @@
             "type": "select",
             "instructions": "",
             "required": 0,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_63e9fb4a67244",
+                        "operator": "!=",
+                        "value": "card"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",
