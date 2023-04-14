@@ -31,6 +31,7 @@ class Render {
             })
         } else {
             this.handlePreloaders(containers);
+            /* TODO: Maybe display a notice here saying there are no liked posts */
         }
     }
 

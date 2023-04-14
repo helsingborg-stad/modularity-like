@@ -14,9 +14,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 class GetPosts {
     constructor(RenderInstance) {
+        this.renderInstance = RenderInstance;
         this.getPosts();
         this.posts = null;
-        this.renderInstance = RenderInstance;
     }
 
     getPosts() {
@@ -41,9 +41,9 @@ class GetPosts {
         }
         if (urls.length > 0) {
             this.fetchPosts(urls);
+        } else {
+            this.renderInstance.renderComponents(false);
         }
-
-
     }
 
     fetchPosts(urls) {
@@ -59,7 +59,7 @@ class GetPosts {
                 this.renderPosts();
             })
             .catch(error => {
-                /* eslint-disable */console.log(...oo_oo(`8b60ce1f_0`,error));
+                /* eslint-disable */console.log(...oo_oo(`4da0a55b_0`,error));
             })
     }
 
@@ -273,6 +273,7 @@ class Render {
             })
         } else {
             this.handlePreloaders(containers);
+            /* TODO: Maybe display a notice here saying there are no liked posts */
         }
     }
 
@@ -370,4 +371,4 @@ const GetPostsInstance = new _front_getPosts__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /******/ })()
 ;
-//# sourceMappingURL=like-posts.f02c896edf26270985eb.js.map
+//# sourceMappingURL=like-posts.296dedf9bd0020d0ac27.js.map

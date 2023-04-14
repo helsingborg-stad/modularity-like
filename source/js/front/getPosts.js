@@ -1,8 +1,8 @@
 class GetPosts {
     constructor(RenderInstance) {
+        this.renderInstance = RenderInstance;
         this.getPosts();
         this.posts = null;
-        this.renderInstance = RenderInstance;
     }
 
     getPosts() {
@@ -27,9 +27,9 @@ class GetPosts {
         }
         if (urls.length > 0) {
             this.fetchPosts(urls);
+        } else {
+            this.renderInstance.renderComponents(false);
         }
-
-
     }
 
     fetchPosts(urls) {
