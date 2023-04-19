@@ -1,8 +1,7 @@
-<div>
     @collection__item([
         'link' => '{LIKE_POST_LINK}',
-        'classList' => ['c-collection__item--post', 'c-collection__item--size-xs'],
-        'containerAware' => true,
+        'classList' => ['c-collection__item--post', '{LIKE_POST_CLASSES}', 'u-height--auto'],
+        'attributeList' => ['data-observe-resizes' => ''],
 ])
     @slot('floating')
         @icon([
@@ -44,4 +43,3 @@
 
         @endgroup
     @endcollection__item
-</div>

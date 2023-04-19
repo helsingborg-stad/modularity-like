@@ -27,9 +27,15 @@ class LikedPosts extends \Modularity\Module
         $data['postTypes'] = json_encode($fields['liked_post_types_to_show']);
         $data['postColumns'] = apply_filters('Modularity/Display/replaceGrid', $fields['liked_posts_columns']);
 
+        if (function_exists('get_theme_mod')) {
+            $emblem = get_theme_mod('logotype_emblem');
+        }
+
+        $data['emblem'] = !empty($emblem) ? $emblem : '';
+
         return $data;
     }
-
+    
     public function template(): string
     {
         return "liked-posts.blade.php";

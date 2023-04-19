@@ -106,6 +106,7 @@ class GetPosts {
 
     renderPosts() {
         const updatedPosts = this.posts.map(post => {
+            console.log(post._embedded);
             if (post._embedded?.['wp:featuredmedia']?.[0].media_details) {
                 const featuredImageUrl = post._embedded['wp:featuredmedia'][0].media_details.sizes.medium;
                 return { ...post, image: featuredImageUrl };

@@ -44,6 +44,7 @@
             ),
             'choices' => array(
                 'post' => __('Post', 'liked-posts'),
+                'place' => __('Place', 'liked-posts'),
             ),
             'default_value' => array(
             ),
@@ -60,15 +61,7 @@
             'type' => 'select',
             'instructions' => '',
             'required' => 0,
-            'conditional_logic' => array(
-                0 => array(
-                    0 => array(
-                        'field' => 'field_63e9fb4a67244',
-                        'operator' => '!=',
-                        'value' => 'card',
-                    ),
-                ),
-            ),
+            'conditional_logic' => 0,
             'wrapper' => array(
                 'width' => '',
                 'class' => '',
