@@ -15,7 +15,6 @@ class Render {
                 let hasPreloaders = true;
                 let likeButtons = [];
                 filteredPosts && filteredPosts.forEach(post => {
-                    console.log(post);
                     const childElement = document.createElement('div');
                     const html = this.components[`${component}`].html.replace('{LIKE_POST_TITLE}', post.title?.rendered).replace('{LIKE_POST_CONTENT}', this.handleExcerpt(post, component)).replace('{LIKE_POST_ID}', post.id).replace('{LIKE_POST_LINK}', post.link).replace('{LIKE_POST_IMAGE}', this.handleImage(post, emblemUrl)).replace('{LIKE_POST_TYPE}', post.type).replace('{LIKE_POST_CLASSES}', postColumns); 
                     childElement.innerHTML = html;
