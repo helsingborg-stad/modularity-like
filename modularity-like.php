@@ -25,9 +25,9 @@ define('MODULARITYLIKEPOSTS_TEXT_DOMAIN', 'modularity-like');
 define('MODULARITYLIKEPOSTS_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'views/');
 define('MODULARITYLIKEPOSTS_MODULE_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'source/php/Module/views');
 
-load_plugin_textdomain(MODULARITYLIKEPOSTS_TEXT_DOMAIN, false, MODULARITYLIKEPOSTS_PATH . '/languages');
-
 require_once MODULARITYLIKEPOSTS_PATH . 'Public.php';
+
+load_textdomain(MODULARITYLIKEPOSTS_TEXT_DOMAIN, MODULARITYLIKEPOSTS_PATH . 'languages/' . MODULARITYLIKEPOSTS_TEXT_DOMAIN . '-' . get_locale() . '.mo');
 
 // Register the autoloader
 require __DIR__ . '/vendor/autoload.php';
