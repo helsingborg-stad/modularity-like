@@ -9,8 +9,9 @@
             'key' => '26827',
             'label' => __('Select post types', 'liked-posts'),
             'name' => 'select_post_type',
+            'aria-label' => '',
             'type' => 'posttype_select',
-            'instructions' => '',
+            'instructions' => __('Post types that the user should be able to like posts from.', 'liked-posts'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -24,7 +25,6 @@
             'placeholder' => '',
             'disabled' => 0,
             'readonly' => 0,
-            'choices' => NULL,
         ),
     ),
     'location' => array(
