@@ -18,11 +18,11 @@ class App
         add_filter('accessibility_items', array($this, 'pageIcons'));
         add_filter('Modularity/Module/Posts/Icon', array($this, 'postsIcon'));
 
-
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
     }
 
-    public function setModulePostTypes ($field) {
+    public function setModulePostTypes($field)
+    {
         $choices = get_field('select_post_type', 'option');
         $field['choices'] = array_combine($choices, $choices);
         foreach ($field['choices'] as $key => $value) {
@@ -34,13 +34,14 @@ class App
 
     /**
      * If the post type is in the array of post types, then add the icons.
-     * 
+     *
      * @return The return value is the result of the addLikeIcons() method.
      */
-    public function pageIcons() {
+    public function pageIcons()
+    {
         global $post;
         $postTypes = get_field('select_post_type', 'option') ?? [];
-        
+
         if (!empty($postTypes)) {
             foreach ($postTypes as $postType) {
                 if ($post->post_type == $postType) {
@@ -50,7 +51,8 @@ class App
         }
     }
 
-    public function postsIcon() {
+    public function postsIcon()
+    {
         $postTypes = get_field('select_post_type', 'option') ?? [];
 
         return ['icon' => 'favorite', 'filled' => false, 'size' => 'md', 'attributeList' => ['data-like-icon' => ''], 'classList' => ['like-icon'], 'postTypes' => $postTypes];
@@ -62,7 +64,7 @@ class App
      */
     public function enqueueFrontend()
     {
-        
+
         wp_register_style(
             'like-posts-css',
             MODULARITYLIKEPOSTS_URL . '/dist/' .
@@ -77,7 +79,7 @@ class App
             $this->cacheBust->name('js/like-posts.js')
         );
 
-        wp_localize_script( 'like-posts-js', 'pageUrl', get_home_url());
+        wp_localize_script('like-posts-js', 'pageUrl', get_home_url());
 
         wp_enqueue_script('like-posts-js');
     }

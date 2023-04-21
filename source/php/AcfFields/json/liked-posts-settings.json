@@ -71,7 +71,13 @@
                 "class": "",
                 "id": ""
             },
-            "choices": null,
+            "choices": {
+                "post": "Post",
+                "page": "Page",
+                "event": "Event",
+                "place": "Place",
+                "guide": "Guide"
+            },
             "default_value": [],
             "return_format": "value",
             "allow_custom": 0,

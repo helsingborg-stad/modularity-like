@@ -1,18 +1,18 @@
 {
-  "name": "like-posts",
-  "version": "1.0.0",
-  "description": "Lets the users like a post.",
+  "name": "modularity-like",
+  "version": "1.1.0",
+  "description": "Lets the users like posts.",
   "main": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/NiclasNorin/like-posts"
+    "url": "https://github.com/helsingborg-stad/modularity-like"
   },
   "author": "Niclas Norin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/NiclasNorin/like-posts/issues"
+    "url": "https://github.com/helsingborg-stad/modularity-like/issues"
   },
-  "homepage": "https://github.com/NiclasNorin/like-posts",
+  "homepage": "https://github.com/helsingborg-stad/modularity-like",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "cross-env NODE_ENV=development webpack --watch",

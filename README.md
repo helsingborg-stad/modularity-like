@@ -9,9 +9,9 @@
 <p>
   Lets the users like a post.
   <br />
-  <a href="https://github.com/NiclasNorin/like-posts/issues">Report Bug</a>
+  <a href="https://github.com/helsingborg-stad/modularity-like/issues">Report Bug</a>
   ·
-  <a href="https://github.com/NiclasNorin/like-posts/issues">Request Feature</a>
+  <a href="https://github.com/helsingborg-stad/modularity-like/issues">Request Feature</a>
 </p>
 
 ## Table of Contents
@@ -60,7 +60,7 @@ brew install node
 
 1. Clone the repo
 ```sh
-git clone https://github.com/NiclasNorin/like-posts.git
+git clone https://github.com/helsingborg-stag/modularity-like.git
 ```
 2. Install and build NPM packages
 ```sh
