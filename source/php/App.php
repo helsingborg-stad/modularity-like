@@ -15,8 +15,9 @@ class App
         add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
 
         add_action('plugins_loaded', array($this, 'registerModule'));
-        add_filter('accessibility_items', array($this, 'pageIcons'));
-        add_filter('Modularity/Module/Posts/Icon', array($this, 'postsIcon'));
+        add_filter('Municipio/Accessibility/Items', array($this, 'pageIcons'));
+        add_filter('Modularity/Module/Posts/Floating', array($this, 'postsIcon'), 10, 2);
+        add_filter('Municipio/Helper/Post/CallToActionItems', array($this, 'postsIcon'), 10, 2);
 
 
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
@@ -37,7 +38,7 @@ class App
      * 
      * @return The return value is the result of the addLikeIcons() method.
      */
-    public function pageIcons() {
+    public function pageIcons($accessibilityItems) {
         global $post;
         $postTypes = get_field('select_post_type', 'option') ?? [];
         
@@ -50,10 +51,13 @@ class App
         }
     }
 
-    public function postsIcon() {
+    public function postsIcon($callToActionArray, $post) {
         $postTypes = get_field('select_post_type', 'option') ?? [];
+        if (in_array($post->post_type, $postTypes)) {
+            $callToActionArray['floating'] =  ['icon' => 'favorite', 'filled' => false, 'size' => 'md', 'attributeList' => ['data-like-icon' => ''], 'classList' => ['like-icon'], 'postTypes' => $postTypes];
+        };
 
-        return ['icon' => 'favorite', 'filled' => false, 'size' => 'md', 'attributeList' => ['data-like-icon' => ''], 'classList' => ['like-icon'], 'postTypes' => $postTypes];
+        return $callToActionArray;
     }
 
     /**
