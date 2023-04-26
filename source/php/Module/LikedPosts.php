@@ -8,12 +8,11 @@ class LikedPosts extends \Modularity\Module
     public $supports = array();
 
     public function init()
-    {   
+    {
         //Define module
         $this->nameSingular = __("Liked posts", 'like-posts');
         $this->namePlural = __("Liked posts", 'like-posts');
         $this->description = __("Shows the users liked posts", 'like-posts');
-
     }
 
      /**
@@ -35,7 +34,7 @@ class LikedPosts extends \Modularity\Module
 
         return $data;
     }
-    
+
     public function template(): string
     {
         return "liked-posts.blade.php";
