@@ -127,10 +127,10 @@ class Render {
 			event.target.select();
 		});
 
-		const shareLinkElement = document.createElement('p');
-		shareLinkElement.innerText = likedPostsLang.shareYourFavourites;
+		const shareLinkElement = document.createElement('div');
+		shareLinkElement.innerHTML = '<label class="u-padding__right--1 u-strong">' + likedPostsLang.shareYourFavourites + ':</label>';
 		shareLinkElement.appendChild(inputElement);
-		shareLinkElement.classList.add('share-link');
+		shareLinkElement.classList.add('share-link', 'u-border', 'u-margin__bottom--2', 'u-padding--2');
 
 		const firstContainer = document.querySelector('[js-like-container]');
 		if (firstContainer) {

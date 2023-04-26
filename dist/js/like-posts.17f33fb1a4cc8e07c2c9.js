@@ -409,10 +409,10 @@ class Render {
 			event.target.select();
 		});
 
-		const shareLinkElement = document.createElement('p');
-		shareLinkElement.innerText = likedPostsLang.shareYourFavourites;
+		const shareLinkElement = document.createElement('div');
+		shareLinkElement.innerHTML = '<label class="u-padding__right--1 u-strong">' + likedPostsLang.shareYourFavourites + ':</label>';
 		shareLinkElement.appendChild(inputElement);
-		shareLinkElement.classList.add('share-link');
+		shareLinkElement.classList.add('share-link', 'u-border', 'u-margin__bottom--2', 'u-padding--2');
 
 		const firstContainer = document.querySelector('[js-like-container]');
 		if (firstContainer) {
@@ -505,4 +505,4 @@ const GetPostsInstance = new _front_getPosts__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /******/ })()
 ;
-//# sourceMappingURL=like-posts.a990684cd1ac3ca8bbf3.js.map
+//# sourceMappingURL=like-posts.17f33fb1a4cc8e07c2c9.js.map
