@@ -1,6 +1,7 @@
 class GetPosts {
-	constructor(RenderInstance) {
+	constructor(RenderInstance, LikeInstance) {
 		this.renderInstance = RenderInstance;
+		this.likeInstance = LikeInstance;
 		this.getPosts();
 		this.posts = null;
 	}
@@ -14,10 +15,19 @@ class GetPosts {
 			return this.renderPosts();
 		}
 
-		let items = this.handleEndpoints() ?? '';
+		// Get the liked posts from the GET-parameter (if it is set)
+		let items = {};
+		const urlParams = new URLSearchParams(window.location.search);
+		const encodedLikedPosts = urlParams.get('liked-posts');
+		if (encodedLikedPosts) {
+			const likedPosts = this.likeInstance.decodeLikedPosts(encodedLikedPosts);
+			items = this.handleEndpoints(likedPosts) ?? '';
+		} else {
+			items = this.handleEndpoints() ?? '';
+		}
+
 		const wantedPostTypes = this.getContainersPostTypes();
 
-		console.log('items:', items);
 		let urls = [];
 		if (items) {
 			for (const key in items) {

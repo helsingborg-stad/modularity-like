@@ -79,16 +79,21 @@ class Like {
 		likedPostIdsAmount.innerHTML = likedPostIds.length;
 	}
 
-	generateShareLink() {
+	generateEncodedLikedPostsParam() {
 		// Retrieve the favorited posts from localStorage
-		var likedPosts = JSON.parse(localStorage.getItem('liked-posts')) || [];
+		const likedPosts = JSON.parse(localStorage.getItem('liked-posts')) || [];
+
+		if (likedPosts.length == 0) {
+			return false;
+		}
 
 		// Encrypt the likedPosts data using Base64 encoding
-		var obfuscatedLikedPosts = btoa(JSON.stringify(likedPosts));
+		const encodedLikedPosts = btoa(JSON.stringify(likedPosts));
 
-		// Return the encrypted likedPosts data as the query parameter
-		return obfuscatedLikedPosts;
+		// Return the encrypted likedPosts data as the query parameter liked-posts
+		return '?liked-posts=' + encodedLikedPosts;
 	}
+
 	decodeLikedPosts(encodedLikedPosts) {
 		// Decode the encoded liked posts data from Base64
 		var decodedLikedPosts = atob(encodedLikedPosts);
