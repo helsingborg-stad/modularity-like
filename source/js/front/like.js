@@ -95,8 +95,12 @@ class Like {
 	}
 
 	decodeLikedPosts(encodedLikedPosts) {
+		if (!encodedLikedPosts) {
+			return false;
+		}
 		// Decode the encoded liked posts data from Base64
 		var decodedLikedPosts = atob(encodedLikedPosts);
+		console.log('encodedLikedPosts', encodedLikedPosts);
 
 		// Parse the decoded liked posts data into a JavaScript object
 		var likedPosts = JSON.parse(decodedLikedPosts);

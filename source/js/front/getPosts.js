@@ -19,13 +19,12 @@ class GetPosts {
 		let items = {};
 		const urlParams = new URLSearchParams(window.location.search);
 		const encodedLikedPosts = urlParams.get('liked-posts');
-		if (encodedLikedPosts) {
-			const likedPosts = this.likeInstance.decodeLikedPosts(encodedLikedPosts);
-			items = this.handleEndpoints(likedPosts) ?? '';
-		} else {
-			items = this.handleEndpoints() ?? '';
-		}
 
+		if (encodedLikedPosts) {
+			items = this.handleEndpoints(this.likeInstance.decodeLikedPosts(encodedLikedPosts));
+		} else {
+			items = this.handleEndpoints();
+		}
 		const wantedPostTypes = this.getContainersPostTypes();
 
 		let urls = [];
@@ -96,9 +95,10 @@ class GetPosts {
 	 * @returns An object with the keys of the different types of posts and the values being an array
 	 * of the posts of that type.
 	 */
-	handleEndpoints() {
-		let posts = this.getLocalStorage();
-
+	handleEndpoints(posts = false) {
+		if (!posts) {
+			posts = this.getLocalStorage();
+		}
 		const sortedData = posts.reduce((acc, current) => {
 			if (acc[current.type]) {
 				acc[current.type].push(current);

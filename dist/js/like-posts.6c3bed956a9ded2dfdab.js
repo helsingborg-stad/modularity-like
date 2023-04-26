@@ -33,13 +33,12 @@ class GetPosts {
 		let items = {};
 		const urlParams = new URLSearchParams(window.location.search);
 		const encodedLikedPosts = urlParams.get('liked-posts');
-		if (encodedLikedPosts) {
-			const likedPosts = this.likeInstance.decodeLikedPosts(encodedLikedPosts);
-			items = this.handleEndpoints(likedPosts) ?? '';
-		} else {
-			items = this.handleEndpoints() ?? '';
-		}
 
+		if (encodedLikedPosts) {
+			items = this.handleEndpoints(this.likeInstance.decodeLikedPosts(encodedLikedPosts));
+		} else {
+			items = this.handleEndpoints();
+		}
 		const wantedPostTypes = this.getContainersPostTypes();
 
 		let urls = [];
@@ -110,9 +109,10 @@ class GetPosts {
 	 * @returns An object with the keys of the different types of posts and the values being an array
 	 * of the posts of that type.
 	 */
-	handleEndpoints() {
-		let posts = this.getLocalStorage();
-
+	handleEndpoints(posts = false) {
+		if (!posts) {
+			posts = this.getLocalStorage();
+		}
 		const sortedData = posts.reduce((acc, current) => {
 			if (acc[current.type]) {
 				acc[current.type].push(current);
@@ -254,8 +254,12 @@ class Like {
 	}
 
 	decodeLikedPosts(encodedLikedPosts) {
+		if (!encodedLikedPosts) {
+			return false;
+		}
 		// Decode the encoded liked posts data from Base64
 		var decodedLikedPosts = atob(encodedLikedPosts);
+		console.log('encodedLikedPosts', encodedLikedPosts);
 
 		// Parse the decoded liked posts data into a JavaScript object
 		var likedPosts = JSON.parse(decodedLikedPosts);
@@ -506,4 +510,4 @@ const GetPostsInstance = new _front_getPosts__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /******/ })()
 ;
-//# sourceMappingURL=like-posts.2e8071f9ddc1fd54f5b0.js.map
+//# sourceMappingURL=like-posts.6c3bed956a9ded2dfdab.js.map
