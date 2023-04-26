@@ -405,12 +405,13 @@ class Render {
 		const inputElement = document.createElement('input');
 		inputElement.type = 'text';
 		inputElement.value = shareLink;
+		inputElement.classList.add('u-width--100');
 		inputElement.addEventListener('click', (event) => {
 			event.target.select();
 		});
 
 		const shareLinkElement = document.createElement('div');
-		shareLinkElement.innerHTML = '<label class="u-padding__right--1 u-strong">' + likedPostsLang.shareYourFavourites + ':</label>';
+		shareLinkElement.innerHTML = '<label class="u-padding__bottom--05">' + likedPostsLang.shareYourFavourites + ':</label>';
 		shareLinkElement.appendChild(inputElement);
 		shareLinkElement.classList.add('share-link', 'u-border', 'u-margin__bottom--2', 'u-padding--2');
 
@@ -505,4 +506,4 @@ const GetPostsInstance = new _front_getPosts__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /******/ })()
 ;
-//# sourceMappingURL=like-posts.17f33fb1a4cc8e07c2c9.js.map
+//# sourceMappingURL=like-posts.2e8071f9ddc1fd54f5b0.js.map

@@ -123,12 +123,13 @@ class Render {
 		const inputElement = document.createElement('input');
 		inputElement.type = 'text';
 		inputElement.value = shareLink;
+		inputElement.classList.add('u-width--100');
 		inputElement.addEventListener('click', (event) => {
 			event.target.select();
 		});
 
 		const shareLinkElement = document.createElement('div');
-		shareLinkElement.innerHTML = '<label class="u-padding__right--1 u-strong">' + likedPostsLang.shareYourFavourites + ':</label>';
+		shareLinkElement.innerHTML = '<label class="u-padding__bottom--05">' + likedPostsLang.shareYourFavourites + ':</label>';
 		shareLinkElement.appendChild(inputElement);
 		shareLinkElement.classList.add('share-link', 'u-border', 'u-margin__bottom--2', 'u-padding--2');
 
