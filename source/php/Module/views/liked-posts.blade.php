@@ -9,25 +9,6 @@
     </div>
 @endif
 
-<!-- temporary placement -->
-<div class="liked-posts__meta">
-    @link([
-        'href' => '#mod-liked-posts' . $ID . '-link',
-        'id' => 'mod-liked-posts' . $ID . '-link',
-        'classList' => [
-            'liked-posts__link',
-            'u-text--small',
-            'u-text--bold',
-            'u-text--uppercase',
-            'u-text--color-primary',
-            'u-text--color-hover-primary',
-            'u-text--hover-underline'
-        ]
-    ])
-    @endlink
-</div>
-<!-- end temporary placement -->
-
 @if ($display_as == 'collection')
     @collection([
         'classList' => ['c-collection--posts', 'o-grid'],
