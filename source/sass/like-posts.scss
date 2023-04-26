@@ -1,5 +1,12 @@
 $like-icon-color: var(--like-icon-color, #e84666) !default;
+$base: var(--base, 8px) !default;
 
 .like-icon {
     color: $like-icon-color;
+    cursor: pointer;
+    transition: transform .2s ease-in-out;
+
+    &:hover {
+        transform: scale(1.1);
+    }
 }

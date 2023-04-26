@@ -1,1 +1,0 @@
-{"version":3,"file":"css/like-posts.44659eef0ec5f62c93bb.css","mappings":";;;AAEA;EACI,sCAHc;AAElB,C","sources":["webpack://like-posts/./source/sass/like-posts.scss"],"sourcesContent":["$like-icon-color: var(--like-icon-color, #e84666) !default;\n\n.like-icon {\n    color: $like-icon-color;\n}\n"],"names":[],"sourceRoot":""}

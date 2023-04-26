@@ -3,6 +3,11 @@
   \***********************************************************************************************************************************************************************************************************************************************************************************************/
 .like-icon {
   color: var(--like-icon-color, #e84666);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+.like-icon:hover {
+  transform: scale(1.1);
 }
 
-/*# sourceMappingURL=like-posts.44659eef0ec5f62c93bb.css.map*/
+/*# sourceMappingURL=like-posts.65dc620ed2db9450d8eb.css.map*/
