@@ -412,6 +412,7 @@ class Render {
 		const shareLinkElement = document.createElement('p');
 		shareLinkElement.innerText = likedPostsLang.shareYourFavourites;
 		shareLinkElement.appendChild(inputElement);
+		shareLinkElement.classList.add('share-link');
 
 		const firstContainer = document.querySelector('[js-like-container]');
 		if (firstContainer) {
@@ -500,10 +501,8 @@ const LikeInstance = new _front_like__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const RenderInstance = new _front_render__WEBPACK_IMPORTED_MODULE_2__["default"](likedPostsComponents, LikeInstance);
 const GetPostsInstance = new _front_getPosts__WEBPACK_IMPORTED_MODULE_0__["default"](RenderInstance, LikeInstance);
 
-// RenderInstance.renderShareLink();
-
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=like-posts.a0d0dc726167f2472635.js.map
+//# sourceMappingURL=like-posts.a990684cd1ac3ca8bbf3.js.map

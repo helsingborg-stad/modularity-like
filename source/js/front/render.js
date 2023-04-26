@@ -130,6 +130,7 @@ class Render {
 		const shareLinkElement = document.createElement('p');
 		shareLinkElement.innerText = likedPostsLang.shareYourFavourites;
 		shareLinkElement.appendChild(inputElement);
+		shareLinkElement.classList.add('share-link');
 
 		const firstContainer = document.querySelector('[js-like-container]');
 		if (firstContainer) {
