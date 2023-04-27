@@ -114,6 +114,7 @@ class GetPosts {
 	getLocalStorage() {
 		return JSON.parse(localStorage.getItem('liked-posts')) || [];
 	}
+    
 	getFeaturedImage(imageOb) {
 		let image = false;
 		if (imageOb.source_url) {
@@ -122,11 +123,11 @@ class GetPosts {
 
 		return image;
 	}
+
 	renderPosts() {
 		const updatedPosts = this.posts.map((post) => {
-			if (post._embedded?.['wp:featuredmedia']?.[0].media_details) {
-				const featuredImageUrl = post._embedded['wp:featuredmedia'][0].media_details.sizes.medium;
-				return { ...post, image: featuredImageUrl };
+			if (post._embedded?.['wp:featuredmedia']?.[0]) {
+                return { ...post, image: this.getFeaturedImage(post._embedded['wp:featuredmedia'][0]) };
 			}
 			return post;
 		});

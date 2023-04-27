@@ -128,6 +128,7 @@ class GetPosts {
 	getLocalStorage() {
 		return JSON.parse(localStorage.getItem('liked-posts')) || [];
 	}
+    
 	getFeaturedImage(imageOb) {
 		let image = false;
 		if (imageOb.source_url) {
@@ -136,11 +137,11 @@ class GetPosts {
 
 		return image;
 	}
+
 	renderPosts() {
 		const updatedPosts = this.posts.map((post) => {
-			if (post._embedded?.['wp:featuredmedia']?.[0].media_details) {
-				const featuredImageUrl = post._embedded['wp:featuredmedia'][0].media_details.sizes.medium;
-				return { ...post, image: featuredImageUrl };
+			if (post._embedded?.['wp:featuredmedia']?.[0]) {
+                return { ...post, image: this.getFeaturedImage(post._embedded['wp:featuredmedia'][0]) };
 			}
 			return post;
 		});
@@ -357,7 +358,7 @@ class Render {
 	handleImage(post = false, emblemUrl) {
 		if (!post) return '';
 
-		let image = post.image ? post.image.source_url : emblemUrl && emblemUrl.length > 0 ? emblemUrl : '';
+		let image = post.image ?? (emblemUrl && emblemUrl.length > 0 ? emblemUrl : '');
 
 		return image;
 	}
@@ -516,4 +517,4 @@ const GetPostsInstance = new _front_getPosts__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /******/ })()
 ;
-//# sourceMappingURL=like-posts.4e96f12419b797a32cde.js.map
+//# sourceMappingURL=like-posts.56acfaeee160ebebc75f.js.map
