@@ -18,8 +18,6 @@ if (! defined('WPINC')) {
     die;
 }
 
-define('MODULARITYLIKEPOSTS_TEXT_DOMAIN', 'modularity-like'); // Should always be same as "Text Domain" in the plugin header
-
 define('MODULARITYLIKEPOSTS_PATH', plugin_dir_path(__FILE__));
 define('MODULARITYLIKEPOSTS_URL', plugins_url('', __FILE__));
 define('MODULARITYLIKEPOSTS_TEMPLATE_PATH', MODULARITYLIKEPOSTS_PATH . 'templates/');
@@ -40,22 +38,19 @@ add_filter('/Modularity/externalViewPath', function ($arr) {
 add_action('acf/init', function () {
     if (function_exists('acf_add_options_page')) {
         acf_add_options_page([
-            'page_title' => _x('Modularity Like', 'Admin page title', MODULARITYLIKEPOSTS_TEXT_DOMAIN),
+            'page_title' => _x('Modularity Like', 'Admin page title', 'modularity-like'),
             'menu_slug' => 'modularity_like',
         ]);
     }
     $acfExportManager = new \AcfExportManager\AcfExportManager();
-    $acfExportManager->setTextdomain(MODULARITYLIKEPOSTS_TEXT_DOMAIN);
+    $acfExportManager->setTextdomain('modularity-like');
     $acfExportManager->setExportFolder(MODULARITYLIKEPOSTS_PATH . 'source/php/AcfFields/');
     $acfExportManager->autoExport(array(
         'liked-posts-settings' => 'group_63e9fb49ad0f4',
         'liked-posts-options' => 'group_63ecfd0993f44'
     ));
     $acfExportManager->import();
-
-    load_plugin_textdomain(MODULARITYLIKEPOSTS_TEXT_DOMAIN, false, MODULARITYLIKEPOSTS_PATH . 'languages');
 });
-
-
 // Start application
 new ModularityLikePosts\App();
+load_plugin_textdomain('modularity-like', false, plugin_basename(dirname(__FILE__)) . '/languages');

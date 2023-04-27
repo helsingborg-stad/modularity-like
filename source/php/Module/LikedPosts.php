@@ -10,9 +10,9 @@ class LikedPosts extends \Modularity\Module
     public function init()
     {
         //Define module
-        $this->nameSingular = __("Liked posts", MODULARITYLIKEPOSTS_TEXT_DOMAIN);
-        $this->namePlural = __("Liked posts", MODULARITYLIKEPOSTS_TEXT_DOMAIN);
-        $this->description = __("Shows the users liked posts", MODULARITYLIKEPOSTS_TEXT_DOMAIN);
+        $this->nameSingular = __("Liked posts", modularity - like);
+        $this->namePlural = __("Liked posts", modularity - like);
+        $this->description = __("Shows the users liked posts", modularity - like);
     }
 
      /**

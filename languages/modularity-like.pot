@@ -1,0 +1,126 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Modularity Like Posts\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-04-27 15:37+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.3; wp-6.2\n"
+"X-Domain: modularity-like"
+
+#: source/php/AcfFields/php/liked-posts-settings.php:50
+msgid "1"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:51
+msgid "2"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:52
+msgid "3"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:53
+msgid "4"
+msgstr ""
+
+#: like-posts.php:41
+msgctxt "Admin page title"
+msgid "Modularity Like"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:26
+msgid "Card"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:25
+msgid "Collection"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:28
+msgid "collection"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:37
+msgid "Columns"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:12
+msgid "Display liked posts as"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:82
+msgid "Event"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:55
+msgid "grid-md-12"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:84
+msgid "Guide"
+msgstr ""
+
+#. URI of the plugin
+msgid "https://github.com/helsingborg-stad/modularity-like"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://github.com/NiclasNorin"
+msgstr ""
+
+#. Description of the plugin
+msgid "Lets users like and save posts."
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-options.php:8
+msgid "Like"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:67
+msgid "Liked post types to show"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:8
+msgid "Liked posts"
+msgstr ""
+
+#. Name of the plugin
+msgid "Modularity Like Posts"
+msgstr ""
+
+#. Author of the plugin
+msgid "Niclas Norin"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:81
+msgid "Page"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:83
+msgid "Place"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-settings.php:80
+msgid "Post"
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-options.php:16
+msgid "Post types that the user should be able to like posts from."
+msgstr ""
+
+#: source/php/AcfFields/php/liked-posts-options.php:12
+msgid "Select post types"
+msgstr ""
+
+#: source/php/ComponentsJs.php:25
+msgid "Share your favorites with this link"
+msgstr ""

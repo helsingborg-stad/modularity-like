@@ -22,7 +22,7 @@ class ComponentsJs
     public function renderComponents() //:void
     {
         $l10n = [
-            'shareYourFavourites' => __('Share your favorites with this link', MODULARITYLIKEPOSTS_TEXT_DOMAIN),
+            'shareYourFavourites' => __('Share your favorites with this link', 'modularity-like'),
         ];
         wp_localize_script(
             'like-posts-js',
