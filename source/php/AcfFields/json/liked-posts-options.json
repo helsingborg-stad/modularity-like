@@ -6,8 +6,9 @@
             "key": "26827",
             "label": "Select post types",
             "name": "select_post_type",
+            "aria-label": "",
             "type": "posttype_select",
-            "instructions": "",
+            "instructions": "Post types that the user should be able to like posts from.",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
@@ -20,8 +21,7 @@
             "multiple": 1,
             "placeholder": "",
             "disabled": 0,
-            "readonly": 0,
-            "choices": null
+            "readonly": 0
         }
     ],
     "location": [

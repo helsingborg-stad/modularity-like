@@ -3,14 +3,15 @@
 if (function_exists('acf_add_local_field_group')) {
     acf_add_local_field_group(array(
     'key' => 'group_63ecfd0993f44',
-    'title' => __('Like', 'liked-posts'),
+    'title' => __('Like', 'modularity-like'),
     'fields' => array(
         0 => array(
             'key' => '26827',
-            'label' => __('Select post types', 'liked-posts'),
+            'label' => __('Select post types', 'modularity-like'),
             'name' => 'select_post_type',
+            'aria-label' => '',
             'type' => 'posttype_select',
-            'instructions' => '',
+            'instructions' => __('Post types that the user should be able to like posts from.', 'modularity-like'),
             'required' => 0,
             'conditional_logic' => 0,
             'wrapper' => array(
@@ -24,7 +25,6 @@
             'placeholder' => '',
             'disabled' => 0,
             'readonly' => 0,
-            'choices' => NULL,
         ),
     ),
     'location' => array(
