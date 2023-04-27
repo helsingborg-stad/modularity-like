@@ -21,6 +21,14 @@ class ComponentsJs
      */
     public function renderComponents() //:void
     {
+        $l10n = [
+            'shareYourFavourites' => __('Share your favorites with this link', 'modularity-like-posts'),
+        ];
+        wp_localize_script(
+            'like-posts-js',
+            'likedPostsLang',
+            $l10n
+        );
         wp_localize_script(
             'like-posts-js',
             'likedPostsComponents',
