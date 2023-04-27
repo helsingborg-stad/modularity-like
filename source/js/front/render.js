@@ -65,7 +65,7 @@ class Render {
 	handleImage(post = false, emblemUrl) {
 		if (!post) return '';
 
-		let image = post.image ? post.image.source_url : emblemUrl && emblemUrl.length > 0 ? emblemUrl : '';
+		let image = post.image ?? (emblemUrl && emblemUrl.length > 0 ? emblemUrl : '');
 
 		return image;
 	}
