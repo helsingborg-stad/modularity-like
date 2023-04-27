@@ -104,11 +104,19 @@ class GetPosts {
         return JSON.parse(localStorage.getItem('liked-posts')) || [];
     }
 
+    getFeaturedImage(imageOb) {
+        let image = false;
+        if (imageOb.source_url) {
+            image = imageOb.media_details.sizes?.medium?.source_url ?? imageOb.source_url;
+        }
+
+        return image;
+    }
+
     renderPosts() {
         const updatedPosts = this.posts.map(post => {
-            if (post._embedded?.['wp:featuredmedia']?.[0].media_details) {
-                const featuredImageUrl = post._embedded['wp:featuredmedia'][0].media_details.sizes.medium;
-                return { ...post, image: featuredImageUrl };
+            if (post._embedded?.['wp:featuredmedia']?.[0]) {  
+                return { ...post, image: this.getFeaturedImage(post._embedded['wp:featuredmedia'][0]) };
             }
             return post;
         });

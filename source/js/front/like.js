@@ -61,9 +61,9 @@ class Like {
 
     changeIcon(icon) {
         if(icon.classList.contains('is-liked')) {
-            icon.querySelector('span').innerHTML = icon.querySelector('span').innerHTML.replace("_outline", '');
+            icon.querySelector('span').innerText = icon.querySelector('span').innerText.replace("_outline", '');
         } else {
-            icon.querySelector('span').innerHTML = icon.querySelector('span').innerHTML + "_outline";
+            icon.querySelector('span').innerText = icon.querySelector('span').innerText + "_outline";
         }
     }
 
