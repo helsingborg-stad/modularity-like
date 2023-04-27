@@ -114,7 +114,14 @@ class GetPosts {
 	getLocalStorage() {
 		return JSON.parse(localStorage.getItem('liked-posts')) || [];
 	}
+	getFeaturedImage(imageOb) {
+		let image = false;
+		if (imageOb.source_url) {
+			image = imageOb.media_details.sizes?.medium?.source_url ?? imageOb.source_url;
+		}
 
+		return image;
+	}
 	renderPosts() {
 		const updatedPosts = this.posts.map((post) => {
 			if (post._embedded?.['wp:featuredmedia']?.[0].media_details) {
