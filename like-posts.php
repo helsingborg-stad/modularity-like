@@ -2,14 +2,14 @@
 
 /**
  * Plugin Name:       Modularity Like Posts
- * Plugin URI:        https://github.com/NiclasNorin/modularity-json-render
+ * Plugin URI:        https://github.com/helsingborg-stad/modularity-like
  * Description:       Lets users like and save posts.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Niclas Norin
  * Author URI:        https://github.com/NiclasNorin
  * License:           MIT
  * License URI:       https://opensource.org/licenses/MIT
- * Text Domain:       modularity-json-render
+ * Text Domain:       modularity-like
  * Domain Path:       /languages
  */
 
@@ -21,11 +21,8 @@ if (! defined('WPINC')) {
 define('MODULARITYLIKEPOSTS_PATH', plugin_dir_path(__FILE__));
 define('MODULARITYLIKEPOSTS_URL', plugins_url('', __FILE__));
 define('MODULARITYLIKEPOSTS_TEMPLATE_PATH', MODULARITYLIKEPOSTS_PATH . 'templates/');
-define('MODULARITYLIKEPOSTS_TEXT_DOMAIN', 'liked-posts');
 define('MODULARITYLIKEPOSTS_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'views/');
 define('MODULARITYLIKEPOSTS_MODULE_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'source/php/Module/views');
-
-load_plugin_textdomain(MODULARITYLIKEPOSTS_TEXT_DOMAIN, false, MODULARITYLIKEPOSTS_PATH . '/languages');
 
 require_once MODULARITYLIKEPOSTS_PATH . 'Public.php';
 
@@ -41,12 +38,14 @@ add_filter('/Modularity/externalViewPath', function ($arr) {
 add_action('acf/init', function () {
     if (function_exists('acf_add_options_page')) {
         acf_add_options_page([
-            'page_title' => 'Modularity Like',
+            'page_title' => _x('Modularity Like', 'Admin page title', 'modularity-like'),
             'menu_slug' => 'modularity_like',
+            'icon_url' => 'dashicons-heart',
+            'position' => 105,
         ]);
     }
     $acfExportManager = new \AcfExportManager\AcfExportManager();
-    $acfExportManager->setTextdomain('liked-posts');
+    $acfExportManager->setTextdomain('modularity-like');
     $acfExportManager->setExportFolder(MODULARITYLIKEPOSTS_PATH . 'source/php/AcfFields/');
     $acfExportManager->autoExport(array(
         'liked-posts-settings' => 'group_63e9fb49ad0f4',
@@ -54,7 +53,6 @@ add_action('acf/init', function () {
     ));
     $acfExportManager->import();
 });
-
-
 // Start application
 new ModularityLikePosts\App();
+load_plugin_textdomain('modularity-like', false, plugin_basename(dirname(__FILE__)) . '/languages');

@@ -6,6 +6,7 @@
             "key": "field_63e9fb4a67244",
             "label": "Display liked posts as",
             "name": "display_liked_posts_as",
+            "aria-label": "",
             "type": "radio",
             "instructions": "",
             "required": 0,
@@ -27,33 +28,10 @@
             "save_other_choice": 0
         },
         {
-            "key": "field_63ee48da2d607",
-            "label": "Liked post types to show",
-            "name": "liked_post_types_to_show",
-            "type": "checkbox",
-            "instructions": "",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "choices": {
-                "post": "Post",
-                "place": "Place"
-            },
-            "default_value": [],
-            "return_format": "value",
-            "allow_custom": 0,
-            "layout": "vertical",
-            "toggle": 0,
-            "save_custom": 0
-        },
-        {
             "key": "field_643685be6d8ea",
             "label": "Columns",
             "name": "liked_posts_columns",
+            "aria-label": "",
             "type": "select",
             "instructions": "",
             "required": 0,
@@ -75,7 +53,37 @@
             "allow_null": 0,
             "ui": 0,
             "ajax": 0,
-            "placeholder": ""
+            "placeholder": "",
+            "allow_custom": 0,
+            "search_placeholder": ""
+        },
+        {
+            "key": "field_63ee48da2d607",
+            "label": "Liked post types to show",
+            "name": "liked_post_types_to_show",
+            "aria-label": "",
+            "type": "checkbox",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "post": "Post",
+                "page": "Page",
+                "event": "Event",
+                "place": "Place",
+                "guide": "Guide"
+            },
+            "default_value": [],
+            "return_format": "value",
+            "allow_custom": 0,
+            "layout": "vertical",
+            "toggle": 0,
+            "save_custom": 0
         }
     ],
     "location": [
@@ -96,7 +104,7 @@
     ],
     "menu_order": 0,
     "position": "normal",
-    "style": "default",
+    "style": "seamless",
     "label_placement": "left",
     "instruction_placement": "label",
     "hide_on_screen": "",
