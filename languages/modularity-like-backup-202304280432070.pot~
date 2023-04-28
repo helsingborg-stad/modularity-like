@@ -1,129 +1,126 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Modularity Like Posts 1.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/modularity-like\n"
-"Last-Translator: \n"
-"Language-Team: Svenska\n"
+"Project-Id-Version: Modularity Like Posts\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-04-27 15:37+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-04-27 17:03+0200\n"
-"PO-Revision-Date: 2023-04-28 04:32+0000\n"
-"Language: sv_SE\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Domain: modularity-like\n"
+"X-Loco-Version: 2.6.3; wp-6.2\n"
+"X-Domain: modularity-like"
 
 #: source/php/AcfFields/php/liked-posts-settings.php:50
 msgid "1"
-msgstr "1"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:51
 msgid "2"
-msgstr "2"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:52
 msgid "3"
-msgstr "3"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:53
 msgid "4"
-msgstr "4"
+msgstr ""
 
 #: like-posts.php:41
 msgctxt "Admin page title"
 msgid "Modularity Like"
-msgstr "Modularity Gilla"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:26
 msgid "Card"
-msgstr "Kort"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:25
 msgid "Collection"
-msgstr "Samling"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:28
 msgid "collection"
-msgstr "collection"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:37
 msgid "Columns"
-msgstr "Kolumner"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:12
 msgid "Display liked posts as"
-msgstr "Visa gillade poster som"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:82
 msgid "Event"
-msgstr "Evenemang"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:55
 msgid "grid-md-12"
-msgstr "grid-md-12"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:84
 msgid "Guide"
-msgstr "Guide"
+msgstr ""
 
 #. URI of the plugin
 msgid "https://github.com/helsingborg-stad/modularity-like"
-msgstr "https://github.com/helsingborg-stad/modularity-like"
+msgstr ""
 
 #. Author URI of the plugin
 msgid "https://github.com/NiclasNorin"
-msgstr "https://github.com/NiclasNorin"
+msgstr ""
 
 #. Description of the plugin
 msgid "Lets users like and save posts."
-msgstr "Låter användare gilla och spara inlägg."
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-options.php:8
 msgid "Like"
-msgstr "Gilla"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:67
 msgid "Liked post types to show"
-msgstr "Gillade inläggstyper att visa"
+msgstr ""
 
-#: source/php/Module/LikedPosts.php:13 source/php/Module/LikedPosts.php:14
 #: source/php/AcfFields/php/liked-posts-settings.php:8
 msgid "Liked posts"
-msgstr "Gillade poster"
+msgstr ""
 
 #. Name of the plugin
 msgid "Modularity Like Posts"
-msgstr "Modularity Gilla"
+msgstr ""
 
 #. Author of the plugin
 msgid "Niclas Norin"
-msgstr "Niclas Norin"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:81
 msgid "Page"
-msgstr "Sida"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:83
 msgid "Place"
-msgstr "Plats"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-settings.php:80
 msgid "Post"
-msgstr "Inlägg"
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-options.php:16
 msgid "Post types that the user should be able to like posts from."
-msgstr "Posttyper som besökare ska kunna gilla inlägg från."
+msgstr ""
 
 #: source/php/AcfFields/php/liked-posts-options.php:12
 msgid "Select post types"
-msgstr "Välj posttyper"
+msgstr ""
 
 #: source/php/ComponentsJs.php:25
 msgid "Share your favorites with this link"
-msgstr "Dela dina favoriter via den här länken"
-
-#: source/php/Module/LikedPosts.php:15
-msgid "Shows the users liked posts"
-msgstr "Visar besökarens gillade inlägg"
+msgstr ""

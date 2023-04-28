@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Modularity Like Posts\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-27 15:37+0000\n"
+"POT-Creation-Date: 2023-04-28 04:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -89,6 +89,7 @@ msgstr ""
 msgid "Liked post types to show"
 msgstr ""
 
+#: source/php/Module/LikedPosts.php:13 source/php/Module/LikedPosts.php:14
 #: source/php/AcfFields/php/liked-posts-settings.php:8
 msgid "Liked posts"
 msgstr ""
@@ -123,4 +124,8 @@ msgstr ""
 
 #: source/php/ComponentsJs.php:25
 msgid "Share your favorites with this link"
+msgstr ""
+
+#: source/php/Module/LikedPosts.php:15
+msgid "Shows the users liked posts"
 msgstr ""

@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2023-04-27 17:03+0200\n"
-"PO-Revision-Date: 2023-04-28 04:32+0000\n"
+"PO-Revision-Date: 2023-04-27 15:37+0000\n"
 "Language: sv_SE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Loco https://localise.biz/\n"
@@ -87,7 +87,6 @@ msgstr "Gilla"
 msgid "Liked post types to show"
 msgstr "Gillade inläggstyper att visa"
 
-#: source/php/Module/LikedPosts.php:13 source/php/Module/LikedPosts.php:14
 #: source/php/AcfFields/php/liked-posts-settings.php:8
 msgid "Liked posts"
 msgstr "Gillade poster"
@@ -123,7 +122,3 @@ msgstr "Välj posttyper"
 #: source/php/ComponentsJs.php:25
 msgid "Share your favorites with this link"
 msgstr "Dela dina favoriter via den här länken"
-
-#: source/php/Module/LikedPosts.php:15
-msgid "Shows the users liked posts"
-msgstr "Visar besökarens gillade inlägg"
