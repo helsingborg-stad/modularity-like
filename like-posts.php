@@ -40,6 +40,8 @@ add_action('acf/init', function () {
         acf_add_options_page([
             'page_title' => _x('Modularity Like', 'Admin page title', 'modularity-like'),
             'menu_slug' => 'modularity_like',
+            'icon_url' => 'dashicons-heart',
+            'position' => 105,
         ]);
     }
     $acfExportManager = new \AcfExportManager\AcfExportManager();
