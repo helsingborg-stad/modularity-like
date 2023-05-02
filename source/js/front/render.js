@@ -25,6 +25,7 @@ class Render {
 				const postColumns = container.hasAttribute('js-columns') ? container.getAttribute('js-columns') : 'grid-md-12';
 				const emblemUrl = container.hasAttribute('js-like-emblem-url') ? container.getAttribute('js-like-emblem-url') : false;
 				let hasPreloaders = true;
+				let shareButton = false;
 				let likeButtons = [];
 				filteredPosts &&
 					filteredPosts.forEach((post) => {
@@ -45,6 +46,7 @@ class Render {
 								hasPreloaders = false;
 							});
 						}
+
 						likeButtons.push(childElement.querySelector('[data-like-icon]'));
 						childElement.replaceWith(...childElement.childNodes);
 					});
@@ -115,30 +117,21 @@ class Render {
 	renderShareLink() {
 		const url = window.location.href.split('?')[0];
 		const encodedLikedPostsParam = this.likeInstance.generateEncodedLikedPostsParam();
+		const containers = document.querySelectorAll('.like-posts__container');
 
 		// Skip if there are no liked posts
 		if (!encodedLikedPostsParam) return;
 
 		const shareLink = `${url}${encodedLikedPostsParam}`;
-		const inputElement = document.createElement('input');
-		inputElement.type = 'text';
-		inputElement.value = shareLink;
-		inputElement.classList.add('u-width--100');
-		inputElement.addEventListener('click', (event) => {
-			event.target.select();
+
+		containers.forEach(container => {
+			let button = container.querySelector('button');
+			let errorText = button.getAttribute('data-js-copy-error') ?? 'Something went wrong, link to share: ';
+			button.setAttribute('data-js-copy-error', errorText + shareLink);  
+			if (!button) return;
+			button.setAttribute('data-js-copy-data', shareLink); 
+			button.classList.remove('u-display--none');
 		});
-
-		const shareLinkElement = document.createElement('div');
-		shareLinkElement.innerHTML = '<label class="u-padding__bottom--05">' + likedPostsLang.shareYourFavourites + ':</label>';
-		shareLinkElement.appendChild(inputElement);
-		shareLinkElement.classList.add('share-link', 'u-border', 'u-margin__bottom--2', 'u-padding--2');
-
-		const firstContainer = document.querySelector('[js-like-container]');
-		if (firstContainer) {
-			firstContainer.before(shareLinkElement);
-		} else {
-			document.body.appendChild(shareLinkElement);
-		}
 	}
 }
 export default Render;

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container like-posts__container">
     @if (!$hideTitle && !empty($postTitle))
         <div class="liked-posts__header">
             @typography([
@@ -35,4 +35,17 @@
             @endfor
         </div>
     @endif
+    <div class="u-display--flex u-align-items--center u-margin__top--2">
+        @button([
+            'text' => $labels['shareButtonLabel'],
+            'attributeList' => [
+                'data-js-copy-target' => 'self',
+                'data-js-copy-success' => $labels['shareSuccess'],
+                'data-js-copy-error' => $labels['shareError'],
+                'data-js-copy-data' => '',
+        ],
+            'classList' => ['u-margin__right--2', 'u-display--none']
+        ])
+        @endbutton
+    </div>
 </div>
