@@ -25,7 +25,6 @@ class Render {
 				const postColumns = container.hasAttribute('js-columns') ? container.getAttribute('js-columns') : 'grid-md-12';
 				const emblemUrl = container.hasAttribute('js-like-emblem-url') ? container.getAttribute('js-like-emblem-url') : false;
 				let hasPreloaders = true;
-				let shareButton = false;
 				let likeButtons = [];
 				filteredPosts &&
 					filteredPosts.forEach((post) => {

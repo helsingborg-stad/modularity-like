@@ -318,7 +318,6 @@ class Render {
 				const postColumns = container.hasAttribute('js-columns') ? container.getAttribute('js-columns') : 'grid-md-12';
 				const emblemUrl = container.hasAttribute('js-like-emblem-url') ? container.getAttribute('js-like-emblem-url') : false;
 				let hasPreloaders = true;
-				let shareButton = false;
 				let likeButtons = [];
 				filteredPosts &&
 					filteredPosts.forEach((post) => {
@@ -510,4 +509,4 @@ const GetPostsInstance = new _front_getPosts__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /******/ })()
 ;
-//# sourceMappingURL=like-posts.0bb533afa51d5bc0823f.js.map
+//# sourceMappingURL=like-posts.48ac2307f724855efb2c.js.map
