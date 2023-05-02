@@ -20,7 +20,7 @@
                 'js-like-emblem-url' => $emblem
             ]
         ])
-            @for ($i = 0; $i < 3; $i++)
+            @for ($i = 0; $i < 4; $i++)
                 <div class="liked-posts__preloader u-preloader u-preloader__opacity--7 u-rounded {{ $postColumns }}"
                     style="height:170px;width:100%;"></div>
             @endfor
@@ -28,16 +28,17 @@
     @else
         <div class="o-grid" js-like-container js-display-as="{{ $display_as }}" js-like-emblem-url="{{ $emblem }}"
             js-post-types="{{ $postTypes }}" js-columns="{{ $postColumns }}">
-            @for ($i = 0; $i < 3; $i++)
+            @for ($i = 0; $i < 4; $i++)
                 <div class="liked-posts__preloader u-preloader u-preloader__opacity--7 u-rounded o-grid-4@md"
                     style="height:400px;width:100%;">
                 </div>
             @endfor
         </div>
     @endif
-    <div class="u-display--flex u-align-items--center u-margin__top--2">
+    <div class="u-display--flex u-align-items--center u-justify-content--center u-margin__top--4">
         @button([
             'text' => $labels['shareButtonLabel'],
+            'color' => 'primary',
             'attributeList' => [
                 'data-js-copy-target' => 'self',
                 'data-js-copy-success' => $labels['shareSuccess'],
