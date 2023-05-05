@@ -5,7 +5,6 @@ class Like {
 
 	handleLike() {
 		const likeButtons = document.querySelectorAll('[data-like-icon]');
-
 		this.amountOfLikedPosts(this.getLocalStorage());
 		this.setLiked(this.getLocalStorage());
 		likeButtons && this.setListeners(likeButtons);
@@ -42,6 +41,7 @@ class Like {
 	}
 
 	toggleLiked(postId) {
+		console.log(postId);
 		const icons = document.querySelectorAll(`[data-post-id="${postId}"]`);
 		icons &&
 			icons.forEach((icon) => {
@@ -50,7 +50,7 @@ class Like {
 			});
 	}
 
-	setLiked(likedPosts) {
+	setLiked(likedPosts = this.getLocalStorage()) {
 		likedPosts.forEach((post) => {
 			const icons = document.querySelectorAll(`[data-post-id="${post.id}"]`);
 			icons &&

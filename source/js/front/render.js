@@ -48,6 +48,8 @@ class Render {
 						likeButtons.push(childElement.querySelector('[data-like-icon]'));
 						childElement.replaceWith(...childElement.childNodes);
 					});
+				
+				this.likeInstance.setLiked();
 				this.likeInstance.setListeners(likeButtons);
 			});
 		} else {
