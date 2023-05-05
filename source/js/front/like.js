@@ -41,7 +41,6 @@ class Like {
 	}
 
 	toggleLiked(postId) {
-		console.log(postId);
 		const icons = document.querySelectorAll(`[data-post-id="${postId}"]`);
 		icons &&
 			icons.forEach((icon) => {
@@ -99,7 +98,6 @@ class Like {
 		}
 		// Decode the encoded liked posts data from Base64
 		var decodedLikedPosts = atob(encodedLikedPosts);
-		console.log('encodedLikedPosts', encodedLikedPosts);
 
 		// Parse the decoded liked posts data into a JavaScript object
 		var likedPosts = JSON.parse(decodedLikedPosts);
