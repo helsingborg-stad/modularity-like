@@ -2,6 +2,7 @@
         'link' => '{LIKE_POST_LINK}',
         'classList' => ['c-collection__item--post', '{LIKE_POST_CLASSES}', 'u-height--auto'],
         'attributeList' => ['data-observe-resizes' => ''],
+        'bordered' => true,
 ])
     @slot('floating')
         @icon([
