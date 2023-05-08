@@ -6,8 +6,8 @@
 ])
     @slot('floating')
         @icon([
-            'icon' => 'favorite', 
-            'classList' => ['is-liked', 'like-icon'], 
+            'icon' => 'favorite_outline', 
+            'classList' => ['like-icon'], 
             'size' => 'md',
             'attributeList' => [
                 'data-like-icon' => '', 

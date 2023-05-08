@@ -5,7 +5,6 @@ class Like {
 
 	handleLike() {
 		const likeButtons = document.querySelectorAll('[data-like-icon]');
-
 		this.amountOfLikedPosts(this.getLocalStorage());
 		this.setLiked(this.getLocalStorage());
 		likeButtons && this.setListeners(likeButtons);
@@ -50,7 +49,7 @@ class Like {
 			});
 	}
 
-	setLiked(likedPosts) {
+	setLiked(likedPosts = this.getLocalStorage()) {
 		likedPosts.forEach((post) => {
 			const icons = document.querySelectorAll(`[data-post-id="${post.id}"]`);
 			icons &&
@@ -99,7 +98,6 @@ class Like {
 		}
 		// Decode the encoded liked posts data from Base64
 		var decodedLikedPosts = atob(encodedLikedPosts);
-		console.log('encodedLikedPosts', encodedLikedPosts);
 
 		// Parse the decoded liked posts data into a JavaScript object
 		var likedPosts = JSON.parse(decodedLikedPosts);
