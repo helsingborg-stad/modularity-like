@@ -67,7 +67,7 @@ msgstr "grid-md-12"
 msgid "Guide"
 msgstr "Guide"
 
-#. URI of the plugin
+#. Plugin URI of the plugin
 msgid "https://github.com/helsingborg-stad/modularity-like"
 msgstr "https://github.com/helsingborg-stad/modularity-like"
 
@@ -87,12 +87,13 @@ msgstr "Gilla"
 msgid "Liked post types to show"
 msgstr "Gillade inläggstyper att visa"
 
-#: source/php/Module/LikedPosts.php:13 source/php/Module/LikedPosts.php:14
 #: source/php/AcfFields/php/liked-posts-settings.php:8
+#: source/php/Module/LikedPosts.php:13
+#: source/php/Module/LikedPosts.php:14
 msgid "Liked posts"
 msgstr "Gillade poster"
 
-#. Name of the plugin
+#. Plugin Name of the plugin
 msgid "Modularity Like Posts"
 msgstr "Modularity Gilla"
 
@@ -127,3 +128,15 @@ msgstr "Dela dina favoriter via den här länken"
 #: source/php/Module/LikedPosts.php:15
 msgid "Shows the users liked posts"
 msgstr "Visar besökarens gillade inlägg"
+
+#: source/php/Module/LikedPosts.php:29
+msgid "Share favorites"
+msgstr "Dela dina favoriter"
+
+#: source/php/Module/LikedPosts.php:30
+msgid "Link was copied successfully"
+msgstr "Länken har kopierats!"
+
+#: source/php/Module/LikedPosts.php:31
+msgid "Something went wrong, link: "
+msgstr "Kunde inte kopiera länken automatiskt! Men du kan markera den, högerklicka och välja \"kopiera\" istället:"
