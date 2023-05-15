@@ -78,29 +78,41 @@ class Like {
 	}
 
 	generateEncodedLikedPostsParam() {
-		// Retrieve the favorited posts from localStorage
-		const likedPosts = JSON.parse(localStorage.getItem('liked-posts')) || [];
-
+		const likedPosts = this.getLocalStorage();
 		if (likedPosts.length == 0) {
 			return false;
 		}
 
-		// Encrypt the likedPosts data using Base64 encoding
-		const encodedLikedPosts = btoa(JSON.stringify(likedPosts));
+		const compactLikedPosts = likedPosts.reduce((acc, post) => {
+			if (!acc[post.type]) {
+				acc[post.type] = [];
+			}
+			acc[post.type].push(post.id);
+			return acc;
+		}, {});
 
-		// Return the encrypted likedPosts data as the query parameter liked-posts
+		const encodedLikedPosts = btoa(JSON.stringify(compactLikedPosts));
+
 		return '?liked-posts=' + encodedLikedPosts;
 	}
-
 	decodeLikedPosts(encodedLikedPosts) {
 		if (!encodedLikedPosts) {
 			return false;
 		}
+
 		// Decode the encoded liked posts data from Base64
 		var decodedLikedPosts = atob(encodedLikedPosts);
 
 		// Parse the decoded liked posts data into a JavaScript object
-		var likedPosts = JSON.parse(decodedLikedPosts);
+		var compactLikedPosts = JSON.parse(decodedLikedPosts);
+
+		// Convert back to original format
+		var likedPosts = Object.entries(compactLikedPosts).reduce((acc, [type, ids]) => {
+			ids.forEach((id) => {
+				acc.push({ id, type });
+			});
+			return acc;
+		}, []);
 
 		// Return the JavaScript object of liked posts
 		return likedPosts;
