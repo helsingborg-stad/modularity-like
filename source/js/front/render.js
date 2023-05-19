@@ -51,7 +51,6 @@ class Render {
 					});
 				
 				this.likeInstance.setLiked();
-				this.likeInstance.setListeners(likeButtons);
 			});
 		} else {
 			this.handlePreloaders(containers);

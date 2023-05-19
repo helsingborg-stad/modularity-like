@@ -1,11 +1,11 @@
 class Like {
 	constructor() {
 		this.handleLike();
+		this.observe();
 	}
-
+	
 	handleLike() {
 		const likeButtons = document.querySelectorAll('[data-like-icon]');
-		this.amountOfLikedPosts(this.getLocalStorage());
 		this.setLiked(this.getLocalStorage());
 		likeButtons && this.setListeners(likeButtons);
 	}
@@ -18,6 +18,7 @@ class Like {
 				const postType = button.getAttribute('data-post-type');
 				this.setLocalStorage(postId, postType);
 			});
+			button.setAttribute('data-js-has-click', '');
 		});
 	}
 
@@ -37,7 +38,6 @@ class Like {
 
 		localStorage.setItem('liked-posts', JSON.stringify(likedPostIds));
 		this.toggleLiked(postId);
-		this.amountOfLikedPosts(likedPostIds);
 	}
 
 	toggleLiked(postId) {
@@ -65,16 +65,6 @@ class Like {
 		} else {
 			icon.querySelector('span').innerText = icon.querySelector('span').innerText + '_outline';
 		}
-	}
-
-	amountOfLikedPosts(likedPostIds) {
-		const likedPostIdsAmount = document.querySelector('#liked-posts-amount');
-
-		if (!likedPostIdsAmount || !likedPostIds) {
-			return;
-		}
-
-		likedPostIdsAmount.innerHTML = likedPostIds.length;
 	}
 
 	generateEncodedLikedPostsParam() {
@@ -116,6 +106,31 @@ class Like {
 
 		// Return the JavaScript object of liked posts
 		return likedPosts;
+	}
+
+	observe() {
+		const observer = new MutationObserver((mutations) => {
+			mutations.forEach((mutation) => {
+				if (
+					mutation.type === 'childList' &&
+					mutation.addedNodes.length > 0
+				) {
+					let buttons = [];
+					[...mutation.addedNodes].forEach((node) => {
+						if (
+							node.nodeType === Node.ELEMENT_NODE &&
+							node.querySelector('.like-icon') &&
+							!node.querySelector('.like-icon').hasAttribute('data-js-has-click')
+						) {
+							let button = node.querySelector('.like-icon'); 
+							buttons.push(button);
+						}
+					});
+					this.setListeners(buttons);
+				}
+			});
+		});
+		observer.observe(document.body, { childList: true, subtree: true, attributes: false });
 	}
 }
 
