@@ -1,7 +1,8 @@
+import { getLocalStorage, decodeLikedPosts } from "./helpers/likeHelpers";
+
 class GetPosts {
-	constructor(RenderInstance, LikeInstance) {
+	constructor(RenderInstance) {
 		this.renderInstance = RenderInstance;
-		this.likeInstance = LikeInstance;
 		this.getPosts();
 		this.posts = null;
 	}
@@ -21,7 +22,7 @@ class GetPosts {
 		const encodedLikedPosts = urlParams.get('liked-posts');
 
 		if (encodedLikedPosts) {
-			items = this.handleEndpoints(this.likeInstance.decodeLikedPosts(encodedLikedPosts));
+			items = this.handleEndpoints(decodeLikedPosts(encodedLikedPosts));
 		} else {
 			items = this.handleEndpoints();
 		}
@@ -37,9 +38,7 @@ class GetPosts {
 		}
 		if (urls.length > 0) {
 			this.fetchPosts(urls);
-		} else {
-			this.renderInstance.renderComponents(false);
-		}
+		} 
 	}
 
 	fetchPosts(urls) {
@@ -97,7 +96,7 @@ class GetPosts {
 	 */
 	handleEndpoints(posts = false) {
 		if (!posts) {
-			posts = this.getLocalStorage();
+			posts = getLocalStorage();
 		}
 		const sortedData = posts.reduce((acc, current) => {
 			if (acc[current.type]) {
@@ -109,10 +108,6 @@ class GetPosts {
 		}, {});
 
 		return sortedData;
-	}
-
-	getLocalStorage() {
-		return JSON.parse(localStorage.getItem('liked-posts')) || [];
 	}
     
 	getFeaturedImage(imageOb) {

@@ -22,7 +22,9 @@ class LikedPosts extends \Modularity\Module
     public function data(): array
     {
         $fields = get_fields($this->ID);
-        $data['display_as'] = $fields['display_liked_posts_as'];
+        /* Possibility to add more views */
+        $data['displayAs'] = !empty($fields['liked_posts_display_as']) ? $fields['liked_posts_display_as'] : 'collection';
+
         $data['postTypes'] = json_encode($fields['liked_post_types_to_show']);
         $data['postColumns'] = apply_filters('Modularity/Display/replaceGrid', $fields['liked_posts_columns']);
         $data['shareButton'] = $fields['liked_posts_share_button'];
