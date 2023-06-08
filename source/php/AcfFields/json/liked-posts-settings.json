@@ -3,11 +3,10 @@
     "title": "Liked posts",
     "fields": [
         {
-            "key": "field_63e9fb4a67244",
-            "label": "Display liked posts as",
-            "name": "display_liked_posts_as",
-            "aria-label": "",
-            "type": "radio",
+            "key": "field_63ee48da2d607",
+            "label": "Liked post types to show",
+            "name": "liked_post_types_to_show",
+            "type": "checkbox",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -17,21 +16,22 @@
                 "id": ""
             },
             "choices": {
-                "collection": "Collection",
-                "card": "Card"
+                "post": "Post",
+                "event": "Event",
+                "place": "Place",
+                "guide": "Guide"
             },
-            "default_value": "collection",
+            "default_value": [],
             "return_format": "value",
-            "allow_null": 0,
-            "other_choice": 0,
-            "layout": "horizontal",
-            "save_other_choice": 0
+            "allow_custom": 0,
+            "layout": "vertical",
+            "toggle": 0,
+            "save_custom": 0
         },
         {
             "key": "field_643685be6d8ea",
             "label": "Columns",
             "name": "liked_posts_columns",
-            "aria-label": "",
             "type": "select",
             "instructions": "",
             "required": 0,
@@ -53,16 +53,13 @@
             "allow_null": 0,
             "ui": 0,
             "ajax": 0,
-            "placeholder": "",
-            "allow_custom": 0,
-            "search_placeholder": ""
+            "placeholder": ""
         },
         {
-            "key": "field_63ee48da2d607",
-            "label": "Liked post types to show",
-            "name": "liked_post_types_to_show",
-            "aria-label": "",
-            "type": "checkbox",
+            "key": "field_64817c32631dc",
+            "label": "Display share button",
+            "name": "liked_posts_share_button",
+            "type": "true_false",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
@@ -71,19 +68,30 @@
                 "class": "",
                 "id": ""
             },
-            "choices": {
-                "post": "Post",
-                "page": "Page",
-                "event": "Event",
-                "place": "Place",
-                "guide": "Guide"
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "ui": 0
+        },
+        {
+            "key": "field_64817c32631dc",
+            "label": "Display share button",
+            "name": "liked_posts_share_button",
+            "type": "true_false",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
             },
-            "default_value": [],
-            "return_format": "value",
-            "allow_custom": 0,
-            "layout": "vertical",
-            "toggle": 0,
-            "save_custom": 0
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "",
+            "ui_off_text": "",
+            "ui": 0
         }
     ],
     "location": [
@@ -104,7 +112,7 @@
     ],
     "menu_order": 0,
     "position": "normal",
-    "style": "seamless",
+    "style": "default",
     "label_placement": "left",
     "instruction_placement": "label",
     "hide_on_screen": "",

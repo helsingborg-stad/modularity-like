@@ -9,6 +9,22 @@
             @endtypography
         </div>
     @endif
+    @typography([
+        'element' => !$hideTitle && !empty($postTitle) ? 'h2' : 'h3',
+        'attributeList' => [
+            'data-js-liked-posts-share-title' => '',
+        ],
+        'classList' => ['u-display--none'],
+
+    ])
+    @endtypography
+    @typography([
+        'attributeList' => [
+            'data-js-liked-posts-share-excerpt' => '',
+        ],
+        'classList' => ['u-display--none'],
+    ])
+    @endtypography
     @if ($display_as == 'collection')
         @collection([
             'classList' => ['o-grid', 'o-grid--horizontal'],
@@ -40,13 +56,57 @@
             'text' => $labels['shareButtonLabel'],
             'color' => 'primary',
             'attributeList' => [
-                'data-js-copy-target' => 'self',
-                'data-js-copy-success' => $labels['shareSuccess'],
-                'data-js-copy-error' => $labels['shareError'],
-                'data-js-copy-data' => '',
+               'data-open' => 'modal-' . $id,
+                // 'data-js-copy-target' => 'self',
+                // 'data-js-copy-success' => $labels['shareSuccess'],
+                // 'data-js-copy-error' => $labels['shareError'],
+                // 'data-js-copy-data' => '',
+
         ],
             'classList' => ['u-margin__right--2', 'u-display--none']
         ])
         @endbutton
     </div>
+    @modal([
+        'closeButtonText' => $labels['close'],
+        'heading' => $labels['shareButtonLabel'],
+        'id' => 'modal-' . $id,
+    ])
+        @field([
+            'type' => 'text',
+            'name' => 'name',
+            'label' =>  $labels['shareLinkName'],
+            'classList' => ['u-padding__y--2'],
+            'attributeList' => [
+                'data-js-like-share-name' => '',
+                'maxlength' => '30',
+            ]
+        ])
+        @endfield
+        @field([
+            'type' => 'text',
+            'name' => 'name',
+            'label' =>  $labels['shareLinkExcerpt'],
+            'classList' => ['u-padding__y--2'],
+            'attributeList' => [
+                'data-js-like-share-excerpt' => '',
+                'maxlength' => '120',
+            ]
+        ])
+        @endfield
+        @field([
+            'type' => 'text',
+            'name' => 'name',
+            'label' => $labels['shareLinkLabel'],
+            'multiline' => true,
+            'classList' => ['u-padding__y--2'],
+            'attributeList' => [
+                'data-js-like-share-url' => '',
+                'style' => 'min-height: 150px',
+                'readonly' => ''
+            ]
+        ])
+        @endfield
+    @endmodal
+
 </div>
