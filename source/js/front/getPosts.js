@@ -1,10 +1,11 @@
 import { getLocalStorage, decodeLikedPosts } from "./helpers/likeHelpers";
+import Render from "./render";
 
 class GetPosts {
-	constructor(RenderInstance) {
-		this.renderInstance = RenderInstance;
+	constructor(components) {
 		this.getPosts();
 		this.posts = null;
+		this.components = components;
 	}
 
 	getPosts() {
@@ -127,7 +128,9 @@ class GetPosts {
 			return post;
 		});
 
-		this.renderInstance.renderComponents(updatedPosts);
+		if (updatedPosts && this.components) {
+			new Render(updatedPosts, this.components);
+		}
 	}
 }
 

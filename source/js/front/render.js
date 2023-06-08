@@ -1,21 +1,25 @@
 class Render {
-	constructor(likedPostsComponents) {
-		this.components = likedPostsComponents;
+	constructor(posts, components) {
+		this.components = components;
+		this.posts = posts;
+
+		if (!this.posts || !components) return;
+
+		this.renderComponents();
 	}
 
-	renderComponents(posts) {
+	renderComponents() {
 		const containers = document.querySelectorAll('[js-like-container]');
 		const urlParams = new URLSearchParams(window.location.search);
 
-		if (posts && posts.length > 0 && containers) {
+		if (this.posts && this.posts.length > 0 && containers) {
 			containers.forEach((container) => {
-				const parentContainer = container.closest('.like-posts__container');
 				const component = container.getAttribute('js-display-as');
-				const filteredPosts = this.filterPosts(posts, JSON.parse(container.getAttribute('js-post-types')));
+				const filteredPosts = this.filterPosts(JSON.parse(container.getAttribute('js-post-types')));
 				const postColumns = container.hasAttribute('js-columns') ? container.getAttribute('js-columns') : 'grid-md-12';
 				const emblemUrl = container.hasAttribute('js-like-emblem-url') ? container.getAttribute('js-like-emblem-url') : false;
 				let hasPreloaders = true;
-				this.handleSharedParams(parentContainer, urlParams);
+				this.handleSharedParams(container, urlParams);
 
 				filteredPosts && 
 					filteredPosts.forEach((post) => {
@@ -44,7 +48,9 @@ class Render {
 		}
 	}
 
-	handleSharedParams(parentContainer, urlParams) {
+	handleSharedParams(container, urlParams) {
+		const parentContainer = container.closest('.like-posts__container');
+		if (!parentContainer) return;
 		const title = parentContainer.querySelector('[data-js-liked-posts-share-title]');
 		const excerpt = parentContainer.querySelector('[data-js-liked-posts-share-excerpt]');
 
@@ -108,8 +114,8 @@ class Render {
 		});
 	}
 
-	filterPosts(posts, postTypes) {
-		const filteredPosts = posts.filter((post) => postTypes.includes(post.type));
+	filterPosts(postTypes) {
+		const filteredPosts = this.posts.filter((post) => postTypes.includes(post.type));
 		return filteredPosts;
 	}
 }
