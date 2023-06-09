@@ -58,14 +58,20 @@ class Render {
 		let listExcerpt = urlParams.get('liked-excerpt');
 
 		if (listName) {
-			title.innerHTML = atob(listName);
+			title.textContent = this.controlURLParameters(listName);
 			title.classList.remove('u-display--none');
 		}
 
 		if (listExcerpt) {
-			excerpt.innerHTML = atob(listExcerpt);
+			excerpt.textContent = this.controlURLParameters(listExcerpt);
 			excerpt.classList.remove('u-display--none');
 		}
+	}
+
+	controlURLParameters(encodedString) {
+		let string = atob(encodedString);
+		string = string.replace(/(<([^>]+)>)/gi, '');
+		return string;
 	}
 
 	handleImage(post = false, emblemUrl) {
