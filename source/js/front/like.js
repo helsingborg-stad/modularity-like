@@ -1,7 +1,8 @@
-import { getLocalStorage } from "./helpers/likeHelpers";
+import { getLikedPostsFromLocalStorage } from "./helpers/likeHelpers";
 
 class Like {
 	constructor() {
+		this.likeIconSelector = '.like-icon';
 		this.handleLike();
 		this.observe();
 	}
@@ -25,7 +26,7 @@ class Like {
 	}
 
 	setLocalStorage(postId, postType) {
-		let likedPostIds = getLocalStorage();
+		let likedPostIds = getLikedPostsFromLocalStorage();
 
 		const index = likedPostIds.findIndex((item) => item.id === postId && item.type === postType);
 		if (index === -1) {
@@ -48,7 +49,7 @@ class Like {
 	}
 
 	setLiked() {
-		const likedPosts = getLocalStorage();
+		const likedPosts = getLikedPostsFromLocalStorage();
 		likedPosts.forEach((post) => {
 			const icons = document.querySelectorAll(`[data-post-id="${post.id}"]`);
 			icons &&
@@ -78,10 +79,10 @@ class Like {
 					[...mutation.addedNodes].forEach((node) => {
 						if (
 							node.nodeType === Node.ELEMENT_NODE &&
-							node.querySelector('.like-icon')
+							node.querySelector(this.likeIconSelector)
 						) {
-							if (!node.querySelector('.like-icon').hasAttribute('data-js-has-click')) {
-								let button = node.querySelector('.like-icon'); 
+							if (!node.querySelector(this.likeIconSelector).hasAttribute('data-js-has-click')) {
+								let button = node.querySelector(this.likeIconSelector); 
 								buttons.push(button);
 							} 
 							this.setLiked();

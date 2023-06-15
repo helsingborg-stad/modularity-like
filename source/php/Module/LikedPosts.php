@@ -34,8 +34,8 @@ class LikedPosts extends \Modularity\Module
             'shareError' => __('Something went wrong, link: ', 'modularity-like'),
             'close' => __('Close', 'modularity-like'),
             'shareLinkLabel' => __('Share your link', 'modularity-like'),
-            'shareLinkName' => __('Name on list', 'modularity-like'), 
-            'shareLinkExcerpt' => __('Excerpt of the list', 'modularity-like'), 
+            'shareLinkName' => __('List name', 'modularity-like'), 
+            'shareLinkExcerpt' => __('List excerpt', 'modularity-like'), 
         ];
         $data['id'] = uniqid();
 

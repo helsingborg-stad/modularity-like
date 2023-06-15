@@ -1,9 +1,9 @@
-export function getLocalStorage() {
+export function getLikedPostsFromLocalStorage() {
     return JSON.parse(localStorage.getItem('liked-posts')) || [];
 }
 
 export function generateEncodedLikedPostsParam() {
-    const likedPosts = getLocalStorage();
+    const likedPosts = getLikedPostsFromLocalStorage();
     if (likedPosts.length == 0) {
         return false;
     }

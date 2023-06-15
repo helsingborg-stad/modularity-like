@@ -1,4 +1,4 @@
-import { getLocalStorage, decodeLikedPosts } from "./helpers/likeHelpers";
+import { getLikedPostsFromLocalStorage, decodeLikedPosts } from "./helpers/likeHelpers";
 import Render from "./render";
 
 class GetPosts {
@@ -97,7 +97,7 @@ class GetPosts {
 	 */
 	handleEndpoints(posts = false) {
 		if (!posts) {
-			posts = getLocalStorage();
+			posts = getLikedPostsFromLocalStorage();
 		}
 		const sortedData = posts.reduce((acc, current) => {
 			if (acc[current.type]) {

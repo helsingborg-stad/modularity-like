@@ -3,7 +3,7 @@ class Render {
 		this.components = components;
 		this.posts = posts;
 
-		if (!this.posts || !components) return;
+		if (!this.posts || !this.posts.length > 0 || !components) return;
 
 		this.renderComponents();
 	}
@@ -12,7 +12,7 @@ class Render {
 		const containers = document.querySelectorAll('[js-like-container]');
 		const urlParams = new URLSearchParams(window.location.search);
 
-		if (this.posts && this.posts.length > 0 && containers) {
+		if (containers) {
 			containers.forEach((container) => {
 				const component = container.getAttribute('js-display-as');
 				const filteredPosts = this.filterPosts(JSON.parse(container.getAttribute('js-post-types')));
