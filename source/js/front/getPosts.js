@@ -1,9 +1,11 @@
+import { getLikedPostsFromLocalStorage, decodeLikedPosts } from "./helpers/likeHelpers";
+import Render from "./render";
+
 class GetPosts {
-	constructor(RenderInstance, LikeInstance) {
-		this.renderInstance = RenderInstance;
-		this.likeInstance = LikeInstance;
+	constructor(components) {
 		this.getPosts();
 		this.posts = null;
+		this.components = components;
 	}
 
 	getPosts() {
@@ -21,7 +23,7 @@ class GetPosts {
 		const encodedLikedPosts = urlParams.get('liked-posts');
 
 		if (encodedLikedPosts) {
-			items = this.handleEndpoints(this.likeInstance.decodeLikedPosts(encodedLikedPosts));
+			items = this.handleEndpoints(decodeLikedPosts(encodedLikedPosts));
 		} else {
 			items = this.handleEndpoints();
 		}
@@ -37,9 +39,7 @@ class GetPosts {
 		}
 		if (urls.length > 0) {
 			this.fetchPosts(urls);
-		} else {
-			this.renderInstance.renderComponents(false);
-		}
+		} 
 	}
 
 	fetchPosts(urls) {
@@ -97,7 +97,7 @@ class GetPosts {
 	 */
 	handleEndpoints(posts = false) {
 		if (!posts) {
-			posts = this.getLocalStorage();
+			posts = getLikedPostsFromLocalStorage();
 		}
 		const sortedData = posts.reduce((acc, current) => {
 			if (acc[current.type]) {
@@ -109,10 +109,6 @@ class GetPosts {
 		}, {});
 
 		return sortedData;
-	}
-
-	getLocalStorage() {
-		return JSON.parse(localStorage.getItem('liked-posts')) || [];
 	}
     
 	getFeaturedImage(imageOb) {
@@ -132,7 +128,9 @@ class GetPosts {
 			return post;
 		});
 
-		this.renderInstance.renderComponents(updatedPosts);
+		if (updatedPosts && this.components) {
+			new Render(updatedPosts, this.components);
+		}
 	}
 }
 

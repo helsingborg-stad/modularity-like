@@ -1,32 +1,27 @@
 class Render {
-	constructor(likedPostsComponents, LikeInstance) {
-		this.components = likedPostsComponents;
-		this.likeInstance = LikeInstance;
-	}
-	getLikedPosts() {
-		const urlParams = new URLSearchParams(window.location.search);
-		const encodedLikedPosts = urlParams.get('liked-posts');
+	constructor(posts, components) {
+		this.components = components;
+		this.posts = posts;
 
-		if (encodedLikedPosts) {
-			const decodedLikedPosts = JSON.parse(atob(encodedLikedPosts));
-			return decodedLikedPosts;
-		} else {
-			const likedPosts = JSON.parse(localStorage.getItem('liked-posts')) || [];
-			return likedPosts;
-		}
+		if (!this.posts || !this.posts.length > 0 || !components) return;
+
+		this.renderComponents();
 	}
 
-	renderComponents(posts) {
+	renderComponents() {
 		const containers = document.querySelectorAll('[js-like-container]');
-		if (posts && posts.length > 0 && containers) {
+		const urlParams = new URLSearchParams(window.location.search);
+
+		if (containers) {
 			containers.forEach((container) => {
 				const component = container.getAttribute('js-display-as');
-				const filteredPosts = this.filterPosts(posts, JSON.parse(container.getAttribute('js-post-types')));
+				const filteredPosts = this.filterPosts(JSON.parse(container.getAttribute('js-post-types')));
 				const postColumns = container.hasAttribute('js-columns') ? container.getAttribute('js-columns') : 'grid-md-12';
 				const emblemUrl = container.hasAttribute('js-like-emblem-url') ? container.getAttribute('js-like-emblem-url') : false;
 				let hasPreloaders = true;
-				let likeButtons = [];
-				filteredPosts &&
+				this.handleSharedParams(container, urlParams);
+
+				filteredPosts && 
 					filteredPosts.forEach((post) => {
 						const childElement = document.createElement('div');
 						const html = this.components[`${component}`].html
@@ -45,23 +40,38 @@ class Render {
 								hasPreloaders = false;
 							});
 						}
-
-						likeButtons.push(childElement.querySelector('[data-like-icon]'));
-						childElement.replaceWith(...childElement.childNodes);
 					});
-				
-				this.likeInstance.setLiked();
 			});
 		} else {
 			this.handlePreloaders(containers);
 			/* TODO: Maybe display a notice here saying there are no liked posts */
 		}
+	}
 
-		const urlParams = new URLSearchParams(window.location.search);
-		const encodedLikedPosts = urlParams.get('liked-posts');
-		if (!encodedLikedPosts) {
-			this.renderShareLink();
+	handleSharedParams(container, urlParams) {
+		const parentContainer = container.closest('.like-posts__container');
+		if (!parentContainer) return;
+		const title = parentContainer.querySelector('[data-js-liked-posts-share-title]');
+		const excerpt = parentContainer.querySelector('[data-js-liked-posts-share-excerpt]');
+
+		let listName = urlParams.get('liked-name');
+		let listExcerpt = urlParams.get('liked-excerpt');
+
+		if (listName) {
+			title.textContent = this.controlURLParameters(listName);
+			title.classList.remove('u-display--none');
 		}
+
+		if (listExcerpt) {
+			excerpt.textContent = this.controlURLParameters(listExcerpt);
+			excerpt.classList.remove('u-display--none');
+		}
+	}
+
+	controlURLParameters(encodedString) {
+		let string = atob(encodedString);
+		string = string.replace(/(<([^>]+)>)/gi, '');
+		return string;
 	}
 
 	handleImage(post = false, emblemUrl) {
@@ -110,28 +120,9 @@ class Render {
 		});
 	}
 
-	filterPosts(posts, postTypes) {
-		const filteredPosts = posts.filter((post) => postTypes.includes(post.type));
+	filterPosts(postTypes) {
+		const filteredPosts = this.posts.filter((post) => postTypes.includes(post.type));
 		return filteredPosts;
-	}
-	renderShareLink() {
-		const url = window.location.href.split('?')[0];
-		const encodedLikedPostsParam = this.likeInstance.generateEncodedLikedPostsParam();
-		const containers = document.querySelectorAll('.like-posts__container');
-
-		// Skip if there are no liked posts
-		if (!encodedLikedPostsParam) return;
-
-		const shareLink = `${url}${encodedLikedPostsParam}`;
-
-		containers.forEach(container => {
-			let button = container.querySelector('button');
-			let errorText = button.getAttribute('data-js-copy-error') ?? 'Something went wrong, link to share: ';
-			button.setAttribute('data-js-copy-error', errorText + shareLink);  
-			if (!button) return;
-			button.setAttribute('data-js-copy-data', shareLink); 
-			button.classList.remove('u-display--none');
-		});
 	}
 }
 export default Render;

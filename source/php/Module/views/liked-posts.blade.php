@@ -9,44 +9,22 @@
             @endtypography
         </div>
     @endif
-    @if ($display_as == 'collection')
-        @collection([
-            'classList' => ['o-grid', 'o-grid--horizontal'],
-            'attributeList' => [
-                'js-like-container' => '',
-                'js-display-as' => $display_as,
-                'js-post-types' => $postTypes,
-                'js-columns' => $postColumns,
-                'js-like-emblem-url' => $emblem
-            ]
-        ])
-            @for ($i = 0; $i < 4; $i++)
-                <div class="liked-posts__preloader u-preloader u-preloader__opacity--7 u-rounded {{ $postColumns }}"
-                    style="height:170px;width:100%;"></div>
-            @endfor
-        @endcollection
-    @else
-        <div class="o-grid" js-like-container js-display-as="{{ $display_as }}" js-like-emblem-url="{{ $emblem }}"
-            js-post-types="{{ $postTypes }}" js-columns="{{ $postColumns }}">
-            @for ($i = 0; $i < 4; $i++)
-                <div class="liked-posts__preloader u-preloader u-preloader__opacity--7 u-rounded o-grid-4@md"
-                    style="height:400px;width:100%;">
-                </div>
-            @endfor
-        </div>
-    @endif
-    <div class="u-display--flex u-align-items--center u-justify-content--center u-margin__top--4">
-        @button([
-            'text' => $labels['shareButtonLabel'],
-            'color' => 'primary',
-            'attributeList' => [
-                'data-js-copy-target' => 'self',
-                'data-js-copy-success' => $labels['shareSuccess'],
-                'data-js-copy-error' => $labels['shareError'],
-                'data-js-copy-data' => '',
+    @typography([
+        'element' => (!$hideTitle && !empty($postTitle)) ? 'h3' : 'h2',
+        'attributeList' => [
+            'data-js-liked-posts-share-title' => '',
         ],
-            'classList' => ['u-margin__right--2', 'u-display--none']
-        ])
-        @endbutton
-    </div>
+        'classList' => ['u-display--none'],
+
+    ])
+    @endtypography
+    @typography([
+        'attributeList' => [
+            'data-js-liked-posts-share-excerpt' => '',
+        ],
+        'classList' => ['u-display--none', 'u-margin__bottom--3'],
+    ])
+    @endtypography
+    @include('partials.' . $displayAs)
+    @includeWhen($shareButton, 'partials.shareButton')
 </div>

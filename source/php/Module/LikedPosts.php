@@ -22,14 +22,22 @@ class LikedPosts extends \Modularity\Module
     public function data(): array
     {
         $fields = get_fields($this->ID);
-        $data['display_as'] = $fields['display_liked_posts_as'];
+        /* Possibility to add more views */
+        $data['displayAs'] = !empty($fields['liked_posts_display_as']) ? $fields['liked_posts_display_as'] : 'collection';
+
         $data['postTypes'] = json_encode($fields['liked_post_types_to_show']);
         $data['postColumns'] = apply_filters('Modularity/Display/replaceGrid', $fields['liked_posts_columns']);
+        $data['shareButton'] = $fields['liked_posts_share_button'];
         $data['labels'] = [
             'shareButtonLabel' => __('Share favorites', 'modularity-like'),
             'shareSuccess' => __('Link was copied successfully', 'modularity-like'),
             'shareError' => __('Something went wrong, link: ', 'modularity-like'),
+            'close' => __('Close', 'modularity-like'),
+            'shareLinkLabel' => __('Share your link', 'modularity-like'),
+            'shareLinkName' => __('List name', 'modularity-like'), 
+            'shareLinkExcerpt' => __('List excerpt', 'modularity-like'), 
         ];
+        $data['id'] = uniqid();
 
         if (function_exists('get_theme_mod')) {
             $emblem = get_theme_mod('logotype_emblem');
