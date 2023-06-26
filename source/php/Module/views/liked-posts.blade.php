@@ -3,7 +3,10 @@
         <div class="liked-posts__header">
             @typography([
                 'id' => 'mod-liked-posts' . $ID . '-label',
-                'element' => 'h2'
+                'element' => 'h2',
+                'classList' => [
+                    'u-margin__bottom--3'
+                ],
             ])
                 {!! $postTitle !!}
             @endtypography

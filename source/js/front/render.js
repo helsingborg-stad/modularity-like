@@ -57,12 +57,12 @@ class Render {
 		let listName = urlParams.get('liked-name');
 		let listExcerpt = urlParams.get('liked-excerpt');
 
-		if (listName) {
+		if (title && title.textContent && listName) {
 			title.textContent = this.controlURLParameters(listName);
 			title.classList.remove('u-display--none');
 		}
 
-		if (listExcerpt) {
+		if (excerpt && excerpt.textContent && listExcerpt) {
 			excerpt.textContent = this.controlURLParameters(listExcerpt);
 			excerpt.classList.remove('u-display--none');
 		}
