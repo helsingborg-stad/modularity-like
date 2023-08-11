@@ -64,7 +64,7 @@ class App
             $this->cacheBust->name('js/like-posts.js')
         );
 
-        wp_localize_script('like-posts-js', 'pageUrl', get_home_url());
+        wp_localize_script('like-posts-js', 'likedPosts',  ['pageUrl' => get_home_url()]);
 
         wp_enqueue_script('like-posts-js');
     }

@@ -67,7 +67,7 @@ class GetPosts {
 				idString += ',';
 			}
 		});
-		const endpoint = `${pageUrl}/wp-json/wp/v2/${key === 'post' ? 'posts' : key}?_embed&include=${idString}`;
+		const endpoint = `${likedPosts.pageUrl}/wp-json/wp/v2/${key === 'post' ? 'posts' : key}?_embed&include=${idString}`;
 
 		return endpoint;
 	}
