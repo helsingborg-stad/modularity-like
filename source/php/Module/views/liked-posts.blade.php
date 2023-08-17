@@ -27,9 +27,8 @@
         ],
         'classList' => ['u-display--none'],
     ])
-    elem
     @endtypography
-    
+
     @include('partials.' . $displayAs)
     @includeWhen($shareButton, 'partials.shareButton')
 </div>
