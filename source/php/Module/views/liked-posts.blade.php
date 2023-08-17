@@ -29,13 +29,7 @@
     ])
     elem
     @endtypography
-    @typography([
-        'attributeList' => [
-            'data-js-liked-posts-share-exc' => '',
-        ],
-        'classList' => ['u-display--none'],
-    ])
-    @endtypography
+    
     @include('partials.' . $displayAs)
     @includeWhen($shareButton, 'partials.shareButton')
 </div>
