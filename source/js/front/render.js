@@ -10,7 +10,6 @@ class Render {
 
 	renderComponents() {
 		const containers = document.querySelectorAll('[js-like-container]');
-		const urlParams = new URLSearchParams(window.location.search);
 
 		if (containers) {
 			containers.forEach((container) => {
@@ -19,7 +18,7 @@ class Render {
 				const postColumns = container.hasAttribute('js-columns') ? container.getAttribute('js-columns') : 'grid-md-12';
 				const emblemUrl = container.hasAttribute('js-like-emblem-url') ? container.getAttribute('js-like-emblem-url') : false;
 				let hasPreloaders = true;
-				this.handleSharedParams(container, urlParams);
+				this.handleSharedParams(container);
 
 				filteredPosts && 
 					filteredPosts.forEach((post) => {
@@ -48,23 +47,28 @@ class Render {
 		}
 	}
 
-	handleSharedParams(container, urlParams) {
+	handleSharedParams(container) {
 		const parentContainer = container.closest('.like-posts__container');
 		if (!parentContainer) return;
+		const urlParams = new URLSearchParams(window.location.search);
 		const title = parentContainer.querySelector('[data-js-liked-posts-share-title]');
 		const excerpt = parentContainer.querySelector('[data-js-liked-posts-share-excerpt]');
 
 		let listName = urlParams.get('liked-name');
 		let listExcerpt = urlParams.get('liked-excerpt');
 
-		if (title && title.textContent && listName) {
+		if (title && listName) {
 			title.textContent = this.controlURLParameters(listName);
 			title.classList.remove('u-display--none');
 		}
 
-		if (excerpt && excerpt.textContent && listExcerpt) {
+		if (excerpt && listExcerpt) {
 			excerpt.textContent = this.controlURLParameters(listExcerpt);
 			excerpt.classList.remove('u-display--none');
+		}
+
+		if (excerpt && listExcerpt || title && listName) {
+			container.classList.add('u-margin__top--3');
 		}
 	}
 
