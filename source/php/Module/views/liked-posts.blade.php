@@ -12,7 +12,7 @@
             @endtypography
         </div>
     @endif
-{{--     @typography([
+    @typography([
         'element' => (!$hideTitle && !empty($postTitle)) ? 'h3' : 'h2',
         'attributeList' => [
             'data-js-liked-posts-share-title' => '',
@@ -20,15 +20,22 @@
         'classList' => ['u-display--none'],
 
     ])
-    @endtypography --}}
-    @if (!$hideTitle && !empty($postTitle))
-    <h3 class="u-display--none" data-js-liked-posts-share-title></h3>
-    @else
-    <h2 class="u-display--none" data-js-liked-posts-share-title></h2>
-    @endif
-    
-    <p class="u-display--none" data-js-liked-posts-share-excerpt></p>
-
+    @endtypography
+    @typography([
+        'attributeList' => [
+            'data-js-liked-posts-share-excerpt' => '',
+        ],
+        'classList' => ['u-display--none'],
+    ])
+    elem
+    @endtypography
+    @typography([
+        'attributeList' => [
+            'data-js-liked-posts-share-exc' => '',
+        ],
+        'classList' => ['u-display--none'],
+    ])
+    @endtypography
     @include('partials.' . $displayAs)
     @includeWhen($shareButton, 'partials.shareButton')
 </div>
