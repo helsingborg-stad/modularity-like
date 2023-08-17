@@ -25,7 +25,7 @@
         'attributeList' => [
             'data-js-liked-posts-share-excerpt' => '',
         ],
-        'classList' => ['u-display--none', 'u-margin__bottom--3'],
+        'classList' => ['u-display--none'],
     ])
     @endtypography
     @include('partials.' . $displayAs)
