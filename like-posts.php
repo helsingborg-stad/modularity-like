@@ -27,7 +27,9 @@ define('MODULARITYLIKEPOSTS_MODULE_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'sourc
 require_once MODULARITYLIKEPOSTS_PATH . 'Public.php';
 
 // Register the autoloader
-require __DIR__ . '/vendor/autoload.php';
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require __DIR__ . '/vendor/autoload.php';
+}
 
 add_filter('/Modularity/externalViewPath', function ($arr) {
     $arr['mod-liked-posts'] = MODULARITYLIKEPOSTS_MODULE_VIEW_PATH;
