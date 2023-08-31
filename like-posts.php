@@ -24,12 +24,13 @@ define('MODULARITYLIKEPOSTS_TEMPLATE_PATH', MODULARITYLIKEPOSTS_PATH . 'template
 define('MODULARITYLIKEPOSTS_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'views/');
 define('MODULARITYLIKEPOSTS_MODULE_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'source/php/Module/views');
 
-require_once MODULARITYLIKEPOSTS_PATH . 'Public.php';
-
 // Register the autoloader
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require __DIR__ . '/vendor/autoload.php';
 }
+require_once MODULARITYLIKEPOSTS_PATH . 'Public.php';
+
+load_plugin_textdomain('modularity-like', false, plugin_basename(dirname(__FILE__)) . '/languages');
 
 add_filter('/Modularity/externalViewPath', function ($arr) {
     $arr['mod-liked-posts'] = MODULARITYLIKEPOSTS_MODULE_VIEW_PATH;
@@ -57,4 +58,3 @@ add_action('acf/init', function () {
 });
 // Start application
 new ModularityLikePosts\App();
-load_plugin_textdomain('modularity-like', false, plugin_basename(dirname(__FILE__)) . '/languages');
