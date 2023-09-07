@@ -36,7 +36,7 @@ class App
     public function postsIcon($callToActionArray, $post)
     {
         $postTypes = get_field('select_post_type', 'option') ?? [];
-        if (in_array($post->post_type, $postTypes)) {
+        if (!empty($post->post_type) && in_array($post->post_type, $postTypes)) {
             $callToActionArray['floating'] =  ['icon' => 'favorite', 'filled' => false, 'size' => 'md', 'attributeList' => ['data-like-icon' => '', 'data-post-id' => $post->ID, 'data-post-type' => $post->post_type], 'classList' => ['like-icon'], 'postTypes' => $postTypes];
         };
 
