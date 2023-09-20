@@ -15,7 +15,6 @@ class App
         add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
 
         add_action('plugins_loaded', array($this, 'registerModule'));
-        add_filter('Modularity/Module/Posts/Floating', array($this, 'postsIcon'), 10, 2);
         add_filter('Municipio/Helper/Post/CallToActionItems', array($this, 'postsIcon'), 10, 2);
 
 
