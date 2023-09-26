@@ -15,13 +15,16 @@
         }
     ],
     "autoload": {
-        "psr-4": {"ModularityLikePosts\\": "source/php/"}
+        "psr-4": {
+            "ModularityLikePosts\\": "source/php/"
+        }
     },
     "minimum-stability": "stable",
-    "require": {},
+    "require": [],
     "require-dev": {
         "brain/monkey": "^2.6",
         "codedungeon/phpunit-result-printer": "^0.31.0",
         "phpunit/phpunit": "^9.5"
-    }
+    },
+    "version": "1.0.0"
 }
