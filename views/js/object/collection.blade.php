@@ -34,6 +34,7 @@
             @typography([
                 'element' => 'h2',
                 'variant' => 'h3',
+                'useHeadingsContext' => false,
             ])
                 {LIKE_POST_TITLE}
             @endtypography
