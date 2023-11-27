@@ -1,6 +1,6 @@
     @collection__item([
         'link' => '{LIKE_POST_LINK}',
-        'classList' => ['c-collection__item--post', '{LIKE_POST_CLASSES}', 'u-height--auto'],
+        'classList' => ['c-collection__item--post', 'u-height--100'],
         'attributeList' => ['data-observe-resizes' => ''],
         'bordered' => true,
 ])

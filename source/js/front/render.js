@@ -23,6 +23,7 @@ class Render {
 				filteredPosts && 
 					filteredPosts.forEach((post) => {
 						const childElement = document.createElement('div');
+						childElement.classList.add(postColumns);
 						const html = this.components[`${component}`].html
 							.replace('{LIKE_POST_TITLE}', post.title?.rendered)
 							.replace('{LIKE_POST_CONTENT}', this.handleExcerpt(post, component))
@@ -91,6 +92,7 @@ class Render {
 		let amount;
 		let excerpt = post.excerpt?.rendered ? post.excerpt.rendered : post.content?.rendered ? post.content.rendered : '';
 		excerpt = excerpt.replace(/<[^>]*>/g, '');
+		excerpt = excerpt.replace(/\s+/g, ' ');
 
 		switch (component) {
 			case 'collection':
