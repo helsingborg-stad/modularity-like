@@ -8,8 +8,18 @@
         'js-like-emblem-url' => $emblem
     ]
 ])
-    @for ($i = 0; $i < 4; $i++)
-        <div class="liked-posts__preloader u-preloader u-preloader__opacity--7 u-rounded {{ $postColumns }}"
-            style="height:170px;width:100%;"></div>
-    @endfor
+    <div class="liked-posts__preloader u-preloader u-preloader__opacity--7 u-rounded o-grid--12"
+    style="height:170px;width:100%;" data-js-like-preloader></div>
+    @notice([
+        'message' => [
+            'title' => $labels['noPostsFound'],
+        ],
+        'classList' => [
+            'u-display--none'
+        ],
+        'attributeList' => [
+            'data-js-no-posts-notice' => ''
+        ]
+    ])
+    @endnotice
 @endcollection

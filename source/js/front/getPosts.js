@@ -21,7 +21,6 @@ class GetPosts {
 		let items = {};
 		const urlParams = new URLSearchParams(window.location.search);
 		const encodedLikedPosts = urlParams.get('liked-posts');
-
 		if (encodedLikedPosts) {
 			items = this.handleEndpoints(decodeLikedPosts(encodedLikedPosts));
 		} else {
@@ -39,7 +38,16 @@ class GetPosts {
 		}
 		if (urls.length > 0) {
 			this.fetchPosts(urls);
-		} 
+		}
+
+		if (!this.posts && urls.length <= 0) {
+			[...document.querySelectorAll('[data-js-like-preloader]')].forEach(preloader => {
+				preloader.remove();
+			});
+			[...document.querySelectorAll('[data-js-no-posts-notice]')].forEach(notice => {
+				notice.classList.remove('u-display--none');
+			})
+		}
 	}
 
 	fetchPosts(urls) {
