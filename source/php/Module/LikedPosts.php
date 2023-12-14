@@ -36,6 +36,7 @@ class LikedPosts extends \Modularity\Module
             'shareLinkLabel' => __('Share your link', 'modularity-like'),
             'shareLinkName' => __('List name', 'modularity-like'), 
             'shareLinkExcerpt' => __('List excerpt', 'modularity-like'), 
+            'noPostsFound' => __('No liked posts were found', 'modularity-like')
         ];
         $data['id'] = uniqid();
 
