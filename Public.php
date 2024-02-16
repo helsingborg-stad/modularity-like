@@ -4,19 +4,17 @@
 
 
 use ComponentLibrary\Init as ComponentLibraryInit;
+use HelsingborgStad\GlobalBladeService\GlobalBladeService;
 
 if (!function_exists('liked_posts_render_blade_view')) {
     function liked_posts_render_blade_view($view, $data = [], $compress = true)
     {
-        $init = new ComponentLibraryInit([
+        $bladeEngine = GlobalBladeService::getInstance([
             MODULARITYLIKEPOSTS_VIEW_PATH,
-          
         ]);
 
-        $bladeEngine = $init->getEngine();
-
         try {
-            $markup = $bladeEngine->make(
+            $markup = $bladeEngine->makeView(
                 $view,
                 array_merge(
                     $data,
