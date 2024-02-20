@@ -4,6 +4,9 @@ namespace ModularityLikePosts;
 
 class App
 {
+    private $setAcfFields;
+    private $cacheBust;
+
     public function __construct()
     {
         new ComponentsJs();
