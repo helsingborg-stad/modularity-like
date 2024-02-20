@@ -1,12 +1,14 @@
 import { getLikedPostsFromLocalStorage } from "./helpers/likeHelpers";
+import LikedPostCounter from "./likedPostCounter";
 
 class Like {
 	constructor() {
 		this.likeIconSelector = '.like-icon';
 		this.handleLike();
 		this.observe();
+		this.likedPostCounter = new LikedPostCounter();
 	}
-	
+
 	handleLike() {
 		const likeButtons = document.querySelectorAll('[data-like-icon]');
 		this.setLiked();
@@ -19,12 +21,14 @@ class Like {
 				e.preventDefault();
 				const postId = button.getAttribute('data-post-id');
 				const postType = button.getAttribute('data-post-type');
+
 				this.setLocalStorage(postId, postType);
 			});
 			button.setAttribute('data-js-has-click', '');
 		});
 	}
 
+	
 	setLocalStorage(postId, postType) {
 		let likedPostIds = getLikedPostsFromLocalStorage();
 
@@ -37,6 +41,8 @@ class Like {
 
 		localStorage.setItem('liked-posts', JSON.stringify(likedPostIds));
 		this.toggleLiked(postId);
+		this.likedPostCounter.dispatchLikedPostLength();
+
 	}
 
 	toggleLiked(postId) {
@@ -82,9 +88,9 @@ class Like {
 							node.querySelector(this.likeIconSelector)
 						) {
 							if (!node.querySelector(this.likeIconSelector).hasAttribute('data-js-has-click')) {
-								let button = node.querySelector(this.likeIconSelector); 
+								let button = node.querySelector(this.likeIconSelector);
 								buttons.push(button);
-							} 
+							}
 							this.setLiked();
 						}
 					});
