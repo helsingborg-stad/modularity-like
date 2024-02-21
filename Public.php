@@ -2,8 +2,6 @@
 
 // Public functions
 
-
-use ComponentLibrary\Init as ComponentLibraryInit;
 use HelsingborgStad\GlobalBladeService\GlobalBladeService;
 
 if (!function_exists('liked_posts_render_blade_view')) {

@@ -1,7 +1,15 @@
 <?php
 
+
 namespace ModularityLikePosts;
 
+/**
+ * Class App
+ * 
+ * This class represents the main application for the Like Posts plugin.
+ * It handles the initialization of various components, enqueuing of scripts and styles,
+ * and registration of the module.
+ */
 class App
 {
     private $setAcfFields;
@@ -10,18 +18,22 @@ class App
     public function __construct()
     {
         new ComponentsJs();
+        new MenuIconCounter();
         $this->setAcfFields = new \ModularityLikePosts\Helper\CheckboxPostTypes();
 
         add_action('wp_enqueue_scripts', array($this, 'enqueueFrontend'));
-
-        //Init module
         add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
-
         add_action('plugins_loaded', array($this, 'registerModule'));
         add_filter('Municipio/Helper/Post/CallToActionItems', array($this, 'postsIcon'), 10, 2);
-
+        add_filter('Municipio/Admin/Acf/PrefillIconChoice', array($this, 'optionsAcfFieldIcons'));
 
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
+    }
+
+    public function optionsAcfFieldIcons($fields) {
+        // $fields[] = 'like_icon';
+
+        return $fields;
     }
 
     public function setModulePostTypes($field)
