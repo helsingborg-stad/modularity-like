@@ -26,6 +26,32 @@
             'disabled' => 0,
             'readonly' => 0,
         ),
+        1 => array(
+            'key' => 'field_65d61a78fb60e',
+            'label' => __('Select "like" icon', 'modularity-like'),
+            'name' => 'like_icon',
+            'aria-label' => '',
+            'type' => 'select',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array(
+            ),
+            'default_value' => __('favorite', 'modularity-like'),
+            'return_format' => 'value',
+            'multiple' => 0,
+            'allow_null' => 0,
+            'ui' => 0,
+            'ajax' => 0,
+            'placeholder' => '',
+            'allow_custom' => 0,
+            'search_placeholder' => '',
+        ),
     ),
     'location' => array(
         0 => array(
