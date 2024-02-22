@@ -24,6 +24,26 @@
             "readonly": 0
         },
         {
+            "key": "field_65d75b8685b19",
+            "label": "Counter",
+            "name": "like_counter",
+            "aria-label": "",
+            "type": "true_false",
+            "instructions": "Add a counter to menu items",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui_on_text": "Yes",
+            "ui_off_text": "No",
+            "ui": 1
+        },
+        {
             "key": "field_65d61a78fb60e",
             "label": "Select \"like\" icon",
             "name": "like_icon",
@@ -33,7 +53,7 @@
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
-                "width": "",
+                "width": "50",
                 "class": "",
                 "id": ""
             },
@@ -47,6 +67,24 @@
             "placeholder": "",
             "allow_custom": 0,
             "search_placeholder": ""
+        },
+        {
+            "key": "field_65d757813d24a",
+            "label": "Like Icon Color",
+            "name": "like_icon_color",
+            "aria-label": "",
+            "type": "color_picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "#e84666",
+            "enable_opacity": 0,
+            "return_format": "string"
         }
     ],
     "location": [
