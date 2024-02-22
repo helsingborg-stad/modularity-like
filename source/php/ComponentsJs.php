@@ -51,7 +51,10 @@ class ComponentsJs
                     'key' => $this->getKey($view),
                     'html' => $this->renderView(
                         $view,
-                        ['lang' => (object) $this->lang]
+                        [
+                            'lang' => (object) $this->lang,
+                            'icon' => get_field('like_icon', 'option') ?? 'favorite'
+                        ]
                     )
                 ];
             }

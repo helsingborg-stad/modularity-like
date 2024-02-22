@@ -16,6 +16,11 @@ class MenuIconCounter {
      * Initializes the MenuIconCounter object and sets the pages with the 'mod-liked-posts' module.
      */
     public function __construct() {
+        $useMenuCounter = get_field('like_counter', 'option');
+        if (!$useMenuCounter) {
+            return;
+        }
+        
         $this->pagesWithLikePostsModule = \Modularity\Helper\ModuleUsageByName::getModuleUsageByName('mod-liked-posts');
         add_filter('Municipio/Navigation/Item', array($this, 'addMenuItemIcon'), 10, 2);
     }

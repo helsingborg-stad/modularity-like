@@ -1,8 +1,12 @@
 $like-icon-color: var(--like-icon-color, #e84666) !default;
 $base: var(--base, 8px) !default;
 
+[data-js-like-icon-counter], 
+[data-like-icon] {
+    color: $like-icon-color !important;
+}
+
 .like-icon {
-    color: $like-icon-color;
     cursor: pointer;
     transition: transform .2s ease-in-out;
 

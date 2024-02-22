@@ -22,6 +22,8 @@ class LikedPosts extends \Modularity\Module
     public function data(): array
     {
         $fields = get_fields($this->ID);
+        $data['likeIcon'] = get_field('like_icon', 'option') ?? 'favorite';
+
         /* Possibility to add more views */
         $data['displayAs'] = !empty($fields['liked_posts_display_as']) ? $fields['liked_posts_display_as'] : 'collection';
 
