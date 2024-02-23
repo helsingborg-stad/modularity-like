@@ -1,4 +1,4 @@
-import { getLikedPostsFromLocalStorage } from "./helpers/likeHelpers";
+import { getLikedPostsFromLocalStorage, getLikedPostLength } from "./helpers/likeHelpers";
 
 class Like {
 	constructor() {
@@ -20,6 +20,7 @@ class Like {
 				const postId = button.getAttribute('data-post-id');
 				const postType = button.getAttribute('data-post-type');
 				this.setLocalStorage(postId, postType);
+				window.dispatchEvent(this.likedPostsUpdatedEvent());
 			});
 			button.setAttribute('data-js-has-click', '');
 		});
@@ -94,6 +95,10 @@ class Like {
 		});
 		observer.observe(document.body, { childList: true, subtree: true, attributes: false });
 	}
+
+	likedPostsUpdatedEvent() { 
+		return new CustomEvent('likedPostsLengthUpdated', {});
+    }
 }
 
 export default Like;
