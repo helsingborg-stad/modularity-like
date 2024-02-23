@@ -39,6 +39,9 @@ class MenuIconCounter {
                 'size' => 'md',
                 'attributeList' => [
                     'data-js-like-icon-counter' => '',
+                ],
+                'classList' => [
+                    'u-position--relative'
                 ]
             ];
         }
