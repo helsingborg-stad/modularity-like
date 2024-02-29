@@ -1,33 +1,40 @@
+import { Components } from "./components";
+import { Post } from "./post";
+
 class Render {
-	constructor(posts, components) {
+	components: Components;
+	posts: Post[] | null;
+
+	constructor(posts: Post[] | null, components: Components) {
 		this.components = components;
 		this.posts = posts;
-
-		if (!this.posts || !this.posts.length > 0 || !components) return;
+		if (!this.posts || this.posts.length === 0 || !components) return;
 
 		this.renderComponents();
 	}
 
-	renderComponents() {
-		const containers = document.querySelectorAll('[js-like-container]');
+
+	private renderComponents() {
+		const containers = document.querySelectorAll<HTMLElement>('[js-like-container]');
 
 		if (containers) {
 			containers.forEach((container) => {
-				const component = container.getAttribute('js-display-as');
-				const filteredPosts = this.filterPosts(JSON.parse(container.getAttribute('js-post-types')));
-				const postColumns = container.hasAttribute('js-columns') ? container.getAttribute('js-columns') : 'grid-md-12';
-				const emblemUrl = container.hasAttribute('js-like-emblem-url') ? container.getAttribute('js-like-emblem-url') : false;
+				const component: string = container.getAttribute('js-display-as') ?? "";
+				const filteredPosts = this.filterPosts(JSON.parse(container.getAttribute('js-post-types') || '[]'));
+				const postColumns = container.getAttribute('js-columns') ?? 'grid-md-12';
+				const emblemUrl: string | false = container.hasAttribute('js-like-emblem-url') ? container.getAttribute('js-like-emblem-url') || false : false;
+
 				let hasPreloaders = true;
 				this.handleSharedParams(container);
 
-				filteredPosts && 
+				filteredPosts &&
 					filteredPosts.forEach((post) => {
 						const childElement = document.createElement('div');
 						childElement.classList.add(postColumns);
 						const html = this.components[`${component}`].html
-							.replace('{LIKE_POST_TITLE}', post.title?.rendered)
+							.replace('{LIKE_POST_TITLE}', post.title?.rendered || '')
 							.replace('{LIKE_POST_CONTENT}', this.handleExcerpt(post, component))
-							.replace('{LIKE_POST_ID}', post.id)
+							.replace('{LIKE_POST_ID}', post.id.toString())
 							.replace('{LIKE_POST_LINK}', post.link)
 							.replace('{LIKE_POST_IMAGE}', this.handleImage(post, emblemUrl))
 							.replace('{LIKE_POST_TYPE}', post.type)
@@ -44,11 +51,10 @@ class Render {
 			});
 		} else {
 			this.handlePreloaders(containers);
-			/* TODO: Maybe display a notice here saying there are no liked posts */
 		}
 	}
 
-	handleSharedParams(container) {
+	private handleSharedParams(container: HTMLElement) {
 		const parentContainer = container.closest('.like-posts__container');
 		if (!parentContainer) return;
 		const urlParams = new URLSearchParams(window.location.search);
@@ -73,13 +79,13 @@ class Render {
 		}
 	}
 
-	controlURLParameters(encodedString) {
+	private controlURLParameters(encodedString: string) {
 		let string = atob(encodedString);
 		string = string.replace(/(<([^>]+)>)/gi, '');
 		return string;
 	}
 
-	handleImage(post = false, emblemUrl) {
+	private handleImage(post: Post | false = false, emblemUrl: string | false) {
 		if (!post) return '';
 
 		let image = post.image ?? (emblemUrl && emblemUrl.length > 0 ? emblemUrl : '');
@@ -87,7 +93,7 @@ class Render {
 		return image;
 	}
 
-	handleExcerpt(post = false, component) {
+	private handleExcerpt(post: Post | false, component: string) {
 		if (!post) return '';
 		let amount;
 		let excerpt = post.excerpt?.rendered ? post.excerpt.rendered : post.content?.rendered ? post.content.rendered : '';
@@ -118,7 +124,7 @@ class Render {
 		return excerpt ? excerpt + symbol : '';
 	}
 
-	handlePreloaders(containers) {
+	private handlePreloaders(containers: NodeListOf<HTMLElement>) {
 		containers.forEach((container) => {
 			container.querySelectorAll('.liked-posts__preloader').forEach((preloader) => {
 				preloader.remove();
@@ -126,7 +132,11 @@ class Render {
 		});
 	}
 
-	filterPosts(postTypes) {
+	private filterPosts(postTypes: string[] | undefined): Post[] {
+		if (!this.posts || !postTypes) {
+			return [];
+		}
+
 		const filteredPosts = this.posts.filter((post) => postTypes.includes(post.type));
 		return filteredPosts;
 	}
