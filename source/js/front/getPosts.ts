@@ -1,14 +1,24 @@
+import { Components } from "./components";
 import { getLikedPostsFromLocalStorage, decodeLikedPosts } from "./helpers/likeHelpers";
+import { LikedPost } from "./likedPost";
+import { Post } from "./post";
 import Render from "./render";
 
+declare const likedPosts: {
+	pageUrl: string
+}
+
 class GetPosts {
-	constructor(components) {
+	components: Components;
+	posts: Post[] | null;
+
+	constructor(components: Components) {
 		this.getPosts();
 		this.posts = null;
 		this.components = components;
 	}
 
-	getPosts() {
+	private getPosts() {
 		if (!document.querySelector('[js-like-container]')) {
 			return;
 		}
@@ -18,7 +28,7 @@ class GetPosts {
 		}
 
 		// Get the liked posts from the GET-parameter (if it is set)
-		let items = {};
+		let items: { [key: string]: LikedPost[] } = {};
 		const urlParams = new URLSearchParams(window.location.search);
 		const encodedLikedPosts = urlParams.get('liked-posts');
 		if (encodedLikedPosts) {
@@ -28,7 +38,7 @@ class GetPosts {
 		}
 		const wantedPostTypes = this.getContainersPostTypes();
 
-		let urls = [];
+		let urls: string[] = [];
 		if (items) {
 			for (const key in items) {
 				if (items.hasOwnProperty(key) && wantedPostTypes.includes(key)) {
@@ -50,7 +60,7 @@ class GetPosts {
 		}
 	}
 
-	fetchPosts(urls) {
+	private fetchPosts(urls: string[]) {
 		const requests = urls.map((url) => fetch(url));
 		Promise.all(requests)
 			.then((responses) => {
@@ -67,7 +77,7 @@ class GetPosts {
 			});
 	}
 
-	getUrls(key, ids) {
+	private getUrls(key: string, ids: LikedPost[]) {
 		let idString = '';
 		ids.forEach((id, index) => {
 			idString += id.id;
@@ -80,14 +90,14 @@ class GetPosts {
 		return endpoint;
 	}
 
-	getContainersPostTypes() {
+	private getContainersPostTypes() {
 		const containers = document.querySelectorAll('[js-like-container]');
-		let arr = [];
+		let arr: string[] = [];
 		containers.forEach((container) => {
 			if (!container.hasAttribute('js-post-types')) {
 				return;
 			}
-			const postTypes = JSON.parse(container.getAttribute('js-post-types'));
+			const postTypes = JSON.parse(container.getAttribute('js-post-types') || '[]') as string[];
 			postTypes.forEach((postType) => {
 				if (!arr.includes(postType)) {
 					arr.push(postType);
@@ -103,41 +113,42 @@ class GetPosts {
 	 * @returns An object with the keys of the different types of posts and the values being an array
 	 * of the posts of that type.
 	 */
-	handleEndpoints(posts = false) {
+	private handleEndpoints(posts: LikedPost[] | false = false): { [key: string]: LikedPost[] } {
 		if (!posts) {
 			posts = getLikedPostsFromLocalStorage();
 		}
-		const sortedData = posts.reduce((acc, current) => {
-			if (acc[current.type]) {
-				acc[current.type].push(current);
-			} else {
-				acc[current.type] = [current];
-			}
+
+		const sortedData: { [key: string]: LikedPost[] } = posts.reduce((acc, current) => {
+			const typeKey = current.type.toString();
+			acc[typeKey] = acc[typeKey] || [];
+			acc[typeKey].push(current);
 			return acc;
-		}, {});
+		}, {} as { [key: string]: LikedPost[] });
 
 		return sortedData;
 	}
-    
-	getFeaturedImage(imageOb) {
-		let image = false;
+
+	private getFeaturedImage(imageOb: { source_url?: string, media_details?: { sizes?: { medium?: { source_url?: string } } } }): string | false {
+		let image: string | false = false;
 		if (imageOb.source_url) {
-			image = imageOb.media_details.sizes?.medium?.source_url ?? imageOb.source_url;
+			image = imageOb.media_details?.sizes?.medium?.source_url ?? imageOb.source_url;
 		}
 
 		return image;
 	}
 
-	renderPosts() {
-		const updatedPosts = this.posts.map((post) => {
-			if (post._embedded?.['wp:featuredmedia']?.[0]) {
-                return { ...post, image: this.getFeaturedImage(post._embedded['wp:featuredmedia'][0]) };
-			}
-			return post;
-		});
+	private renderPosts() {
+		if (this.posts) {
+			const updatedPosts = this.posts.map((post) => {
+				if (post._embedded?.['wp:featuredmedia']?.[0]) {
+					return { ...post, image: this.getFeaturedImage(post._embedded['wp:featuredmedia'][0]) };
+				}
+				return post;
+			}) as Post[];
 
-		if (updatedPosts && this.components) {
-			new Render(updatedPosts, this.components);
+			if (updatedPosts && this.components) {
+				new Render(updatedPosts, this.components);
+			}
 		}
 	}
 }
