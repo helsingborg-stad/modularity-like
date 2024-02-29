@@ -1,13 +1,10 @@
 import { getLikedPostsFromLocalStorage } from "./helpers/likeHelpers";
-import LikedPostCounter from "./likedPostCounter";
 
 class Like {
 	likeIconSelector: string;
-	likedPostCounter: LikedPostCounter;
 
 	constructor() {
 		this.likeIconSelector = '.like-icon';
-		this.likedPostCounter = new LikedPostCounter();
 		this.handleLike();
 		this.observe();
 	}
@@ -42,7 +39,6 @@ class Like {
 
 		localStorage.setItem('liked-posts', JSON.stringify(likedPostIds));
 		this.toggleLiked(postId);
-		this.likedPostCounter.dispatchLikedPostLength();
 	}
 
 	private toggleLiked(postId: string) {

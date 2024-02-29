@@ -10,17 +10,3 @@ $base: var(--base, 8px) !default;
         transform: scale(1.1);
     }
 }
-
-.liked-post-counter {
-    background: #f78da7;
-    position: absolute;
-    left: 14px;
-    top: 18px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50px;
-    color: #76232f;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
