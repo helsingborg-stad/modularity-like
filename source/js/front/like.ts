@@ -1,24 +1,26 @@
 import { getLikedPostsFromLocalStorage, getLikedPostLength } from "./helpers/likeHelpers";
 
 class Like {
+	likeIconSelector: string;
+
 	constructor() {
 		this.likeIconSelector = '.like-icon';
 		this.handleLike();
 		this.observe();
 	}
-	
-	handleLike() {
-		const likeButtons = document.querySelectorAll('[data-like-icon]');
+
+	private handleLike() {
+		const likeButtons = [...document.querySelectorAll('[data-like-icon]')];
 		this.setLiked();
 		likeButtons && this.setListeners(likeButtons);
 	}
 
-	setListeners(likeButtons) {
+	private setListeners(likeButtons: Element[]) {
 		likeButtons.forEach((button) => {
 			button.addEventListener('click', (e) => {
 				e.preventDefault();
-				const postId = button.getAttribute('data-post-id');
-				const postType = button.getAttribute('data-post-type');
+				const postId = button.getAttribute('data-post-id') ?? '';
+				const postType = button.getAttribute('data-post-type') ?? '';
 				this.setLocalStorage(postId, postType);
 				window.dispatchEvent(this.likedPostsUpdatedEvent());
 			});
@@ -26,10 +28,10 @@ class Like {
 		});
 	}
 
-	setLocalStorage(postId, postType) {
+	private setLocalStorage(postId: string, postType: string) {
 		let likedPostIds = getLikedPostsFromLocalStorage();
 
-		const index = likedPostIds.findIndex((item) => item.id === postId && item.type === postType);
+		const index = likedPostIds.findIndex((item: { id: string, type: string }) => item.id === postId && item.type === postType);
 		if (index === -1) {
 			likedPostIds.push({ id: postId, type: postType });
 		} else {
@@ -40,8 +42,8 @@ class Like {
 		this.toggleLiked(postId);
 	}
 
-	toggleLiked(postId) {
-		const icons = document.querySelectorAll(`[data-post-id="${postId}"]`);
+	private toggleLiked(postId: string) {
+		const icons = [...document.querySelectorAll(`[data-post-id="${postId}"]`)];
 		icons &&
 			icons.forEach((icon) => {
 				icon.classList.toggle('is-liked');
@@ -49,10 +51,10 @@ class Like {
 			});
 	}
 
-	setLiked() {
+	private setLiked() {
 		const likedPosts = getLikedPostsFromLocalStorage();
-		likedPosts.forEach((post) => {
-			const icons = document.querySelectorAll(`[data-post-id="${post.id}"]`);
+		likedPosts.forEach((post: { id: string }) => {
+			const icons = [...document.querySelectorAll(`[data-post-id="${post.id}"]`)];
 			icons &&
 				icons.forEach((icon) => {
 					icon.classList.add('is-liked');
@@ -61,31 +63,36 @@ class Like {
 		});
 	}
 
-	changeIcon(icon) {
-		if (icon.classList.contains('is-liked')) {
-			icon.querySelector('span').innerText = icon.querySelector('span').innerText.replace('_outline', '');
-		} else {
-			icon.querySelector('span').innerText = icon.querySelector('span').innerText + '_outline';
+	private changeIcon(icon: Element) {
+		const span = icon.querySelector('span');
+
+		if (span) {
+			if (icon.classList.contains('is-liked')) {
+				span.innerText = span.innerText.replace('_outline', '');
+			} else {
+				span.innerText = span.innerText + '_outline';
+			}
 		}
 	}
 
-	observe() {
+
+	private observe() {
 		const observer = new MutationObserver((mutations) => {
 			mutations.forEach((mutation) => {
 				if (
 					mutation.type === 'childList' &&
 					mutation.addedNodes.length > 0
 				) {
-					let buttons = [];
+					let buttons: Element[] = [];
 					[...mutation.addedNodes].forEach((node) => {
 						if (
 							node.nodeType === Node.ELEMENT_NODE &&
-							node.querySelector(this.likeIconSelector)
+							(node as Element).querySelector(this.likeIconSelector)
 						) {
-							if (!node.querySelector(this.likeIconSelector).hasAttribute('data-js-has-click')) {
-								let button = node.querySelector(this.likeIconSelector); 
-								buttons.push(button);
-							} 
+							if (!((node as Element).querySelector(this.likeIconSelector)?.hasAttribute('data-js-has-click'))) {
+								let button = (node as Element).querySelector(this.likeIconSelector);
+								button && buttons.push(button);
+							}
 							this.setLiked();
 						}
 					});
