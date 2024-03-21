@@ -1,7 +1,6 @@
 <?php
 
 // Public functions
-
 use ComponentLibrary\Init as ComponentLibraryInit;
 
 if (!function_exists('liked_posts_render_blade_view')) {
