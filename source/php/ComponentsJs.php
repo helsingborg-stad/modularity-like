@@ -44,17 +44,13 @@ class ComponentsJs
     public function createComponents() //:void
     {
         $viewFiles = glob($this->viewPath . '*.blade.php');
-
         if (is_array($viewFiles) && !empty($viewFiles)) {
             foreach ($viewFiles as $view) {
                 $this->components[$this->getKey($view)] = (object) [
                     'key' => $this->getKey($view),
                     'html' => $this->renderView(
                         $view,
-                        [
-                            'lang' => (object) $this->lang,
-                            'icon' => get_field('like_icon', 'option') ?? 'favorite'
-                        ]
+                        $this->getComponentViewData($this->getKey($view))
                     )
                 ];
             }
@@ -74,6 +70,22 @@ class ComponentsJs
             "",
             basename($view)
         );
+    }
+
+    private function getComponentViewData(string $viewName):array 
+    {
+        if (method_exists($this, $viewName . 'ViewData')) {
+            return $this->{$viewName . 'ViewData'}();
+        }
+        return [];
+    }
+
+    private function collectionViewData():array 
+    {
+        return  [
+            'lang' => (object) $this->lang,
+            'icon' => get_field('like_icon', 'option') ?? 'favorite'
+        ];
     }
 
     /**
