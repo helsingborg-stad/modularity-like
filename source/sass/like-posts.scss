@@ -1,4 +1,8 @@
 $like-icon-color: var(--like-icon-color, #e84666) !default;
+$color-primary: var(--color-primary, #ae0b05) !default;
+$color-primary-contrasting: var(--color-primary-contrasting, #fff) !default;
+$like-counter-background-color: var(--like-counter-background-color, $color-primary) !default;
+$like-counter-color: var(--like-counter-color, $color-primary-contrasting) !default;
 $base: var(--base, 8px) !default;
 
 [data-js-like-icon-counter], 
@@ -13,4 +17,21 @@ $base: var(--base, 8px) !default;
     &:hover {
         transform: scale(1.1);
     }
+}
+
+.like-counter {
+    position: absolute;
+    background-color: $like-counter-background-color;
+    color: $like-counter-color;
+    font-family: sans-serif;
+    border-radius: 50%;
+    min-width: calc($base * 2.2);
+    height: auto;
+    aspect-ratio: 1/1;
+    right: calc($base * -1);
+    top: calc($base * -0.75);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
 }

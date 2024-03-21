@@ -1,15 +1,17 @@
 import { generateEncodedLikedPostsParam } from './helpers/likeHelpers';
 
 class Share {
-    constructor(container) {
+    container: Element;
+
+    constructor(container: Element) {
         this.container = container;
 
         if (!container) return;
-        
+
         this.init();
     }
 
-    init() {
+    private init() {
         const urlParams = new URLSearchParams(window.location.search);
 
         const encodedLikedPosts = urlParams.get('liked-posts');
@@ -18,7 +20,7 @@ class Share {
         }
     }
 
-    renderShareLink() {
+    private renderShareLink() {
         const url = window.location.href.split('?')[0];
         const encodedLikedPostsParam = generateEncodedLikedPostsParam();
 
@@ -26,20 +28,21 @@ class Share {
 
         const shareLink = `${url}${encodedLikedPostsParam}`;
 
-            const button = this.container.querySelector('button');
-            const dialog = this.container.querySelector('dialog');
-            const urlField = dialog.querySelector('[data-js-like-share-url]');
-            const nameField = dialog.querySelector('[data-js-like-share-name]');
-            const excerptField = dialog.querySelector('[data-js-like-share-excerpt]');
+        const button = this.container.querySelector('button') as HTMLButtonElement;
+        const dialog = this.container.querySelector('dialog');
+        if (!dialog) return;
 
-            urlField.value = shareLink;
+        const urlField = dialog.querySelector('[data-js-like-share-url]') as HTMLInputElement;
+        const nameField = dialog.querySelector('[data-js-like-share-name]') as HTMLInputElement;
+        const excerptField = dialog.querySelector('[data-js-like-share-excerpt]') as HTMLInputElement;
 
-            nameField.addEventListener('input', this.updateShareLink.bind(this, urlField, nameField, excerptField));
-            excerptField.addEventListener('input', this.updateShareLink.bind(this, urlField, nameField, excerptField));
-            button.classList.remove('u-display--none');
+        urlField.value = shareLink;
+        nameField.addEventListener('input', this.updateShareLink.bind(this, urlField, nameField, excerptField));
+        excerptField.addEventListener('input', this.updateShareLink.bind(this, urlField, nameField, excerptField));
+        button.classList.remove('u-display--none');
     }
 
-    updateShareLink(urlField, nameField, excerptField) {
+    private updateShareLink(urlField: HTMLInputElement, nameField: HTMLInputElement, excerptField: HTMLInputElement) {
         const newName = btoa(nameField.value);
         const newExcerpt = btoa(excerptField.value);
         const url = new URL(urlField.value);
@@ -57,7 +60,7 @@ class Share {
             }
         }
 
-        urlField.value = url;
+        urlField.value = url.href;
     }
 }
 

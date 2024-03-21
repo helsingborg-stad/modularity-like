@@ -4,7 +4,7 @@
  * Plugin Name:       Modularity Like Posts
  * Plugin URI:        https://github.com/helsingborg-stad/modularity-like
  * Description:       Lets users like and save posts.
- * Version: 2.1.0
+ * Version: 2.3.2
  * Author:            Niclas Norin
  * Author URI:        https://github.com/NiclasNorin
  * License:           MIT

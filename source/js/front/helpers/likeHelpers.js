@@ -2,6 +2,10 @@ export function getLikedPostsFromLocalStorage() {
     return JSON.parse(localStorage.getItem('liked-posts')) || [];
 }
 
+export function getLikedPostLength(){
+    return getLikedPostsFromLocalStorage().length;
+}
+
 export function generateEncodedLikedPostsParam() {
     const likedPosts = getLikedPostsFromLocalStorage();
     if (likedPosts.length == 0) {

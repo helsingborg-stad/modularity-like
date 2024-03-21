@@ -18,8 +18,8 @@
             'data-js-liked-posts-share-title' => '',
         ],
         'classList' => ['u-display--none'],
-
     ])
+    {LIKED_POSTS_SHARED_TITLE}
     @endtypography
     @typography([
         'attributeList' => [
@@ -27,6 +27,7 @@
         ],
         'classList' => ['u-display--none'],
     ])
+    {LIKED_POSTS_SHARED_EXCERPT}
     @endtypography
 
     @include('partials.' . $displayAs)
