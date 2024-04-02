@@ -47,37 +47,22 @@ class Like {
 
 	private toggleLiked(postId: string) {
 		const icons = [...document.querySelectorAll(`[data-post-id="${postId}"]`)];
-		icons &&
-			icons.forEach((icon) => {
-				icon.classList.toggle('is-liked');
-				this.changeIcon(icon);
-			});
+		
+		icons.forEach((icon) => {
+			icon.classList.toggle('material-symbols-outlined--filled');
+		});
 	}
 
 	private setLiked() {
 		const likedPosts = getLikedPostsFromLocalStorage();
 		likedPosts.forEach((post: { id: string }) => {
 			const icons = [...document.querySelectorAll(`[data-post-id="${post.id}"]`)];
-			icons &&
-				icons.forEach((icon) => {
-					icon.classList.add('is-liked');
-					this.changeIcon(icon);
-				});
+			
+			icons.forEach((icon) => {
+				icon.classList.add('material-symbols-outlined--filled');
+			});
 		});
 	}
-
-	private changeIcon(icon: Element) {
-		const span = icon.querySelector('span');
-
-		if (span) {
-			if (icon.classList.contains('is-liked')) {
-				span.innerText = span.innerText.replace('_outline', '');
-			} else {
-				span.innerText = span.innerText + '_outline';
-			}
-		}
-	}
-
 
 	private observe() {
 		const observer = new MutationObserver((mutations) => {
