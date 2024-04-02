@@ -61,12 +61,12 @@
             "default_value": "favorite",
             "return_format": "value",
             "multiple": 0,
-            "allow_null": 0,
-            "ui": 0,
-            "ajax": 0,
-            "placeholder": "",
             "allow_custom": 0,
-            "search_placeholder": ""
+            "search_placeholder": "",
+            "allow_null": 0,
+            "ui": 1,
+            "ajax": 0,
+            "placeholder": ""
         },
         {
             "key": "field_65d757813d24a",
