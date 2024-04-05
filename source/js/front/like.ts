@@ -7,9 +7,7 @@ class Like {
 		this.likeIconSelector = '.like-icon';
 		this.handleLike();
 
-		document.addEventListener('DOMContentLoaded', () => {
-			this.observe();
-		});
+		this.observe();
 	}
 
 	private handleLike() {
