@@ -33,7 +33,19 @@ class MenuIconCounter {
      * @return array The modified menu item.
      */
     public function addMenuItemIcon($menuItem, $menuId) {
-        if (!empty($menuItem['id']) && in_array($menuItem['id'], $this->pagesWithLikePostsModule)) {
+        if (empty($menuItem['page_id'])) {
+            return $menuItem;
+        }
+
+        // NOT WORTH DOING
+        // $pageMeta = get_post_meta($menuItem['page_id']);
+        // $modules = unserialize(!empty($pageMeta['modularity-modules'][0]) ? $pageMeta['modularity-modules'][0] : '');
+        
+        // if (!empty($menuItem['icon']['attributeList']) && array_key_exists('data-js-like-icon-counter', $menuItem['icon']['attributeList'])) {
+        //     return $menuItem;
+        // }
+
+        if (in_array($menuItem['page_id'], $this->pagesWithLikePostsModule)) {
             $menuItem['icon'] = [
                 'icon' => 'favorite',
                 'size' => 'md',
