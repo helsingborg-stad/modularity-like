@@ -39,7 +39,7 @@ class MenuIconCounter {
 
         if (in_array($menuItem['page_id'], $this->pagesWithLikePostsModule)) {
             $menuItem['icon'] = [
-                'icon' => 'favorite',
+                'icon' => get_field('like_icon', 'option') ?? 'favorite',
                 'size' => 'md',
                 'attributeList' => [
                     'data-js-like-icon-counter' => '',
