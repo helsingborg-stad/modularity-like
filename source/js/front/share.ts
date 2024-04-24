@@ -5,9 +5,7 @@ class Share {
 
     constructor(container: Element) {
         this.container = container;
-
-        if (!container) return;
-
+        
         this.init();
     }
 
@@ -62,14 +60,6 @@ class Share {
 
         urlField.value = url.href;
     }
-}
-
-export function initializeShare() {
-    const containers = document.querySelectorAll('.like-posts__container');
-
-    containers.forEach(container => {
-        new Share(container);
-    });
 }
 
 export default Share;

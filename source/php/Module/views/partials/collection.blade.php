@@ -3,7 +3,6 @@
     'attributeList' => [
         'js-like-container' => '',
         'js-display-as' => $displayAs,
-        'js-post-types' => $postTypes,
         'js-columns' => $postColumns,
         'js-like-emblem-url' => $emblem
     ]

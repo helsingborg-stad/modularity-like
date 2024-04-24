@@ -2,10 +2,13 @@
 
 namespace ModularityLikePosts\Module;
 
+use ModularityLikePosts\Module\SharedPosts;
+
 class LikedPosts extends \Modularity\Module
 {
     public $slug = 'liked-posts';
     public $supports = array();
+    private $template = 'liked-posts';
 
     public function init()
     {
@@ -53,7 +56,7 @@ class LikedPosts extends \Modularity\Module
 
     public function template(): string
     {
-        return "liked-posts.blade.php";
+        return $this->template . ".blade.php";
     }
 
     /**

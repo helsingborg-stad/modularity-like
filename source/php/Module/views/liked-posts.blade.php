@@ -1,4 +1,4 @@
-<div class="container like-posts__container">
+<div class="container like-posts__container" data-js-like-posts data-js-like-posts-post-types="{{$postTypes}}">
     @if (!$hideTitle && !empty($postTitle))
         <div class="liked-posts__header">
             @typography([
