@@ -1,5 +1,6 @@
 import { Components } from "./components";
 import { Post } from "./post";
+import { removePreloaders } from "./helpers/likeHelpers";
 
 class Render {
 	components: Components;
@@ -23,7 +24,6 @@ class Render {
 				const postColumns = container.getAttribute('js-columns') ?? 'grid-md-12';
 				const emblemUrl: string | false = container.hasAttribute('js-like-emblem-url') ? container.getAttribute('js-like-emblem-url') || false : false;
 
-				let hasPreloaders = true;
 				this.handleSharedParams(container as HTMLElement);
 
 				this.posts &&
@@ -40,16 +40,12 @@ class Render {
 							.replace('{LIKE_POST_CLASSES}', postColumns);
 						childElement.innerHTML = html;
 						container.appendChild(childElement);
-						if (hasPreloaders) {
-							container.querySelectorAll('.liked-posts__preloader').forEach((preloader) => {
-								preloader.remove();
-								hasPreloaders = false;
-							});
-						}
+
+						removePreloaders(this.container);
 					});
 			});
 		} else {
-			this.handlePreloaders(containers);
+			removePreloaders(this.container);
 		}
 	}
 
@@ -81,13 +77,6 @@ class Render {
 		string = string.replace(/(<([^>]+)>)/gi, '');
 		return string;
 	}
-
-	private handlePreloaders(containers: NodeListOf<HTMLElement>) {
-		containers.forEach((container) => {
-			container.querySelectorAll('.liked-posts__preloader').forEach((preloader) => {
-				preloader.remove();
-			});
-		});
-	}
 }
+
 export default Render;

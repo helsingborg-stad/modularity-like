@@ -1,14 +1,10 @@
 import { getLikedPostsFromLocalStorage, decodeLikedPosts } from "./helpers/likeHelpers";
-
-interface PostDetailsObject {
-    id: string;
-    type: string;
-}
+import { Post, PostDetailsObject } from "./post";
 
 class GetPosts {
 	constructor(private container: HTMLElement) {}
 
-	public getPosts(): Promise<any> {
+	public getPosts(): Promise<Post[]>|null {
 		const urlParams = new URLSearchParams(window.location.search);
 		const sharedPosts = urlParams.get('liked-posts');
 
@@ -17,21 +13,21 @@ class GetPosts {
 		return this.fetchPosts(this.filterPosts(posts));
 	}
 
-	private fetchPosts(postIds: Array<any>): Promise<any> {
+	private fetchPosts(postIds: Array<PostDetailsObject>): Promise<Post[]>|null {
         let posts = postIds.map((post: PostDetailsObject) => {
             return post.id;
         });
 
-        return this.getPostsFromEndpoint(posts.join(','));
+        return posts.length > 0 ? this.getPostsFromEndpoint(posts.join(',')) : null;
     }
 
-    private getPostsFromEndpoint(posts: string): Promise<any> {
+    private getPostsFromEndpoint(posts: string): Promise<Post[]> {
 		const url = window.location.origin;
         return new Promise((resolve: any, reject: any) => {
             fetch(`${url}/wp-json/like/v1/id=${posts}`)
             .then(response => {
                 if (!response.ok) {
-                    console.error('Failed to fetch liked posts');
+					return null;
                 }
 
                 return response.json();
@@ -39,7 +35,6 @@ class GetPosts {
             }).then(data => {
                 resolve(data);
             }).catch(error => {
-                console.error('Error fetching liked posts:', error);
                 reject(error);
             });
         });

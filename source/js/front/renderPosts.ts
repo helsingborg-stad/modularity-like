@@ -1,6 +1,8 @@
 import { Components } from "./components";
 import GetPosts from "./getPosts";
 import Render from "./render";
+import { removePreloaders, noPostsFound } from "./helpers/likeHelpers";
+import { Post } from "./post";
 
 class RenderPosts {
     constructor(private components: Components, private container: HTMLElement) {
@@ -9,8 +11,17 @@ class RenderPosts {
     public render() {
         const getPostsInstance = new GetPosts(this.container);
         const postsPromise = getPostsInstance.getPosts();
-        postsPromise.then((posts: any) => {
-            new Render(posts, this.components, this.container);
+
+        if (!postsPromise) {
+            removePreloaders(this.container);
+            noPostsFound(this.container);
+            return;
+        }
+
+        postsPromise.then((posts: Post[]) => {
+            if (posts) {
+                new Render(posts, this.components, this.container);
+            }
         });
     }
 }

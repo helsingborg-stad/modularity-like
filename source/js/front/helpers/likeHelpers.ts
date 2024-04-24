@@ -41,3 +41,13 @@ export function decodeLikedPosts(encodedLikedPosts: string): LikedPost[] | [] {
 
     return likedPosts;
 }
+
+export function removePreloaders(container: HTMLElement) {
+    container.querySelectorAll('.liked-posts__preloader').forEach((preloader) => {
+        preloader.remove();
+    });
+}
+
+export function noPostsFound(container: HTMLElement) {
+    container.querySelector('[data-js-no-posts-notice]')?.classList.remove('u-display--none');
+}

@@ -10,3 +10,8 @@ export interface Post {
     postType: string;
 }
 
+export interface PostDetailsObject {
+    id: string;
+    type: string;
+}
+
