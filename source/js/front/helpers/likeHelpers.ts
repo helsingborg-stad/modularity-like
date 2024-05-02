@@ -28,24 +28,26 @@ export function generateEncodedLikedPostsParam() {
     return '?liked-posts=' + encodedLikedPosts;
 }
 
-export function decodeLikedPosts(encodedLikedPosts: string): LikedPost[] | false {
-    if (!encodedLikedPosts) {
-        return false;
-    }
-
-    // Decode the encoded liked posts data from Base64
+export function decodeLikedPosts(encodedLikedPosts: string): LikedPost[] | [] {
     const decodedLikedPosts = atob(encodedLikedPosts);
-
-    // Parse the decoded liked posts data into a JavaScript object
     const compactLikedPosts = JSON.parse(decodedLikedPosts);
+    
+    const likedPosts = Object.entries(compactLikedPosts).reduce<{ id: string; type: string; }[]>((acc, [type, ids]) => {
+        (ids as string[]).forEach((id) => {
+            acc.push({ id, type });
+        });
+        return acc;
+    }, []);
 
-    if (Array.isArray(compactLikedPosts)) {
-        // Convert back to original format
-        const likedPosts = compactLikedPosts.map((item: { id: string, type: string }) => ({ id: item.id, type: item.type }));
+    return likedPosts;
+}
 
-        // Return the JavaScript object of liked posts
-        return likedPosts;
-    }
+export function removePreloaders(container: HTMLElement) {
+    container.querySelectorAll('.liked-posts__preloader').forEach((preloader) => {
+        preloader.remove();
+    });
+}
 
-    return false;
+export function noPostsFound(container: HTMLElement) {
+    container.querySelector('[data-js-no-posts-notice]')?.classList.remove('u-display--none');
 }

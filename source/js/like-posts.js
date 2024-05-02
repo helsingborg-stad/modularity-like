@@ -1,11 +1,15 @@
-import GetPosts from './front/getPosts';
 import Like from './front/like';
 import { initializeLikedCounter } from "./front/likedCounter";
-import { initializeShare } from './front/share';
+import Share from './front/share';
+import RenderPosts from './front/renderPosts';
 
 document.addEventListener('DOMContentLoaded', () => {
     initializeLikedCounter(likedPostsComponents.counterElement);
     const LikeInstance = new Like();
-    const GetPostsInstance = new GetPosts(likedPostsComponents);
-    initializeShare();
+
+    document.querySelectorAll('[data-js-like-posts]').forEach((likePostsContainer) => {
+        const renderPosts = new RenderPosts(likedPostsComponents, likePostsContainer);
+        renderPosts.render();
+        new Share(likePostsContainer);
+    });
 });
