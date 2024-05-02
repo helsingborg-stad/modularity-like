@@ -29,9 +29,9 @@ $base: var(--base, 8px) !default;
     height: auto;
     aspect-ratio: 1/1;
     right: calc($base * -1);
-    top: calc($base * -0.75);
+    top: calc($base * -0.7);
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
