@@ -33,11 +33,13 @@ class MenuIconCounter {
      * @return array The modified menu item.
      */
     public function addMenuItemIcon($menuItem, $menuId) {
-        if (empty($menuItem['page_id'])) {
+        if (empty($menuItem['id'])) {
             return $menuItem;
         }
 
-        if (in_array($menuItem['page_id'], $this->pagesWithLikePostsModule)) {
+        $pageId = !empty($menuItem['page_id']) ? $menuItem['page_id'] : $menuItem['id'];
+
+        if (in_array($pageId, $this->pagesWithLikePostsModule)) {
             $menuItem['icon'] = [
                 'icon' => get_field('like_icon', 'option') ?? 'favorite',
                 'size' => 'md',
