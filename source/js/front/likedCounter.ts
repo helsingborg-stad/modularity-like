@@ -7,8 +7,8 @@ type CounterComponent = {
 
 class LikedCounter {
     counterElements: (Element | null)[];
-
     constructor(counterIcons: Element[], counterComponent: CounterComponent) {        
+        console.log(counterIcons);
         this.counterElements = this.addCounterToIcon(counterIcons, counterComponent);
         this.updateCounter();
     }
