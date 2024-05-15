@@ -91,6 +91,17 @@ class ComponentsJs
     }
 
     /**
+     * Get data for the collection view. Utilized by @getComponentViewData
+     */
+    private function collectionViewData(): array 
+    {
+        return  [
+            'lang' => (object) $this->lang,
+            'icon' => get_field('like_icon', 'option') ?? 'favorite'
+        ];
+    }
+
+    /**
      * Render blade view
      *
      * @param string  $view       The view path
