@@ -4,13 +4,10 @@ namespace ModularityLikePosts;
 
 class ComponentsJs
 {
-    private $components = [];
-    private $lang = [];
-    private $viewPath   = MODULARITYLIKEPOSTS_VIEW_PATH . 'js/object/';
+    private const VIEW_PATH = MODULARITYLIKEPOSTS_VIEW_PATH . 'js/object/';
 
     public function __construct()
     {
-        add_action('init', array($this, 'createComponents'));
         add_action('wp_enqueue_scripts', array($this, 'renderComponents'), 50);
     }
 
@@ -19,8 +16,14 @@ class ComponentsJs
      *
      * @return void
      */
-    public function renderComponents() //:void
+    public function renderComponents(): void
     {
+        if (!$this->shouldRenderComponents()) {
+            return;
+        }
+
+        $components = $this->createComponents();
+
         $l10n = [
             'shareYourFavourites' => __('Share your favorites with this link', 'modularity-like'),
         ];
@@ -32,8 +35,13 @@ class ComponentsJs
         wp_localize_script(
             'like-posts-js',
             'likedPostsComponents',
-            $this->components
+            $components
         );
+    }
+
+    private function shouldRenderComponents(): bool
+    {
+        return !is_admin() && !wp_doing_ajax() && !wp_doing_cron();
     }
 
     /**
@@ -41,12 +49,13 @@ class ComponentsJs
      *
      * @return void
      */
-    public function createComponents() //:void
+    public function createComponents(): array
     {
-        $viewFiles = glob($this->viewPath . '*.blade.php');
+        $components = [];
+        $viewFiles = glob(self::VIEW_PATH . '*.blade.php');
         if (is_array($viewFiles) && !empty($viewFiles)) {
             foreach ($viewFiles as $view) {
-                $this->components[$this->getKey($view)] = (object) [
+                $components[$this->getKey($view)] = (object) [
                     'key' => $this->getKey($view),
                     'html' => $this->renderView(
                         $view,
@@ -55,6 +64,7 @@ class ComponentsJs
                 ];
             }
         }
+        return $components;
     }
 
     /**
@@ -72,7 +82,7 @@ class ComponentsJs
         );
     }
 
-    private function getComponentViewData(string $viewName):array 
+    private function getComponentViewData(string $viewName): array 
     {
         if (method_exists($this, $viewName . 'ViewData')) {
             return $this->{$viewName . 'ViewData'}();
@@ -80,7 +90,10 @@ class ComponentsJs
         return [];
     }
 
-    private function collectionViewData():array 
+    /**
+     * Get data for the collection view. Utilized by @getComponentViewData
+     */
+    private function collectionViewData(): array 
     {
         return  [
             'lang' => (object) $this->lang,
@@ -98,6 +111,7 @@ class ComponentsJs
      */
     private function renderView(string $view, array $data = [], bool $compress = true): string
     {
+        
         if (function_exists('liked_posts_render_blade_view')) {
             return liked_posts_render_blade_view(
                 $this->sanitizeViewPath($view),
