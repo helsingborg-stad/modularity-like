@@ -41,7 +41,7 @@ class ComponentsJs
 
     private function shouldRenderComponents(): bool
     {
-        return !is_admin();
+        return !is_admin() && !wp_doing_ajax() && !wp_doing_cron();
     }
 
     /**
