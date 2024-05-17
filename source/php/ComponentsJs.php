@@ -5,6 +5,7 @@ namespace ModularityLikePosts;
 class ComponentsJs
 {
     private const VIEW_PATH = MODULARITYLIKEPOSTS_VIEW_PATH . 'js/object/';
+    private $lang = [];
 
     public function __construct()
     {
