@@ -52,11 +52,16 @@ class App
     public function setModulePostTypes($field)
     {
         $choices = get_field('select_post_type', 'option');
-        $field['choices'] = array_combine($choices, $choices);
-        foreach ($field['choices'] as $key => $value) {
-            $field['choices'][$key] = ucfirst($value);
-        }
 
+        if(is_array($choices) && !empty($choices)) {
+            $field['choices'] = array_combine($choices, $choices);
+            foreach ($field['choices'] as $key => $value) {
+                $field['choices'][$key] = ucfirst($value);
+            }
+        } else {
+            $field['choices'] = [];
+        }
+        
         return $field;
     }
 
