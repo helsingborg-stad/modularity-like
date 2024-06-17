@@ -21,7 +21,7 @@ class App
     {
         new ComponentsJs();
         new MenuIconCounter();
-        $this->setAcfFields = new \ModularityLikePosts\Helper\CheckboxPostTypes();
+        
         add_action('wp_enqueue_scripts', array($this, 'enqueueFrontend'));
         add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
         add_action('plugins_loaded', array($this, 'registerModule'));

@@ -2,6 +2,7 @@
 
 namespace ModularityLikePosts;
 
+use ModularityLikePosts\Helper\FunctionCache; 
 /**
  * Class MenuIconCounter
  * 
@@ -21,7 +22,10 @@ class MenuIconCounter {
             return;
         }
         
-        $this->pagesWithLikePostsModule = \Modularity\Helper\ModuleUsageByName::getModuleUsageByName('mod-liked-posts');
+        $this->pagesWithLikePostsModule = FunctionCache::call(function() {
+            return \Modularity\Helper\ModuleUsageByName::getModuleUsageByName('mod-liked-posts');
+        }, 3600);
+
         add_filter('Municipio/Navigation/Item', array($this, 'addMenuItemIcon'), 10, 2);
     }
 
