@@ -20,6 +20,7 @@ class Like {
 		likeButtons.forEach((button) => {
 			button.addEventListener('click', (e) => {
 				e.preventDefault();
+				e.stopPropagation();
 				const postId = button.getAttribute('data-post-id') ?? '';
 				const postType = button.getAttribute('data-post-type') ?? '';
 				this.setLocalStorage(postId, postType);
