@@ -20,6 +20,7 @@ class Like {
 		likeButtons.forEach((button) => {
 			button.addEventListener('click', (e) => {
 				e.preventDefault();
+				e.stopPropagation();
 				const postId = button.getAttribute('data-post-id') ?? '';
 				const postType = button.getAttribute('data-post-type') ?? '';
 				this.setLocalStorage(postId, postType);
@@ -75,10 +76,10 @@ class Like {
 							node.nodeType === Node.ELEMENT_NODE &&
 							(node as Element).querySelector(this.likeIconSelector)
 						) {
-							if (!((node as Element).querySelector(this.likeIconSelector)?.hasAttribute('data-js-has-click'))) {
-								let button = (node as Element).querySelector(this.likeIconSelector);
-								button && buttons.push(button);
-							}
+							(node as Element).querySelectorAll(`${this.likeIconSelector}:not([data-js-has-click])`).forEach((button) => {
+								buttons.push(button);
+							});
+							
 							this.setLiked();
 						}
 					});
