@@ -20,7 +20,7 @@ class App
     public function __construct()
     {
         new ComponentsJs();
-        new MenuIconCounter();
+        new LikeIconCounter();
         
         add_action('wp_enqueue_scripts', array($this, 'enqueueFrontend'));
         add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
