@@ -42,6 +42,7 @@ class LikeIconCounter {
             $menuItem['icon'] = [
                 'icon' => $this->likeIcon,
                 'size' => 'md',
+                'filled' => true,
                 'attributeList' => [
                     'data-js-like-icon-counter' => '',
                 ],

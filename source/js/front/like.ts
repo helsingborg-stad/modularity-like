@@ -48,7 +48,7 @@ class Like {
 		const icons = [...document.querySelectorAll(`[data-post-id="${postId}"]`)];
 		
 		icons.forEach((icon) => {
-			icon.classList.toggle('material-symbols-outlined--filled');
+			icon.classList.toggle('material-symbols--filled');
 		});
 	}
 
@@ -58,7 +58,7 @@ class Like {
 			const icons = [...document.querySelectorAll(`[data-post-id="${post.id}"]`)];
 			
 			icons.forEach((icon) => {
-				icon.classList.add('material-symbols-outlined--filled');
+				icon.classList.add('material-symbols--filled');
 			});
 		});
 	}
