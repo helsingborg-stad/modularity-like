@@ -14,7 +14,7 @@
                 'data-post-type' => '{LIKE_POST_TYPE}', 
                 'data-post-id' => '{LIKE_POST_ID}'
             ],
-
+            'filled' => true,
         ])
         @endicon
     @endslot
