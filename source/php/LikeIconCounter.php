@@ -65,6 +65,7 @@ class LikeIconCounter {
         $this->checkIfLikedPostsModuleExistsOnPage($postId);
         $this->checkifLikedPostsBlockExistsOnPage($post);
         $this->updateLikeCounterPageIdOption($postId);
+        var_dump($this->hasLikeModule);
     }
 
     private function checkifLikedPostsBlockExistsOnPage($post)
@@ -85,6 +86,7 @@ class LikeIconCounter {
     private function checkIfLikedPostsModuleExistsOnPage($postId)
     {
         $sidebarsArray = get_post_meta($postId, 'modularity-modules', false);
+        echo '<pre>' . print_r( get_post_meta($postId, 'modularity-modules', false), true ) . '</pre>';
 
         $this->lookForLikedPostsModule($sidebarsArray);
     }
@@ -103,7 +105,6 @@ class LikeIconCounter {
             $this->hasLikeModule = true;
             return;
         }
-
         foreach ($array as $value) {
             if (is_array($value)) {
                 $this->lookForLikedPostsModule($value);
