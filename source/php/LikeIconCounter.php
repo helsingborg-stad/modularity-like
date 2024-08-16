@@ -14,7 +14,10 @@ class LikeIconCounter {
      */
     public function __construct() {
         $useMenuCounter = get_field('like_counter', 'option');
-        var_dump('useMenuCounter: ' . $useMenuCounter);
+        
+        var_dump("useMenuCounter: " . $useMenuCounter);
+        echo '<pre>' . print_r( get_post_meta(2648, 'modularity-modules', false), true ) . '</pre>';
+
         if (!empty($useMenuCounter)) {
             $this->likeIcon = get_field('like_icon', 'option') ?? 'favorite';
             $this->likedPostsPageIds = get_option('liked_posts_page_ids', []);
@@ -65,7 +68,6 @@ class LikeIconCounter {
         $this->checkIfLikedPostsModuleExistsOnPage($postId);
         $this->checkifLikedPostsBlockExistsOnPage($post);
         $this->updateLikeCounterPageIdOption($postId);
-        var_dump($this->hasLikeModule);
     }
 
     private function checkifLikedPostsBlockExistsOnPage($post)
@@ -86,7 +88,6 @@ class LikeIconCounter {
     private function checkIfLikedPostsModuleExistsOnPage($postId)
     {
         $sidebarsArray = get_post_meta($postId, 'modularity-modules', false);
-        echo '<pre>' . print_r( get_post_meta($postId, 'modularity-modules', false), true ) . '</pre>';
 
         $this->lookForLikedPostsModule($sidebarsArray);
     }
