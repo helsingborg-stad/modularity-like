@@ -1,5 +1,5 @@
 {
-    "name": "helsingborg-stad/like-posts",
+    "name": "helsingborg-stad/modularity-like",
     "description": "Lets the users like a post.",
     "type": "wordpress-plugin",
     "license": "MIT",

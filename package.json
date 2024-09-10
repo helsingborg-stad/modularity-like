@@ -1,18 +1,18 @@
 {
-    "name": "like-posts",
+    "name": "@helsingborg-stad/modularity-like",
     "version": "2.6.4",
     "description": "Lets the users like a post.",
     "main": "",
     "repository": {
         "type": "git",
-        "url": "https://github.com/NiclasNorin/like-posts"
+        "url": "https://github.com/helsingborg-stad/modularity-like"
     },
     "author": "Niclas Norin",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/NiclasNorin/like-posts/issues"
+        "url": "https://github.com/helsingborg-stad/modularity-like/issues"
     },
-    "homepage": "https://github.com/NiclasNorin/like-posts",
+    "homepage": "https://github.com/helsingborg-stad/modularity-like",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "watch": "cross-env NODE_ENV=development webpack --watch",
@@ -23,6 +23,7 @@
         "> 1%",
         "not dead"
     ],
+    "files": ["dist/"],
     "devDependencies": {
         "autoprefixer": "^10.4.2",
         "clean-webpack-plugin": "^4.0.0",
