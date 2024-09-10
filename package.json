@@ -1,6 +1,6 @@
 {
     "name": "@helsingborg-stad/modularity-like",
-    "version": "2.6.4",
+    "version": "2.6.5",
     "description": "Lets the users like a post.",
     "main": "",
     "repository": {
@@ -23,7 +23,9 @@
         "> 1%",
         "not dead"
     ],
-    "files": ["dist/"],
+    "files": [
+        "dist/"
+    ],
     "devDependencies": {
         "autoprefixer": "^10.4.2",
         "clean-webpack-plugin": "^4.0.0",
