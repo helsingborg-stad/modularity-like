@@ -25,11 +25,11 @@ class Shared {
     }
 
     private setSharedValue(element: HTMLElement, value: string) {
-        element.textContent = this.controlURLParameters(value);
+        element.textContent = this.sanitizeUrlParams(value);
         element.classList.remove('u-display--none');
     }
 
-    private controlURLParameters(encodedString: string) {
+    private sanitizeUrlParams(encodedString: string) {
 		let string = atob(encodedString);
 		string = string.replace(/(<([^>]+)>)/gi, '');
 		return string;
