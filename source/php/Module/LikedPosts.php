@@ -44,12 +44,6 @@ class LikedPosts extends \Modularity\Module
             'noPostsFound' => __('No liked posts were found', 'modularity-like')
         ];
         $data['id'] = uniqid();
-        
-        if (function_exists('get_theme_mod')) {
-            $emblem = get_theme_mod('logotype_emblem');
-        }
-
-        $data['emblem'] = !empty($emblem) ? $emblem : '';
 
         return $data;
     }

@@ -16,7 +16,7 @@ module.exports = {
      * Add your entry files here
      */
     entry: {
-        'js/like-posts': './source/js/like-posts.js',
+        'js/like-posts': './source/js/like-posts.ts',
         'css/like-posts': './source/sass/like-posts.scss',
     },
     

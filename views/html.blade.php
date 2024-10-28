@@ -1,9 +1,10 @@
+@foreach($posts as $post)
     @collection__item([
-        'link' => '{LIKE_POST_LINK}',
+        'link' => $post->permalink,
         'classList' => ['c-collection__item--post', 'u-height--100'],
         'attributeList' => ['data-observe-resizes' => ''],
         'bordered' => true,
-])
+    ])
     @slot('floating')
         @icon([
             'icon' => $icon, 
@@ -11,8 +12,8 @@
             'size' => 'md',
             'attributeList' => [
                 'data-like-icon' => '', 
-                'data-post-type' => '{LIKE_POST_TYPE}', 
-                'data-post-id' => '{LIKE_POST_ID}'
+                'data-post-type' => $post->postType, 
+                'data-post-id' => $post->id
             ],
             'filled' => true,
         ])
@@ -20,7 +21,7 @@
     @endslot
     @slot('before')
         @image([
-            'src' => '{LIKE_POST_IMAGE}' ,
+            'src' => isset($post->images['thumbnail1:1']['src']) ? $post->images['thumbnail1:1']['src'] : $emblem,
             'classList' => ['u-width--100'],
         ])
         @endimage
@@ -36,12 +37,13 @@
                 'variant' => 'h3',
                 'useHeadingsContext' => false,
             ])
-                {LIKE_POST_TITLE}
+                {!! $post->postTitle !!}
             @endtypography
         @endgroup
         @typography([])
-            {LIKE_POST_CONTENT}
+            {!! $post->excerptShorter !!}
         @endtypography
 
         @endgroup
     @endcollection__item
+@endforeach

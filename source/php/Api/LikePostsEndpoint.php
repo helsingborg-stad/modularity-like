@@ -8,7 +8,7 @@ use WP_REST_Response;
 
 class LikePostsEndpoint extends RestApiEndpoint {
     private const NAMESPACE = 'like/v1';
-    private const ROUTE     = '/id=(?P<id>[\d,-]+)';
+    private const ROUTE     = '/ids=(?P<ids>[\d,-]+)';
 
     public function handleRegisterRestRoute(): bool {
         return register_rest_route(self::NAMESPACE, self::ROUTE, array(
@@ -20,25 +20,33 @@ class LikePostsEndpoint extends RestApiEndpoint {
 
     public function handleRequest(WP_REST_Request $request)
     {
-        $idStrings = $request->get_param('id');
+        $paramsConfig = new ParamsConfig($request->get_params());
 
-        if (empty($idStrings)) {
+        if (empty($paramsConfig->getIds())) {
             return new WP_REST_Response(null, 400);
         }
-
-        $idStrings = explode(',', $idStrings);
         
-        return $this->getPosts($idStrings);
+        $posts = $this->getPosts($paramsConfig->getIds());
+        $posts = (new HtmlTransformer($paramsConfig))->transform($posts);
+
+        return $posts;
     }
 
     private function getPosts(array $idStrings) {
+        $query = new \WP_Query(array(
+            'post__in' => $idStrings,
+            'post_type' => 'any',
+            'posts_per_page' => -1
+        ));
+
+        if (empty($query->posts)) {
+            return [];
+        }
+
         $posts = [];
 
-        foreach ($idStrings as $id) {
-            $post = get_post($id);
-            if ($post) {
-                $posts[] = \Municipio\Helper\Post::preparePostObject($post);
-            }
+        foreach ($query->posts as $post) {
+            $posts[] = \Municipio\Helper\Post::preparePostObject($post);
         }
 
         return $posts;

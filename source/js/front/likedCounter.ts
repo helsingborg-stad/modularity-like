@@ -7,14 +7,14 @@ type CounterComponent = {
 
 class LikedCounter {
     counterElements: (Element | null)[];
-    constructor(counterIcons: Element[], counterComponent: CounterComponent) {        
-        this.counterElements = this.addCounterToIcon(counterIcons, counterComponent);
+    constructor(counterIcons: Element[]) {       
+        this.counterElements = this.addCounterToIcon(counterIcons);
         this.updateCounter();
     }
 
-    addCounterToIcon(counterIcons: Element[], counterComponent: CounterComponent) {
+    addCounterToIcon(counterIcons: Element[]) {
         const icons = counterIcons.map((counterIcon: Element) => { 
-            counterIcon.innerHTML += counterComponent.html;
+            counterIcon.innerHTML += this.getLikeIconMarkup();
             return counterIcon.querySelector('[data-js-like-counter]');
         });
         
@@ -35,15 +35,19 @@ class LikedCounter {
             }
         });
     }
+
+    private getLikeIconMarkup() {
+        return '<span class="u-display--none like-counter" data-js-like-counter></span>'
+    }
 }
 
 export default LikedCounter;
 
-export function initializeLikedCounter(counterComponent: CounterComponent) {
+export function initializeLikedCounter() {
     const counterIcons = document.querySelectorAll('[data-js-like-icon-counter]');
     if (counterIcons.length === 0) { return };
 
-    const likeCounterInstance = new LikedCounter([...counterIcons], counterComponent);
+    const likeCounterInstance = new LikedCounter([...counterIcons]);
     window.addEventListener('likedPostsLengthUpdated', (e: Event) => {
         likeCounterInstance.updateCounter();
     });

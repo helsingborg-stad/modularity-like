@@ -1,5 +1,4 @@
-import { Components } from "./components";
-import { Post } from "./post";
+/* import { Components } from "./components";
 import { removePreloaders } from "./helpers/likeHelpers";
 
 class Render {
@@ -80,3 +79,4 @@ class Render {
 }
 
 export default Render;
+ */

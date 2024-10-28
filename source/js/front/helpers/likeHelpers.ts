@@ -5,7 +5,7 @@ export function getLikedPostsFromLocalStorage(): LikedPost[] {
     return likedPostsJson ? JSON.parse(likedPostsJson) : [];
 }
 
-export function getLikedPostLength(){
+export function getLikedPostLength() {
     return getLikedPostsFromLocalStorage().length;
 }
 
@@ -28,7 +28,7 @@ export function generateEncodedLikedPostsParam() {
     return '?liked-posts=' + encodedLikedPosts;
 }
 
-export function decodeLikedPosts(encodedLikedPosts: string): LikedPost[] | [] {
+export function decodeLikedPosts(encodedLikedPosts: string): LikedPost[] {
     const decodedLikedPosts = atob(encodedLikedPosts);
     const compactLikedPosts = JSON.parse(decodedLikedPosts);
     
@@ -40,14 +40,4 @@ export function decodeLikedPosts(encodedLikedPosts: string): LikedPost[] | [] {
     }, []);
 
     return likedPosts;
-}
-
-export function removePreloaders(container: HTMLElement) {
-    container.querySelectorAll('.liked-posts__preloader').forEach((preloader) => {
-        preloader.remove();
-    });
-}
-
-export function noPostsFound(container: HTMLElement) {
-    container.querySelector('[data-js-no-posts-notice]')?.classList.remove('u-display--none');
 }

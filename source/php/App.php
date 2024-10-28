@@ -14,12 +14,10 @@ use Municipio\Api\RestApiEndpointsRegistry;
  */
 class App
 {
-    private $setAcfFields;
     private $cacheBust;
 
     public function __construct()
     {
-        new ComponentsJs();
         new LikeIconCounter();
         
         add_action('wp_enqueue_scripts', array($this, 'enqueueFrontend'));
@@ -82,7 +80,6 @@ class App
      */
     public function enqueueFrontend()
     {
-
         wp_register_style(
             'like-posts-css',
             MODULARITYLIKEPOSTS_URL . '/dist/' .
@@ -97,7 +94,7 @@ class App
             $this->cacheBust->name('js/like-posts.js')
         );
 
-        wp_localize_script('like-posts-js', 'likedPosts',  ['pageUrl' => get_home_url()]);
+        wp_localize_script('like-posts-js', 'currentUser',  ['user' => wp_get_current_user()]);
 
         wp_enqueue_script('like-posts-js');
     }
