@@ -1,9 +1,8 @@
-import { LikedPost } from "./likedPost";
-
-declare const wpApiSettings: any;
+import { LikedPost, WpApiSettings } from "./like-posts";
 
 class LikeModule {
 	constructor(
+        private wpApiSettings: WpApiSettings,
         private postIds: LikedPost[],
         private postTypesToShow: Array<string>,
         private renderContainer: HTMLElement,
@@ -15,8 +14,9 @@ class LikeModule {
     }
 
 	private handleLikedPosts(): void {
-        if (!wpApiSettings) {
+        if (!this.wpApiSettings) {
             console.error('wpApiSettings not found.');
+            this.noPostsFound();
             return;
         }
 		const urlParams = new URLSearchParams(window.location.search);
@@ -26,10 +26,10 @@ class LikeModule {
 	}
 
     private fetchPosts(): void {
-        fetch(`${wpApiSettings.root}like/v1/ids=${this.filterPosts(this.postIds)}?html`)
+        fetch(`${this.wpApiSettings.root}like/v1/ids=${this.filterPosts(this.postIds)}?html`)
         .then(response => {
             if (!response.ok) {
-                return null;
+                throw new Error('Failed to fetch posts');
             }
             return response.json();
         }).then(posts => {

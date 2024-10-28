@@ -1,4 +1,4 @@
-import { getLikedPostLength } from "./helpers/likeHelpers";
+import StorageInterface from "./storage/storageInterface";
 
 type CounterComponent = {
     html: string;
@@ -7,7 +7,7 @@ type CounterComponent = {
 
 class LikedCounter {
     counterElements: (Element | null)[];
-    constructor(counterIcons: Element[]) {       
+    constructor(private likeStorage: StorageInterface, counterIcons: Element[]) {       
         this.counterElements = this.addCounterToIcon(counterIcons);
         this.updateCounter();
     }
@@ -22,7 +22,8 @@ class LikedCounter {
     }
 
     updateCounter() {
-        const likedPostsLength = getLikedPostLength();
+        const likedPostsLength = this.likeStorage.get().length;
+        
         this.counterElements.forEach((counterElement: Element | null) => {
             if (counterElement) {
                 counterElement.innerHTML = likedPostsLength.toString();
@@ -43,11 +44,11 @@ class LikedCounter {
 
 export default LikedCounter;
 
-export function initializeLikedCounter() {
+export function initializeLikedCounter(likeStorage: StorageInterface) {
     const counterIcons = document.querySelectorAll('[data-js-like-icon-counter]');
     if (counterIcons.length === 0) { return };
 
-    const likeCounterInstance = new LikedCounter([...counterIcons]);
+    const likeCounterInstance = new LikedCounter(likeStorage, [...counterIcons]);
     window.addEventListener('likedPostsLengthUpdated', (e: Event) => {
         likeCounterInstance.updateCounter();
     });

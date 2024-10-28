@@ -1,11 +1,7 @@
-import { generateEncodedLikedPostsParam } from './helpers/likeHelpers';
+import StorageInterface from './storage/storageInterface';
 
 class Share {
-    container: Element;
-
-    constructor(container: Element) {
-        this.container = container;
-        
+    constructor(private likeStorage: StorageInterface, private container: Element) {        
         this.init();
     }
 
@@ -20,7 +16,7 @@ class Share {
 
     private renderShareLink() {
         const url = window.location.href.split('?')[0];
-        const encodedLikedPostsParam = generateEncodedLikedPostsParam();
+        const encodedLikedPostsParam = this.generateEncodedLikedPostsParam();
 
         if (!encodedLikedPostsParam) return;
 
@@ -38,6 +34,25 @@ class Share {
         nameField.addEventListener('input', this.updateShareLink.bind(this, urlField, nameField, excerptField));
         excerptField.addEventListener('input', this.updateShareLink.bind(this, urlField, nameField, excerptField));
         button.classList.remove('u-display--none');
+    }
+
+    private generateEncodedLikedPostsParam() {
+        const likedPosts = this.likeStorage.get();
+        if (likedPosts.length == 0) {
+            return false;
+        }
+    
+        const compactLikedPosts = likedPosts.reduce((acc, post) => {
+            if (!acc[post.type]) {
+                acc[post.type] = [];
+            }
+            acc[post.type].push(post.id);
+            return acc;
+        }, {} as { [key: string]: string[] });
+    
+        const encodedLikedPosts = btoa(JSON.stringify(compactLikedPosts));
+    
+        return '?liked-posts=' + encodedLikedPosts;
     }
 
     private updateShareLink(urlField: HTMLInputElement, nameField: HTMLInputElement, excerptField: HTMLInputElement) {

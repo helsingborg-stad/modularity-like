@@ -94,7 +94,7 @@ class App
             $this->cacheBust->name('js/like-posts.js')
         );
 
-        wp_localize_script('like-posts-js', 'currentUser',  ['user' => wp_get_current_user()]);
+        wp_localize_script('like-posts-js', 'currentUser',  ['currentUser' => wp_get_current_user()]);
 
         wp_enqueue_script('like-posts-js');
     }
