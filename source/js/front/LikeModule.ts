@@ -11,12 +11,12 @@ class LikeModule {
         private preLoaders: NodeListOf<HTMLElement>,
 
     ) {
-            this.handleLikedPosts();
+        this.handleLikedPosts();
     }
 
 	private handleLikedPosts(): void {
         if (!wpApiSettings) {
-            console.log('wpApiSettings not found');
+            console.error('wpApiSettings not found.');
             return;
         }
 		const urlParams = new URLSearchParams(window.location.search);
