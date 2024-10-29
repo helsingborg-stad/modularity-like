@@ -13,6 +13,9 @@
  * Domain Path:       /languages
  */
 
+use ModularityLikePosts\Blade\Blade;
+use ComponentLibrary\Init as ComponentLibraryInit;
+
  // Protect agains direct file access
 if (! defined('WPINC')) {
     die;
@@ -28,6 +31,8 @@ define('MODULARITYLIKEPOSTS_MODULE_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'sourc
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require __DIR__ . '/vendor/autoload.php';
 }
+
+$bladeInstance = new Blade(new ComponentLibraryInit([]));
 require_once MODULARITYLIKEPOSTS_PATH . 'Public.php';
 
 load_plugin_textdomain('modularity-like', false, plugin_basename(dirname(__FILE__)) . '/languages');
@@ -57,4 +62,4 @@ add_action('acf/init', function () {
     $acfExportManager->import();
 });
 // Start application
-new ModularityLikePosts\App();
+new ModularityLikePosts\App($bladeInstance);
