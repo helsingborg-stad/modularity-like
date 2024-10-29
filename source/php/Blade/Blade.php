@@ -7,16 +7,11 @@ use HelsingborgStad\BladeService\BladeServiceInterface;
 
 class Blade
 {
-    private static ?ComponentLibraryInit $componentLibrary = null;
-    private ?BladeServiceInterface $bladeEngine = null;
+    private BladeServiceInterface $bladeEngine;
 
-    public function __construct(?ComponentLibraryInit $componentLibrary = null)
+    public function __construct(private ComponentLibraryInit $componentLibrary)
     {
-        if (self::$componentLibrary === null) {
-            self::$componentLibrary = $componentLibrary ?? new ComponentLibraryInit([]);
-        }
-
-        $this->bladeEngine = self::$componentLibrary->getEngine();
+        $this->bladeEngine = $this->componentLibrary->getEngine();
     }
 
     public function render($view, $data = [], $compress = true, $viewPaths = [MODULARITYLIKEPOSTS_MODULE_VIEW_PATH])

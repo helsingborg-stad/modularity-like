@@ -61,5 +61,6 @@ add_action('acf/init', function () {
     ));
     $acfExportManager->import();
 });
+
 // Start application
 new ModularityLikePosts\App($bladeInstance);
