@@ -16,6 +16,8 @@ class LikedPosts extends \Modularity\Module
         $this->nameSingular = __("Liked posts", 'modularity-like');
         $this->namePlural = __("Liked posts", 'modularity-like');
         $this->description = __("Shows the users liked posts", 'modularity-like');
+
+        $this->registerMeta();
     }
 
      /**
@@ -53,6 +55,24 @@ class LikedPosts extends \Modularity\Module
         return $this->template . ".blade.php";
     }
 
+    private function registerMeta(): void
+    {
+        register_meta('user', 'likedPosts', array(
+            'type' => 'object', // Keep as object for the overall structure
+            'show_in_rest' => array(
+                'schema' => array(
+                    'type' => 'object', // The main type is an object
+                    'additionalProperties' => array(
+                        'type' => 'string', // Each additional property should be a string
+                    ),
+                ),
+            ),
+            'single' => true, // Allow single meta value (it will be an object)
+        ));
+        
+    }
+    
+    
     /**
      * Available "magic" methods for modules:
      * init()            What to do on initialization

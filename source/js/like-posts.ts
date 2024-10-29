@@ -3,39 +3,40 @@ import { initializeLikedCounter } from "./front/likedCounter";
 import Shared from './front/shared';
 import Share from './front/share';
 import LikeModule from './front/LikeModule';
-import { LikedPost, WpApiSettings } from './front/like-posts';
+import { LikedPosts, WpApiSettings } from './front/like-posts';
 import { decodeLikedPosts } from './front/helpers/likeHelpers';
 import UserStorage from './front/storage/userStorage';
 import LocalStorage from './front/storage/localStorage';
 
-declare const currentUser : {
-    currentUser: {
-        ID: number;
-    };
+declare const likedPosts : {
+    currentUser: number,
+    likedPostsMeta: any
 };
 
 declare const wpApiSettings: WpApiSettings;
 
 document.addEventListener('DOMContentLoaded', () => {
     const localWpApiSettings = wpApiSettings;
-    let likeStorage = currentUser && currentUser.currentUser.ID && localWpApiSettings ? new UserStorage(localWpApiSettings, currentUser.currentUser.ID) : new LocalStorage();
-
-    likeStorage = new LocalStorage();
+    let likeStorage = likedPosts && likedPosts.currentUser !== 0 && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser, likedPosts.likedPostsMeta) : new LocalStorage();
 
     initializeLikedCounter(likeStorage);
     new Like(likeStorage);
 
     document.querySelectorAll('[data-js-like-posts]').forEach((likePostsContainer) => {
-        const postTypesToShow = JSON.parse(likePostsContainer.getAttribute('data-js-like-posts-post-types') || '[]');
-        const renderContainer = likePostsContainer.querySelector('[data-js-render-container]');
-        const noPostsNotice   = likePostsContainer.querySelector('[data-js-no-posts-notice]');
-        const preLoaders      = likePostsContainer.querySelectorAll('[data-js-like-preloader]');
-        const sharedTitle     = likePostsContainer.querySelector('[data-js-liked-posts-share-title]');
-        const sharedExcerpt   = likePostsContainer.querySelector('[data-js-liked-posts-share-excerpt]');
+        const postTypesToShow   = JSON.parse(likePostsContainer.getAttribute('data-js-like-posts-post-types') || '[]');
+        const renderContainer   = likePostsContainer.querySelector('[data-js-render-container]');
+        const noPostsNotice     = likePostsContainer.querySelector('[data-js-no-posts-notice]');
+        const preLoaders        = likePostsContainer.querySelectorAll('[data-js-like-preloader]');
+        const sharedTitle       = likePostsContainer.querySelector('[data-js-liked-posts-share-title]');
+        const sharedExcerpt     = likePostsContainer.querySelector('[data-js-liked-posts-share-excerpt]');
+        const shareUrlField     = likePostsContainer.querySelector('[data-js-like-share-url]');
+        const shareListField    = likePostsContainer.querySelector('[data-js-like-share-name]');
+        const shareExcerptField = likePostsContainer.querySelector('[data-js-like-share-excerpt]');
+        const shareButton       = likePostsContainer.querySelector('[data-js-like-share-button]');
 
         const urlParams = new URLSearchParams(window.location.search);
 		const sharedPosts = urlParams.get('liked-posts');
-        let postIds: LikedPost[] = sharedPosts ? decodeLikedPosts(sharedPosts) : likeStorage.get();
+        let postIds: LikedPosts = sharedPosts ? decodeLikedPosts(sharedPosts) : likeStorage.get();
 
         if (postTypesToShow && renderContainer && noPostsNotice && preLoaders) {
             if (sharedPosts) {
@@ -44,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     urlParams, 
                     sharedTitle as HTMLElement, 
                     sharedExcerpt as HTMLElement
-
                 );
             }
 
@@ -58,6 +58,14 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
 
-        new Share(likeStorage, likePostsContainer);
+        if (shareButton && shareUrlField && shareListField && shareExcerptField) {
+            new Share(
+                likeStorage,
+                shareButton as HTMLButtonElement,
+                shareUrlField as HTMLInputElement,
+                shareListField as HTMLInputElement,
+                shareExcerptField as HTMLInputElement
+            );
+        }
     });
 });

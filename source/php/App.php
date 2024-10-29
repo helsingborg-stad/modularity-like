@@ -94,9 +94,15 @@ class App
             $this->cacheBust->name('js/like-posts.js')
         );
 
-        wp_localize_script('like-posts-js', 'currentUser',  ['currentUser' => wp_get_current_user()]);
+        $user = wp_get_current_user();
 
-        wp_enqueue_script('like-posts-js');
+        if (!empty($user->ID)) {
+            $userLikedPosts = get_user_meta($user->ID, 'likedPosts', true);
+
+            wp_localize_script('like-posts-js', 'likedPosts',  ['currentUser' => $user->ID, 'likedPostsMeta' => (object) $userLikedPosts]);
+
+            wp_enqueue_script('like-posts-js');
+        }
     }
 
     /**

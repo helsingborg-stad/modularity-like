@@ -41,13 +41,15 @@ class Like {
 
 	private setLiked() {
 		const likedPosts = this.likeStorage.get();
-		likedPosts.forEach((post: { id: string }) => {
-			const icons = [...document.querySelectorAll(`[data-post-id="${post.id}"]`)];
-			
+
+		Object.keys(likedPosts).forEach((postId) => {
+			const icons = [...document.querySelectorAll(`[data-post-id="${postId}"]`)];
+		
 			icons.forEach((icon) => {
 				icon.classList.add('material-symbols--filled');
 			});
 		});
+		
 	}
 
 	private observe() {

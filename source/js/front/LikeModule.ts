@@ -1,9 +1,10 @@
-import { LikedPost, WpApiSettings } from "./like-posts";
+import { LikedPosts, WpApiSettings } from "./like-posts";
 
 class LikeModule {
+    private displayNoneClass: string = 'u-display--none';
 	constructor(
         private wpApiSettings: WpApiSettings,
-        private postIds: LikedPost[],
+        private postIds: LikedPosts,
         private postTypesToShow: Array<string>,
         private renderContainer: HTMLElement,
         private noPostsNotice: HTMLElement,
@@ -19,14 +20,12 @@ class LikeModule {
             this.noPostsFound();
             return;
         }
-		const urlParams = new URLSearchParams(window.location.search);
-		const sharedPosts = urlParams.get('liked-posts');
 
         this.fetchPosts();
 	}
 
     private fetchPosts(): void {
-        fetch(`${this.wpApiSettings.root}like/v1/ids=${this.filterPosts(this.postIds)}?html`)
+        fetch(`${this.wpApiSettings.root}like/v1/ids=${this.getFilteredPostIds()}?html`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch posts');
@@ -57,16 +56,19 @@ class LikeModule {
     }
 
     private noPostsFound() {
-        this.noPostsNotice.querySelector('[data-js-no-posts-notice]')?.classList.remove('u-display--none');
+        this.noPostsNotice.classList.remove(this.displayNoneClass);
         this.removePreloaders();
     }
 
-	private filterPosts(posts: LikedPost[]): string[] {
-        let mappedPosts = posts
-        .filter((post: LikedPost) => this.postTypesToShow.includes(post.type))
-        .map((post: LikedPost) => post.id);
+	private getFilteredPostIds(): string[] {
+        let filteredPostIds = [];
+        for (const likedPost of Object.keys(this.postIds)) {
+            if (this.postTypesToShow.includes(this.postIds[likedPost])) {
+                filteredPostIds.push(likedPost);
+            }
+        }
 
-		return mappedPosts ?? [];
+        return filteredPostIds;
 	}
 }
 

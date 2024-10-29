@@ -1,23 +1,22 @@
-import { LikedPost } from "../like-posts";
+import { LikedPosts } from "../like-posts";
 import StorageInterface from "./storageInterface";
 
 class LocalStorage implements StorageInterface {
-    public get(): LikedPost[] {
-        const likedPostsJson = localStorage.getItem('liked-posts');
-        return likedPostsJson ? JSON.parse(likedPostsJson) : [];
+	private localeStorageKey: string = 'liked-posts-v2';
+    public get(): LikedPosts {
+        const likedPostsJson = localStorage.getItem(this.localeStorageKey);
+        return likedPostsJson ? JSON.parse(likedPostsJson) : {};
     }
 
     public set(postId: string, postType: string): void {
-		let likedPostIds = this.get();
-
-		const index = likedPostIds.findIndex((item: { id: string, type: string }) => item.id === postId && item.type === postType);
-		if (index === -1) {
-			likedPostIds.push({ id: postId, type: postType });
+		let likedPostsIds = this.get();
+		if (likedPostsIds[postId]) {
+			delete likedPostsIds[postId];
 		} else {
-			likedPostIds.splice(index, 1);
+			likedPostsIds[postId] = postType;
 		}
 
-		localStorage.setItem('liked-posts', JSON.stringify(likedPostIds));
+		localStorage.setItem(this.localeStorageKey, JSON.stringify(likedPostsIds));
 	}
 }
 

@@ -4,6 +4,7 @@
         'color' => 'primary',
         'attributeList' => [
             'data-open' => 'modal-' . $id,
+            'data-js-like-share-button' => ''
     ],
         'classList' => ['u-margin__right--2', 'u-display--none']
     ])

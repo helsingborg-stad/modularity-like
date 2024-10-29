@@ -1,6 +1,5 @@
-export interface LikedPost {
-	id: string;
-	type: string;
+export interface LikedPosts {
+    [key: string]: string;
 }
 
 export interface WpApiSettings {

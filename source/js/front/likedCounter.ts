@@ -22,7 +22,7 @@ class LikedCounter {
     }
 
     updateCounter() {
-        const likedPostsLength = this.likeStorage.get().length;
+        const likedPostsLength = Object.keys(this.likeStorage.get()).length;
         
         this.counterElements.forEach((counterElement: Element | null) => {
             if (counterElement) {
