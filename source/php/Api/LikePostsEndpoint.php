@@ -5,10 +5,14 @@ namespace ModularityLikePosts\Api;
 use Municipio\Api\RestApiEndpoint;
 use WP_REST_Request;
 use WP_REST_Response;
+use ModularityLikePosts\Blade\Blade;
 
 class LikePostsEndpoint extends RestApiEndpoint {
     private const NAMESPACE = 'like/v1';
     private const ROUTE     = '/ids=(?P<ids>[\d,-]+)';
+
+    public function __construct(private Blade $bladeInstance)
+    {}
 
     public function handleRegisterRestRoute(): bool {
         return register_rest_route(self::NAMESPACE, self::ROUTE, array(
@@ -27,7 +31,7 @@ class LikePostsEndpoint extends RestApiEndpoint {
         }
         
         $posts = $this->getPosts($paramsConfig->getIds());
-        $posts = (new HtmlTransformer($paramsConfig))->transform($posts);
+        $posts = (new HtmlTransformer( $this->bladeInstance, $paramsConfig))->transform($posts);
 
         return $posts;
     }
