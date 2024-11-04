@@ -1,9 +1,9 @@
-import { getLikedPostsFromLocalStorage, getLikedPostLength } from "./helpers/likeHelpers";
+import StorageInterface from "./storage/storageInterface";
 
 class Like {
 	likeIconSelector: string;
 
-	constructor() {
+	constructor(private likeStorage: StorageInterface) {
 		this.likeIconSelector = '.like-icon';
 		this.handleLike();
 
@@ -23,25 +23,12 @@ class Like {
 				e.stopPropagation();
 				const postId = button.getAttribute('data-post-id') ?? '';
 				const postType = button.getAttribute('data-post-type') ?? '';
-				this.setLocalStorage(postId, postType);
+				this.likeStorage.set(postId, postType);
+				this.toggleLiked(postId);
 				window.dispatchEvent(this.likedPostsUpdatedEvent());
 			});
 			button.setAttribute('data-js-has-click', '');
 		});
-	}
-
-	private setLocalStorage(postId: string, postType: string) {
-		let likedPostIds = getLikedPostsFromLocalStorage();
-
-		const index = likedPostIds.findIndex((item: { id: string, type: string }) => item.id === postId && item.type === postType);
-		if (index === -1) {
-			likedPostIds.push({ id: postId, type: postType });
-		} else {
-			likedPostIds.splice(index, 1);
-		}
-
-		localStorage.setItem('liked-posts', JSON.stringify(likedPostIds));
-		this.toggleLiked(postId);
 	}
 
 	private toggleLiked(postId: string) {
@@ -53,14 +40,16 @@ class Like {
 	}
 
 	private setLiked() {
-		const likedPosts = getLikedPostsFromLocalStorage();
-		likedPosts.forEach((post: { id: string }) => {
-			const icons = [...document.querySelectorAll(`[data-post-id="${post.id}"]`)];
-			
+		const likedPosts = this.likeStorage.get();
+
+		Object.keys(likedPosts).forEach((postId) => {
+			const icons = [...document.querySelectorAll(`[data-post-id="${postId}"]`)];
+		
 			icons.forEach((icon) => {
 				icon.classList.add('material-symbols--filled');
 			});
 		});
+		
 	}
 
 	private observe() {

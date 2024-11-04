@@ -1,18 +1,19 @@
-import { generateEncodedLikedPostsParam } from './helpers/likeHelpers';
+import StorageInterface from './storage/storageInterface';
 
 class Share {
-    container: Element;
+    private sharedParamKey: string = 'liked-posts';
+    private displayNoneClass: string = 'u-display--none';
 
-    constructor(container: Element) {
-        this.container = container;
-        
-        this.init();
-    }
-
-    private init() {
+    constructor(
+        private likeStorage: StorageInterface, 
+        private shareButton: HTMLButtonElement,
+        private urlField: HTMLInputElement,
+        private nameField: HTMLInputElement,
+        private excerptField: HTMLInputElement,
+    ) {        
         const urlParams = new URLSearchParams(window.location.search);
 
-        const encodedLikedPosts = urlParams.get('liked-posts');
+        const encodedLikedPosts = urlParams.get(this.sharedParamKey);
         if (!encodedLikedPosts) {
             this.renderShareLink();
         }
@@ -20,24 +21,38 @@ class Share {
 
     private renderShareLink() {
         const url = window.location.href.split('?')[0];
-        const encodedLikedPostsParam = generateEncodedLikedPostsParam();
+        const encodedLikedPostsParam = this.generateEncodedLikedPostsParam();
 
         if (!encodedLikedPostsParam) return;
 
         const shareLink = `${url}${encodedLikedPostsParam}`;
 
-        const button = this.container.querySelector('button') as HTMLButtonElement;
-        const dialog = this.container.querySelector('dialog');
-        if (!dialog) return;
+        this.urlField.value = shareLink;
+        this.nameField.addEventListener('input', this.updateShareLink.bind(this, this.urlField, this.nameField, this.excerptField));
+        this.excerptField.addEventListener('input', this.updateShareLink.bind(this, this.urlField, this.nameField, this.excerptField));
 
-        const urlField = dialog.querySelector('[data-js-like-share-url]') as HTMLInputElement;
-        const nameField = dialog.querySelector('[data-js-like-share-name]') as HTMLInputElement;
-        const excerptField = dialog.querySelector('[data-js-like-share-excerpt]') as HTMLInputElement;
+        this.shareButton.classList.remove(this.displayNoneClass);
+    }
 
-        urlField.value = shareLink;
-        nameField.addEventListener('input', this.updateShareLink.bind(this, urlField, nameField, excerptField));
-        excerptField.addEventListener('input', this.updateShareLink.bind(this, urlField, nameField, excerptField));
-        button.classList.remove('u-display--none');
+    private generateEncodedLikedPostsParam() {
+        const likedPosts = this.likeStorage.get();
+        if (Object.keys(likedPosts).length == 0) {
+            return false;
+        }
+    
+        let compactLikedPosts: { [key: string]: string[] } = {};
+
+        for (const postId in likedPosts) {
+            const postType = likedPosts[postId];
+            if (!compactLikedPosts[postType]) {
+                compactLikedPosts[postType] = [];
+            }
+            compactLikedPosts[postType].push(postId);
+        }
+    
+        const encodedLikedPosts = btoa(JSON.stringify(compactLikedPosts));
+    
+        return '?liked-posts=' + encodedLikedPosts;
     }
 
     private updateShareLink(urlField: HTMLInputElement, nameField: HTMLInputElement, excerptField: HTMLInputElement) {
