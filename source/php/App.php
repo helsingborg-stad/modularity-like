@@ -4,6 +4,7 @@
 namespace ModularityLikePosts;
 
 use Municipio\Api\RestApiEndpointsRegistry;
+use ModularityLikePosts\Blade\Blade;
 
 /**
  * Class App
@@ -16,7 +17,7 @@ class App
 {
     private $cacheBust;
 
-    public function __construct()
+    public function __construct(Blade $bladeInstance)
     {
         new LikeIconCounter();
         
@@ -27,7 +28,7 @@ class App
         add_filter('Municipio/Admin/Acf/PrefillIconChoice', array($this, 'addIconsToSelect'));
         add_filter('kirki_inline_styles', array($this, 'addIconColor'), 10, 1);
 
-        RestApiEndpointsRegistry::add(new \ModularityLikePosts\Api\LikePostsEndpoint());
+        RestApiEndpointsRegistry::add(new \ModularityLikePosts\Api\LikePostsEndpoint($bladeInstance));
         
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
     }
