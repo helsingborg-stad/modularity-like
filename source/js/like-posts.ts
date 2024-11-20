@@ -9,7 +9,7 @@ import UserStorage from './front/storage/userStorage';
 import LocalStorage from './front/storage/localStorage';
 
 declare const likedPosts : {
-    currentUser: number,
+    currentUser: number|string,
     likedPostsMeta: any
 };
 
@@ -17,7 +17,7 @@ declare const wpApiSettings: WpApiSettings;
 
 document.addEventListener('DOMContentLoaded', () => {
     const localWpApiSettings = wpApiSettings;
-    let likeStorage = likedPosts && likedPosts.currentUser !== 0 && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser, likedPosts.likedPostsMeta) : new LocalStorage();
+    let likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) : new LocalStorage();
 
     initializeLikedCounter(likeStorage);
     new Like(likeStorage);
