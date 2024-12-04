@@ -3,9 +3,35 @@
     "title": "Liked posts",
     "fields": [
         {
+            "key": "field_6750606644037",
+            "label": "Appearance",
+            "name": "liked_posts_appearance",
+            "aria-label": "",
+            "type": "image_select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "6750607d44038": {
+                    "image-select-repeater-label": "Collection",
+                    "image-select-repeater-value": "collection"
+                },
+                "6750608344039": {
+                    "image-select-repeater-label": "List",
+                    "image-select-repeater-value": "list"
+                }
+            }
+        },
+        {
             "key": "field_63ee48da2d607",
             "label": "Liked post types to show",
             "name": "liked_post_types_to_show",
+            "aria-label": "",
             "type": "checkbox",
             "instructions": "",
             "required": 0,
@@ -16,22 +42,22 @@
                 "id": ""
             },
             "choices": {
-                "post": "Post",
-                "event": "Event",
                 "place": "Place",
-                "guide": "Guide"
+                "omsorg-och-stod": "Omsorg-och-stod"
             },
             "default_value": [],
             "return_format": "value",
             "allow_custom": 0,
             "layout": "vertical",
             "toggle": 0,
-            "save_custom": 0
+            "save_custom": 0,
+            "custom_choice_button_text": "L\u00e4gg till nytt val"
         },
         {
             "key": "field_643685be6d8ea",
             "label": "Columns",
             "name": "liked_posts_columns",
+            "aria-label": "",
             "type": "select",
             "instructions": "",
             "required": 0,
@@ -53,12 +79,15 @@
             "allow_null": 0,
             "ui": 0,
             "ajax": 0,
-            "placeholder": ""
+            "placeholder": "",
+            "allow_custom": 0,
+            "search_placeholder": ""
         },
         {
             "key": "field_64817c32631dc",
             "label": "Display share button",
             "name": "liked_posts_share_button",
+            "aria-label": "",
             "type": "true_false",
             "instructions": "",
             "required": 0,

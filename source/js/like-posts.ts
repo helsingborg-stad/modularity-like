@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('[data-js-like-posts]').forEach((likePostsContainer) => {
         const postTypesToShow   = JSON.parse(likePostsContainer.getAttribute('data-js-like-posts-post-types') || '[]');
+        const postAppearance    = likePostsContainer.getAttribute('data-js-like-posts-appearance') || 'collection';
         const renderContainer   = likePostsContainer.querySelector('[data-js-render-container]');
         const noPostsNotice     = likePostsContainer.querySelector('[data-js-no-posts-notice]');
         const preLoaders        = likePostsContainer.querySelectorAll('[data-js-like-preloader]');
@@ -52,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localWpApiSettings,
                 postIds,
                 postTypesToShow,
+                postAppearance,
                 renderContainer as HTMLElement,
                 noPostsNotice as HTMLElement,
                 preLoaders as NodeListOf<HTMLElement>
