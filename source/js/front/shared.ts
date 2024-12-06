@@ -1,6 +1,5 @@
 class Shared {
     private displayNoneClass: string = 'u-display--none';
-    private marginTopClass: string = 'u-margin__top--3';
     private nameParamKey: string = 'liked-name';
     private excerptParamKey: string = 'liked-excerpt';
 
@@ -23,10 +22,6 @@ class Shared {
         if (this.excerpt && listExcerpt) {
             this.setSharedValue(this.excerpt, listExcerpt);
         }
-
-        if (this.excerpt && listExcerpt || this.title && listName) {
-			this.renderContainer.classList.add(this.marginTopClass);
-		}
     }
 
     private setSharedValue(element: HTMLElement, value: string) {

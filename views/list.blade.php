@@ -22,6 +22,7 @@
             'element' => 'h2',
             'variant' => 'h4',
             'useHeadingsContext' => false,
+            'classList' => ['u-padding__right--4']
         ])
             {!! $post->postTitle !!}
         @endtypography

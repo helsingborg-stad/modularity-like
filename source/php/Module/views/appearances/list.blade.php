@@ -1,5 +1,10 @@
-@card([])
-@include('partials.titles', ['classList' => ['c-card__header']])
+@card([
+    'context' => ['module.posts.list']
+])
+    @include('partials.title', ['classList' => ['c-card__header']])
+    <div class="c-card__content">
+        @include('partials.sharedContent')
+    </div>
     @collection([
         'classList' => ['o-grid', 'o-grid--horizontal'],
         'attributeList' => [
