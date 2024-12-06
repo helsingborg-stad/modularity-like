@@ -6,9 +6,35 @@
     'title' => __('Liked posts', 'modularity-like'),
     'fields' => array(
         0 => array(
+            'key' => 'field_6750606644037',
+            'label' => __('Appearance', 'modularity-like'),
+            'name' => 'liked_posts_appearance',
+            'aria-label' => '',
+            'type' => 'image_select',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'choices' => array(
+                '6750607d44038' => array(
+                    'image-select-repeater-label' => 'Collection',
+                    'image-select-repeater-value' => 'collection',
+                ),
+                6750608344039 => array(
+                    'image-select-repeater-label' => 'List',
+                    'image-select-repeater-value' => 'list',
+                ),
+            ),
+        ),
+        1 => array(
             'key' => 'field_63ee48da2d607',
             'label' => __('Liked post types to show', 'modularity-like'),
             'name' => 'liked_post_types_to_show',
+            'aria-label' => '',
             'type' => 'checkbox',
             'instructions' => '',
             'required' => 0,
@@ -19,10 +45,8 @@
                 'id' => '',
             ),
             'choices' => array(
-                'post' => __('Post', 'modularity-like'),
-                'event' => __('Event', 'modularity-like'),
                 'place' => __('Place', 'modularity-like'),
-                'guide' => __('Guide', 'modularity-like'),
+                'omsorg-och-stod' => __('Omsorg-och-stod', 'modularity-like'),
             ),
             'default_value' => array(
             ),
@@ -31,11 +55,13 @@
             'layout' => 'vertical',
             'toggle' => 0,
             'save_custom' => 0,
+            'custom_choice_button_text' => 'Lägg till nytt val',
         ),
-        1 => array(
+        2 => array(
             'key' => 'field_643685be6d8ea',
             'label' => __('Columns', 'modularity-like'),
             'name' => 'liked_posts_columns',
+            'aria-label' => '',
             'type' => 'select',
             'instructions' => '',
             'required' => 0,
@@ -51,18 +77,21 @@
                 'grid-md-4' => __('3', 'modularity-like'),
                 'grid-md-3' => __('4', 'modularity-like'),
             ),
-            'default_value' => __('grid-md-12', 'modularity-like'),
+            'default_value' => 'grid-md-12',
             'return_format' => 'value',
             'multiple' => 0,
             'allow_null' => 0,
             'ui' => 0,
             'ajax' => 0,
             'placeholder' => '',
+            'allow_custom' => 0,
+            'search_placeholder' => '',
         ),
-        2 => array(
+        3 => array(
             'key' => 'field_64817c32631dc',
             'label' => __('Display share button', 'modularity-like'),
             'name' => 'liked_posts_share_button',
+            'aria-label' => '',
             'type' => 'true_false',
             'instructions' => '',
             'required' => 0,
