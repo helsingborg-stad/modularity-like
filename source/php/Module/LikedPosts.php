@@ -30,7 +30,7 @@ class LikedPosts extends \Modularity\Module
         $data['likeIcon'] = get_field('like_icon', 'option') ?? 'favorite';
 
         /* Possibility to add more views */
-        $data['displayAs'] = !empty($fields['liked_posts_display_as']) ? $fields['liked_posts_display_as'] : 'collection';
+        $data['appearance'] = !empty($fields['liked_posts_appearance']) ? $fields['liked_posts_appearance'] : 'collection';
 
         $data['postTypes'] = json_encode($fields['liked_post_types_to_show']);
         $data['postColumns'] = apply_filters('Modularity/Display/replaceGrid', $fields['liked_posts_columns']);

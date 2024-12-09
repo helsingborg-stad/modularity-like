@@ -6,6 +6,7 @@ class LikeModule {
         private wpApiSettings: WpApiSettings,
         private postIds: LikedPosts,
         private postTypesToShow: Array<string>,
+        private postAppearance: string,
         private renderContainer: HTMLElement,
         private noPostsNotice: HTMLElement,
         private preLoaders: NodeListOf<HTMLElement>,
@@ -25,7 +26,7 @@ class LikeModule {
 	}
 
     private fetchPosts(): void {
-        fetch(`${this.wpApiSettings.root}like/v1/ids=${this.getFilteredPostIds()}?html`)
+        fetch(`${this.wpApiSettings.root}like/v1/ids=${this.getFilteredPostIds()}?html&appearance=${this.postAppearance}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch posts');
