@@ -28,6 +28,26 @@
             }
         },
         {
+            "key": "field_675832b642772",
+            "label": "liked_posts_appearance_conditional",
+            "name": "liked_posts_appearance_conditional",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "acf-hidden",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
             "key": "field_63ee48da2d607",
             "label": "Liked post types to show",
             "name": "liked_post_types_to_show",
@@ -61,7 +81,15 @@
             "type": "select",
             "instructions": "",
             "required": 0,
-            "conditional_logic": 0,
+            "conditional_logic": [
+                [
+                    {
+                        "field": "field_675832b642772",
+                        "operator": "!=",
+                        "value": "list"
+                    }
+                ]
+            ],
             "wrapper": {
                 "width": "",
                 "class": "",

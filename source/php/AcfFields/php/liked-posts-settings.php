@@ -31,6 +31,26 @@
             ),
         ),
         1 => array(
+            'key' => 'field_675832b642772',
+            'label' => __('liked_posts_appearance_conditional', 'modularity-like'),
+            'name' => 'liked_posts_appearance_conditional',
+            'aria-label' => '',
+            'type' => 'text',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => 'acf-hidden',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'maxlength' => '',
+            'placeholder' => '',
+            'prepend' => '',
+            'append' => '',
+        ),
+        2 => array(
             'key' => 'field_63ee48da2d607',
             'label' => __('Liked post types to show', 'modularity-like'),
             'name' => 'liked_post_types_to_show',
@@ -57,7 +77,7 @@
             'save_custom' => 0,
             'custom_choice_button_text' => 'Lägg till nytt val',
         ),
-        2 => array(
+        3 => array(
             'key' => 'field_643685be6d8ea',
             'label' => __('Columns', 'modularity-like'),
             'name' => 'liked_posts_columns',
@@ -65,7 +85,15 @@
             'type' => 'select',
             'instructions' => '',
             'required' => 0,
-            'conditional_logic' => 0,
+            'conditional_logic' => array(
+                0 => array(
+                    0 => array(
+                        'field' => 'field_675832b642772',
+                        'operator' => '!=',
+                        'value' => 'list',
+                    ),
+                ),
+            ),
             'wrapper' => array(
                 'width' => '',
                 'class' => '',
@@ -87,7 +115,7 @@
             'allow_custom' => 0,
             'search_placeholder' => '',
         ),
-        3 => array(
+        4 => array(
             'key' => 'field_64817c32631dc',
             'label' => __('Display share button', 'modularity-like'),
             'name' => 'liked_posts_share_button',
