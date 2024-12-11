@@ -3,12 +3,14 @@
 namespace ModularityLikePosts\Module;
 
 use ModularityLikePosts\Module\SharedPosts;
+use ModularityLikePosts\Helper\GetOptionFields;
 
 class LikedPosts extends \Modularity\Module
 {
     public $slug = 'liked-posts';
     public $supports = array();
     private $template = 'liked-posts';
+    private $getOptionFieldsHelper;
 
     public function init()
     {
@@ -17,6 +19,7 @@ class LikedPosts extends \Modularity\Module
         $this->namePlural = __("Liked posts", 'modularity-like');
         $this->description = __("Shows the users liked posts", 'modularity-like');
 
+        $this->getOptionFieldsHelper = new GetOptionFields();
         $this->registerMeta();
     }
 
@@ -27,8 +30,8 @@ class LikedPosts extends \Modularity\Module
     public function data(): array
     {
         $fields = get_fields($this->ID);
-        $data['likeIcon'] = get_field('like_icon', 'option') ?? 'favorite';
-        
+      
+        $data['likeIcon'] = $this->getOptionFieldsHelper->getIcon();
         $data['noPostsFound'] = 
             get_field('like_no_posts_found_text', 'option') ?: 
             __('No liked posts were found', 'modularity-like');

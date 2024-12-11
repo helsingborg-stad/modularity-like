@@ -5,9 +5,14 @@ namespace ModularityLikePosts\Api;
 use ModularityLikePosts\Api\ParamsConfigInterface;
 use ModularityLikePosts\Api\PostsTransformerInterface;
 use ModularityLikePosts\Blade\Blade;
+use ModularityLikePosts\Helper\GetOptionFields;
 
 class HtmlTransformer implements PostsTransformerInterface {
-    public function __construct(private Blade $bladeInstance, private ParamsConfigInterface $paramsConfig)
+    public function __construct(
+        private Blade $bladeInstance, 
+        private ParamsConfigInterface $paramsConfig,
+        private GetOptionFields $getOptionFieldsHelper
+    )
     {}
 
     public function transform(array $posts): mixed
@@ -16,12 +21,13 @@ class HtmlTransformer implements PostsTransformerInterface {
             return $posts;
         }
 
-        $icon = get_field('like_icon', 'option') ?? 'favorite';
+        $icon = $this->getOptionFieldsHelper->getIcon();
+        $tooltip = $this->getOptionFieldsHelper->getTooltip();
         $emblem = get_theme_mod('logotype_emblem') ?? null;
 
         $html = $this->bladeInstance->render(
             $this->paramsConfig->getAppearance(),
-            ['posts' => $posts, 'icon' => $icon, 'emblem' => $emblem],
+            ['posts' => $posts, 'icon' => $icon, 'emblem' => $emblem, 'tooltip' => $tooltip],
             true,
             [MODULARITYLIKEPOSTS_VIEW_PATH]
         );

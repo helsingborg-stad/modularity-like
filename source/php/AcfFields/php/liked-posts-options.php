@@ -111,6 +111,26 @@ if (function_exists('acf_add_local_field_group')) {
             'prepend' => '',
             'append' => '',
         ),
+        5 => array(
+            'key' => 'field_675992e866147',
+            'label' => __('Tooltip', 'modularity-like'),
+            'name' => 'like_tooltip_text',
+            'aria-label' => '',
+            'type' => 'text',
+            'instructions' => __('Adds a tooltip with the following text when hovering the icon.', 'modularity-like'),
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'maxlength' => '',
+            'placeholder' => '',
+            'prepend' => '',
+            'append' => '',
+        ),
     ),
     'location' => array(
         0 => array(
