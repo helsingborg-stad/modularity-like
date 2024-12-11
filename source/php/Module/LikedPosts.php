@@ -28,6 +28,10 @@ class LikedPosts extends \Modularity\Module
     {
         $fields = get_fields($this->ID);
         $data['likeIcon'] = get_field('like_icon', 'option') ?? 'favorite';
+        
+        $data['noPostsFound'] = 
+            get_field('like_no_posts_found_text', 'option') ?: 
+            __('No liked posts were found', 'modularity-like');
 
         /* Possibility to add more views */
         $data['appearance'] = !empty($fields['liked_posts_appearance']) ? $fields['liked_posts_appearance'] : 'collection';
@@ -43,7 +47,6 @@ class LikedPosts extends \Modularity\Module
             'shareLinkLabel' => __('Share your link', 'modularity-like'),
             'shareLinkName' => __('List name', 'modularity-like'), 
             'shareLinkExcerpt' => __('List excerpt', 'modularity-like'), 
-            'noPostsFound' => __('No liked posts were found', 'modularity-like')
         ];
         $data['id'] = uniqid();
 
