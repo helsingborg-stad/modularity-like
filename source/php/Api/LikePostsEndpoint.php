@@ -6,12 +6,13 @@ use Municipio\Api\RestApiEndpoint;
 use WP_REST_Request;
 use WP_REST_Response;
 use ModularityLikePosts\Blade\Blade;
+use ModularityLikePosts\Helper\GetOptionFields;
 
 class LikePostsEndpoint extends RestApiEndpoint {
     private const NAMESPACE = 'like/v1';
     private const ROUTE     = '/ids=(?P<ids>[\d,-]+)';
 
-    public function __construct(private Blade $bladeInstance)
+    public function __construct(private Blade $bladeInstance, private GetOptionFields $getOptionFieldsHelper)
     {}
 
     public function handleRegisterRestRoute(): bool {
@@ -31,7 +32,7 @@ class LikePostsEndpoint extends RestApiEndpoint {
         }
         
         $posts = $this->getPosts($paramsConfig->getIds());
-        $posts = (new HtmlTransformer( $this->bladeInstance, $paramsConfig))->transform($posts);
+        $posts = (new HtmlTransformer($this->bladeInstance, $paramsConfig, $this->getOptionFieldsHelper))->transform($posts);
 
         return $posts;
     }

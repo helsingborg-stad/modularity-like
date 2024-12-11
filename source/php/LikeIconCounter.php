@@ -2,6 +2,8 @@
 
 namespace ModularityLikePosts;
 
+use ModularityLikePosts\Helper\GetOptionFields;
+
 class LikeIconCounter {
     private bool $hasLikeModule = false;
     private string $likeIcon = 'favorite';
@@ -12,11 +14,11 @@ class LikeIconCounter {
      * 
      * Initializes the LikeIconCounter object and sets up the save_post action hook if the like_counter option is not empty.
      */
-    public function __construct() {
-        $useMenuCounter = get_field('like_counter', 'option');
+    public function __construct(private GetOptionFields $getOptionFieldsHelper) {
+        $useMenuCounter = $this->getOptionFieldsHelper->getCounter();
         
         if (!empty($useMenuCounter)) {
-            $this->likeIcon = get_field('like_icon', 'option') ?? 'favorite';
+            $this->likeIcon = $this->getOptionFieldsHelper->getIcon();
             $this->likedPostsPageIds = get_option('liked_posts_page_ids', []);
 
             add_action('save_post', array($this, 'checkForLikedModule'), 10, 2);

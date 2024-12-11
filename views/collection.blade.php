@@ -6,18 +6,22 @@
         'bordered' => true,
     ])
     @slot('floating')
-        @icon([
-            'icon' => $icon, 
-            'classList' => ['like-icon'], 
-            'size' => 'md',
-            'attributeList' => [
-                'data-like-icon' => '', 
-                'data-post-type' => $post->postType, 
-                'data-post-id' => $post->id
-            ],
-            'filled' => true,
+        @element([
+            'attributeList' => $tooltip ? ['data-tooltip' => $tooltip] : [],
         ])
-        @endicon
+            @icon([
+                'icon' => $icon, 
+                'classList' => ['like-icon'], 
+                'size' => 'md',
+                'attributeList' => [
+                    'data-like-icon' => '', 
+                    'data-post-type' => $post->postType, 
+                    'data-post-id' => $post->id
+                ],
+                'filled' => true,
+            ])
+            @endicon
+        @endelement
     @endslot
     @slot('before')
         @image([
