@@ -5,6 +5,7 @@ namespace ModularityLikePosts;
 
 use Municipio\Api\RestApiEndpointsRegistry;
 use ModularityLikePosts\Blade\Blade;
+use ModularityLikePosts\Helper\GetOptionFields;
 
 /**
  * Class App
@@ -16,10 +17,12 @@ use ModularityLikePosts\Blade\Blade;
 class App
 {
     private $cacheBust;
+    private $getOptionFieldsHelper;
 
     public function __construct(Blade $bladeInstance)
     {
-        new LikeIconCounter();
+        $this->getOptionFieldsHelper = new GetOptionFields();
+        new LikeIconCounter($this->getOptionFieldsHelper);
         
         add_action('wp_enqueue_scripts', array($this, 'enqueueFrontend'));
         add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
@@ -28,14 +31,14 @@ class App
         add_filter('Municipio/Admin/Acf/PrefillIconChoice', array($this, 'addIconsToSelect'));
         add_filter('kirki_inline_styles', array($this, 'addIconColor'), 10, 1);
 
-        RestApiEndpointsRegistry::add(new \ModularityLikePosts\Api\LikePostsEndpoint($bladeInstance));
+        RestApiEndpointsRegistry::add(new \ModularityLikePosts\Api\LikePostsEndpoint($bladeInstance, $this->getOptionFieldsHelper));
         
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
     }
 
     public function addIconColor($inlineStyles) 
     {
-        $color = get_field('like_icon_color', 'option') ?? '#e84666';
+        $color = $this->getOptionFieldsHelper->getIconColor();
         $inlineStyles .= ':root { --like-icon-color: ' . $color . '; }';
 
         return $inlineStyles;
@@ -50,7 +53,7 @@ class App
 
     public function setModulePostTypes($field)
     {
-        $choices = get_field('select_post_type', 'option');
+        $choices = $this->getOptionFieldsHelper->getPostTypes();
 
         if(is_array($choices) && !empty($choices)) {
             $field['choices'] = array_combine($choices, $choices);
@@ -66,9 +69,7 @@ class App
 
     public function postsIcon($callToActionArray, $post)
     {
-        $icon = get_field('like_icon', 'option') ?? 'favorite';
-        $postTypes = get_field('select_post_type', 'option') ?? [];
-        if (!empty($post->post_type) && in_array($post->post_type, $postTypes)) {
+        if (!empty($post->post_type) && in_array($post->post_type, $this->getOptionFieldsHelper->getPostTypes())) {
             $callToActionArray['floating'] = [
                 'wrapper' => [
                     'attributeList' => [
@@ -76,7 +77,7 @@ class App
                     ]
                 ], 
                 'icon' => [
-                    'icon' => $icon, 
+                    'icon' => $this->getOptionFieldsHelper->getIcon(), 
                     'filled' => false, 
                     'size' => 'md', 
                     'attributeList' => [
