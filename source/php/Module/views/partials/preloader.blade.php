@@ -2,7 +2,7 @@
 style="height:170px;width:100%;" data-js-like-preloader></div>
 @notice([
     'message' => [
-        'title' => $labels['noPostsFound'],
+        'title' => $noPostsFound,
     ],
     'classList' => [
         'u-display--none'
