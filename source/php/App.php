@@ -69,7 +69,24 @@ class App
         $icon = get_field('like_icon', 'option') ?? 'favorite';
         $postTypes = get_field('select_post_type', 'option') ?? [];
         if (!empty($post->post_type) && in_array($post->post_type, $postTypes)) {
-            $callToActionArray['floating'] =  ['icon' => $icon, 'filled' => false, 'size' => 'md', 'attributeList' => ['data-like-icon' => '', 'data-post-id' => $post->ID, 'data-post-type' => $post->post_type], 'classList' => ['like-icon']];
+            $callToActionArray['floating'] = [
+                'wrapper' => [
+                    'attributeList' => [
+                        'data-tooltip' => 'abc'
+                    ]
+                ], 
+                'icon' => [
+                    'icon' => $icon, 
+                    'filled' => false, 
+                    'size' => 'md', 
+                    'attributeList' => [
+                        'data-like-icon' => '', 
+                        'data-post-id' => $post->ID, 
+                        'data-post-type' => $post->post_type
+                    ], 
+                    'classList' => ['like-icon']
+                ]
+            ];
         };
 
         return $callToActionArray;
