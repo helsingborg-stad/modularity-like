@@ -2,7 +2,7 @@
     'context' => ['module.posts.list']
 ])
     @include('partials.title', ['classList' => ['c-card__header'], 'variant' => 'h4'])
-    <div class="c-card__content">
+    <div class="c-card__content u-margin__top--0">
         @include('partials.sharedContent')
     </div>
     @collection([
