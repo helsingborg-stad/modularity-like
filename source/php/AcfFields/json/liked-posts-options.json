@@ -57,7 +57,7 @@
                 "class": "",
                 "id": ""
             },
-            "choices": [],
+            "choices": {},
             "default_value": "favorite",
             "return_format": "value",
             "multiple": 0,
@@ -85,6 +85,46 @@
             "default_value": "#e84666",
             "enable_opacity": 0,
             "return_format": "string"
+        },
+        {
+            "key": "field_67596068510a6",
+            "label": "Add \"no posts found\" text",
+            "name": "like_no_posts_found_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_675992e866147",
+            "label": "Tooltip",
+            "name": "like_tooltip_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Adds a tooltip with the following text when hovering the icon.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
         }
     ],
     "location": [
@@ -111,4 +151,4 @@
     "acfe_meta": "",
     "acfe_note": ""
 }]
-
+

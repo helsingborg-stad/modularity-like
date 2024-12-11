@@ -55,4 +55,17 @@ class GetOptionFields
 
         return $counter;
     }
+
+    public function getTooltip()
+    {
+        static $tooltip = null;
+
+        if (!is_null($tooltip)) {
+            return $tooltip;
+        }
+
+        $tooltip = get_field('like_tooltip_text', 'option') ?? false;
+
+        return $tooltip;
+    }
 }

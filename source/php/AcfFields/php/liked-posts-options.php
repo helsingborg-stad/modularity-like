@@ -1,7 +1,9 @@
 <?php 
 
-if (function_exists('acf_add_local_field_group')) {
-    acf_add_local_field_group(array(
+
+if (function_exists('acf_add_local_field_group')) {
+
+    acf_add_local_field_group(array(
     'key' => 'group_63ecfd0993f44',
     'title' => __('Like', 'modularity-like'),
     'fields' => array(
@@ -60,9 +62,8 @@
                 'class' => '',
                 'id' => '',
             ),
-            'choices' => array(
-            ),
-            'default_value' => __('favorite', 'modularity-like'),
+            'choices' => array(),
+            'default_value' => 'favorite',
             'return_format' => 'value',
             'multiple' => 0,
             'allow_custom' => 0,
@@ -86,9 +87,49 @@
                 'class' => '',
                 'id' => '',
             ),
-            'default_value' => __('#e84666', 'modularity-like'),
+            'default_value' => '#e84666',
             'enable_opacity' => 0,
             'return_format' => 'string',
+        ),
+        4 => array(
+            'key' => 'field_67596068510a6',
+            'label' => __('Add "no posts found" text', 'modularity-like'),
+            'name' => 'like_no_posts_found_text',
+            'aria-label' => '',
+            'type' => 'text',
+            'instructions' => '',
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'maxlength' => '',
+            'placeholder' => '',
+            'prepend' => '',
+            'append' => '',
+        ),
+        5 => array(
+            'key' => 'field_675992e866147',
+            'label' => __('Tooltip', 'modularity-like'),
+            'name' => 'like_tooltip_text',
+            'aria-label' => '',
+            'type' => 'text',
+            'instructions' => __('Adds a tooltip with the following text when hovering the icon.', 'modularity-like'),
+            'required' => 0,
+            'conditional_logic' => 0,
+            'wrapper' => array(
+                'width' => '',
+                'class' => '',
+                'id' => '',
+            ),
+            'default_value' => '',
+            'maxlength' => '',
+            'placeholder' => '',
+            'prepend' => '',
+            'append' => '',
         ),
     ),
     'location' => array(
@@ -115,4 +156,5 @@
     'acfe_meta' => '',
     'acfe_note' => '',
 ));
-}
+
+}

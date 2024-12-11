@@ -72,10 +72,10 @@ class App
         if (!empty($post->post_type) && in_array($post->post_type, $this->getOptionFieldsHelper->getPostTypes())) {
             $callToActionArray['floating'] = [
                 'wrapper' => [
-                    'attributeList' => [
-                        'data-tooltip' => 'abc'
-                    ]
-                ], 
+                    'attributeList' => $this->getOptionFieldsHelper->getTooltip() ? [
+                        'data-tooltip' => $this->getOptionFieldsHelper->getTooltip()
+                    ] : []
+                ],
                 'icon' => [
                     'icon' => $this->getOptionFieldsHelper->getIcon(), 
                     'filled' => false, 
