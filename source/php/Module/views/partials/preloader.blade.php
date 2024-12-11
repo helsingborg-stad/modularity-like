@@ -4,9 +4,9 @@ style="height:170px;width:100%;" data-js-like-preloader></div>
     'message' => [
         'title' => $noPostsFound,
     ],
-    'classList' => [
-        'u-display--none'
-    ],
+    'classList' => array_merge($classList ?? [], [
+        'u-display--none',
+    ]),
     'attributeList' => [
         'data-js-no-posts-notice' => ''
     ]
