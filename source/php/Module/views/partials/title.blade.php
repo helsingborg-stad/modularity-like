@@ -3,6 +3,7 @@
         @typography([
             'id' => 'mod-liked-posts' . $ID . '-label',
             'element' => 'h2',
+            'variant' => $variant ?? 'h2',
             'classList' => [
                 'u-margin__bottom--0'
             ],

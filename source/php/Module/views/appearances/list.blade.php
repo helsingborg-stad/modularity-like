@@ -1,7 +1,7 @@
 @card([
     'context' => ['module.posts.list']
 ])
-    @include('partials.title', ['classList' => ['c-card__header']])
+    @include('partials.title', ['classList' => ['c-card__header'], 'variant' => 'h4'])
     <div class="c-card__content">
         @include('partials.sharedContent')
     </div>
