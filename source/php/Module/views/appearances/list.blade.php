@@ -6,7 +6,7 @@
         @include('partials.sharedContent')
     </div>
     @collection([
-        'classList' => ['o-grid', 'o-grid--horizontal'],
+        'classList' => ['o-grid', 'o-grid--horizontal', 'u-padding__y--1'],
         'attributeList' => [
             'data-js-render-container' => '',
         ]
