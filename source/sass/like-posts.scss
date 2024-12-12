@@ -10,7 +10,7 @@ $base: var(--base, 8px) !default;
     color: $like-icon-color !important;
 }
 
-.like-icon {
+[data-like-icon] {
     cursor: pointer;
     transition: transform .2s ease-in-out;
 
@@ -36,15 +36,30 @@ $base: var(--base, 8px) !default;
     font-size: 0.8rem;
 }
 
-.like-posts__list-item {
-    .c-collection__content {
-        padding-left: 0;
+.c-collection {
+    &.c-collection--compact-lg .like-posts__list-item,
+    .like-posts__list-item {
+        .c-collection__content {
+            padding-left: 0;
+        }
     }
+}
 
+.like-posts__list-icon {
+    padding: calc($base * 2);
+}
+
+.like-posts__list-item {
     [data-tooltip]:hover {
         &::after,
         &::before {
             transform: translate(-50%, calc($base * 2));
         }
+    }
+}
+
+@media (min-width: 78em) {
+    .c-collection.c-collection--compact-lg .like-posts__list-icon {
+        padding: calc($base * 1);
     }
 }

@@ -4,14 +4,14 @@ class Like {
 	likeIconSelector: string;
 
 	constructor(private likeStorage: StorageInterface) {
-		this.likeIconSelector = '.like-icon';
+		this.likeIconSelector = '[data-like-icon]';
 		this.handleLike();
 
 		this.observe();
 	}
 
 	private handleLike() {
-		const likeButtons = [...document.querySelectorAll('[data-like-icon]')];
+		const likeButtons = [...document.querySelectorAll(this.likeIconSelector)];
 		this.setLiked();
 		likeButtons && this.setListeners(likeButtons);
 	}
@@ -72,6 +72,7 @@ class Like {
 							this.setLiked();
 						}
 					});
+
 					this.setListeners(buttons);
 				}
 			});

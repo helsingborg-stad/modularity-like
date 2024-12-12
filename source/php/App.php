@@ -85,7 +85,6 @@ class App
                         'data-post-id' => $post->ID, 
                         'data-post-type' => $post->post_type
                     ], 
-                    'classList' => ['like-icon']
                 ]
             ];
         };

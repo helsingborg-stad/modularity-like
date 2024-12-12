@@ -11,7 +11,6 @@
         ])
             @icon([
                 'icon' => $icon, 
-                'classList' => ['like-icon'], 
                 'size' => 'md',
                 'attributeList' => [
                     'data-like-icon' => '', 
