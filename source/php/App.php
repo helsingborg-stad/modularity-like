@@ -18,9 +18,11 @@ class App
 {
     private $cacheBust;
     private $getOptionFieldsHelper;
+    private int $frontPageId;
 
     public function __construct(Blade $bladeInstance)
     {
+        $this->frontPageId = (int) get_option('page_on_front', 0);
         $this->getOptionFieldsHelper = new GetOptionFields();
         new LikeIconCounter($this->getOptionFieldsHelper);
         
@@ -69,7 +71,11 @@ class App
 
     public function postsIcon($callToActionArray, $post)
     {
-        if (!empty($post->post_type) && in_array($post->post_type, $this->getOptionFieldsHelper->getPostTypes())) {
+        if (
+            $this->frontPageId !== $post->ID &&
+            !empty($post->post_type) && 
+            in_array($post->post_type, $this->getOptionFieldsHelper->getPostTypes())
+        ) {
             $callToActionArray['floating'] = [
                 'wrapper' => [
                     'attributeList' => $this->getOptionFieldsHelper->getTooltip() ? [
