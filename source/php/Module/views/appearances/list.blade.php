@@ -9,7 +9,9 @@
         'classList' => ['o-grid', 'o-grid--horizontal', 'u-padding__y--1'],
         'attributeList' => [
             'data-js-render-container' => '',
-        ]
+        ],
+        'bordered' => true,
+        'sharpTop' => true,
     ])
         @include('partials.preloader', ['classList' => ['u-margin__x--2', 'u-margin__y--2']])
     @endcollection

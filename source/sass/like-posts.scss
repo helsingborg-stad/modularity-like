@@ -35,3 +35,16 @@ $base: var(--base, 8px) !default;
     align-items: center;
     font-size: 0.8rem;
 }
+
+.like-posts__list-item {
+    .c-collection__content {
+        padding-left: 0;
+    }
+
+    [data-tooltip]:hover {
+        &::after,
+        &::before {
+            transform: translate(-50%, calc($base * 2));
+        }
+    }
+}
