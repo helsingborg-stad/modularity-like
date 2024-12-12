@@ -69,7 +69,11 @@ class App
 
     public function postsIcon($callToActionArray, $post)
     {
-        if (!empty($post->post_type) && in_array($post->post_type, $this->getOptionFieldsHelper->getPostTypes())) {
+        if (
+            !is_front_page() && 
+            !empty($post->post_type) && 
+            in_array($post->post_type, $this->getOptionFieldsHelper->getPostTypes())
+        ) {
             $callToActionArray['floating'] = [
                 'wrapper' => [
                     'attributeList' => $this->getOptionFieldsHelper->getTooltip() ? [
