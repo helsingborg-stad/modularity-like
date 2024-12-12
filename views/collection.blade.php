@@ -1,7 +1,7 @@
 @foreach($posts as $post)
     @collection__item([
         'link' => $post->permalink,
-        'classList' => ['c-collection__item--post', 'u-height--100'],
+        'classList' => ['like-posts__collection-item', 'c-collection__item--post', 'u-height--100'],
         'attributeList' => ['data-observe-resizes' => ''],
         'bordered' => true,
     ])

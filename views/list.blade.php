@@ -1,21 +1,24 @@
 @foreach($posts as $post)
     @collection__item([
         'link' => $post->permalink,
-        'icon' => 'arrow_forward',
-        'displayIcon' => true,
+        'displayIcon' => false,
+        'classList' => ['like-posts__list-item'],
     ])
-    @slot('floating')
+    @slot('before')
         @element([
             'attributeList' => $tooltip ? ['data-tooltip' => $tooltip] : [],
         ])
             @icon([
                 'icon' => $icon, 
-                'classList' => ['like-icon'], 
                 'size' => 'md',
                 'attributeList' => [
                     'data-like-icon' => '', 
                     'data-post-type' => $post->postType, 
                     'data-post-id' => $post->id
+                ],
+                'classList' => [
+                    'u-padding__y--2',
+                    'u-padding__x--2'
                 ],
                 'filled' => true,
             ])
@@ -26,7 +29,6 @@
             'element' => 'h2',
             'variant' => 'h4',
             'useHeadingsContext' => false,
-            'classList' => ['u-padding__right--4']
         ])
             {!! $post->postTitle !!}
         @endtypography
