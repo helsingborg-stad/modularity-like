@@ -17,8 +17,7 @@
                     'data-post-id' => $post->id
                 ],
                 'classList' => [
-                    'u-padding__y--2',
-                    'u-padding__x--2'
+                    'like-posts__list-icon',
                 ],
                 'filled' => true,
             ])
