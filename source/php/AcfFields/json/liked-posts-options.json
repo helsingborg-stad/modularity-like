@@ -108,11 +108,31 @@
         },
         {
             "key": "field_675992e866147",
-            "label": "Tooltip",
-            "name": "like_tooltip_text",
+            "label": "Tooltip like text",
+            "name": "like_tooltip_like_text",
             "aria-label": "",
             "type": "text",
-            "instructions": "Adds a tooltip with the following text when hovering the icon.",
+            "instructions": "Adds a tooltip when hovering \"like\"",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_67627ac061132",
+            "label": "Tooltip unlike text",
+            "name": "like_tooltip_unlike_text",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "Adds a tooltip when hovering \"unlike\"",
             "required": 0,
             "conditional_logic": 0,
             "wrapper": {
