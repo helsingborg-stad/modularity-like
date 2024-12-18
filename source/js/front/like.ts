@@ -21,8 +21,8 @@ class like2 {
             e.preventDefault();
             e.stopPropagation();
             this.likeStorage.set(this.postId, this.postType);
-            window.dispatchEvent(this.likedPostsUpdatedEvent());
             this.toggleLiked();
+            window.dispatchEvent(this.likedPostsUpdatedEvent());
         });
     }
 
