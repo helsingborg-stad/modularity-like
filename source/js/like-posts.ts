@@ -7,20 +7,31 @@ import { decodeLikedPosts } from './front/helpers/likeHelpers';
 import UserStorage from './front/storage/userStorage';
 import LocalStorage from './front/storage/localStorage';
 import { initializeLikeButtons } from './front/like';
+import LikeInstancesStorage from "./front/storage/likeInstancesStorage";
 
 declare const likedPosts : {
     currentUser: number|string,
-    likedPostsMeta: any
+    likedPostsMeta: any,
+    tooltipLike: string,
+    tooltipUnlike: string,
 };
 
 declare const wpApiSettings: WpApiSettings;
 
 document.addEventListener('DOMContentLoaded', () => {
     const localWpApiSettings = wpApiSettings;
-    let likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) : new LocalStorage();
+    const likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) : new LocalStorage();
+
+    const tooltipLike: string = likedPosts.tooltipLike;
+    const tooltipUnlike: string = likedPosts.tooltipUnlike;
 
     initializeLikedCounter(likeStorage);
-    initializeLikeButtons(likeStorage);
+    initializeLikeButtons(
+        likeStorage, 
+        new LikeInstancesStorage(), 
+        tooltipLike, 
+        tooltipUnlike
+    );
 
     document.querySelectorAll('[data-js-like-posts]').forEach((likePostsContainer) => {
         const postTypesToShow   = JSON.parse(likePostsContainer.getAttribute('data-js-like-posts-post-types') || '[]');

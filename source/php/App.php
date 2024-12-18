@@ -78,9 +78,9 @@ class App
         ) {
             $callToActionArray['floating'] = [
                 'wrapper' => [
-                    'attributeList' => $this->getOptionFieldsHelper->getTooltip() ? [
-                        'data-tooltip' => $this->getOptionFieldsHelper->getTooltip()
-                    ] : []
+                    'attributeList' => [
+                        'data-js-like-icon-wrapper' => ''
+                    ],
                 ],
                 'icon' => [
                     'icon' => $this->getOptionFieldsHelper->getIcon(), 
@@ -122,7 +122,10 @@ class App
 
         $userLikedPosts = get_user_meta($user->ID, 'likedPosts', true);
 
-        wp_localize_script('like-posts-js', 'likedPosts',  ['currentUser' => $user->ID, 'likedPostsMeta' => (object) $userLikedPosts]);
+        $tooltipUnlike = $this->getOptionFieldsHelper->getTooltipUnlike();
+        $tooltipLike = $this->getOptionFieldsHelper->getTooltipLike();
+
+        wp_localize_script('like-posts-js', 'likedPosts',  ['currentUser' => $user->ID, 'likedPostsMeta' => (object) $userLikedPosts, 'tooltipUnlike' => $tooltipUnlike, 'tooltipLike' => $tooltipLike]);
 
         wp_enqueue_script('like-posts-js');
     }

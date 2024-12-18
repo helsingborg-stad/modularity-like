@@ -56,16 +56,29 @@ class GetOptionFields
         return $counter;
     }
 
-    public function getTooltip()
+    public function getTooltipLike()
     {
-        static $tooltip = null;
+        static $tooltipLike = null;
 
-        if (!is_null($tooltip)) {
-            return $tooltip;
+        if (!is_null($tooltipLike)) {
+            return $tooltipLike;
         }
 
-        $tooltip = get_field('like_tooltip_text', 'option') ?? false;
+        $tooltipLike = get_field('like_tooltip_like_text', 'option') ?? false;
 
-        return $tooltip;
+        return $tooltipLike;
+    }
+
+    public function getTooltipUnlike()
+    {
+        static $tooltipUnlike = null;
+
+        if (!is_null($tooltipUnlike)) {
+            return $tooltipUnlike;
+        }
+
+        $tooltipUnlike = get_field('like_tooltip_unlike_text', 'option') ?? false;
+
+        return $tooltipUnlike;
     }
 }
