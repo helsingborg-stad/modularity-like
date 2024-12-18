@@ -3,9 +3,15 @@ import StorageInterface from "./storageInterface";
 
 class LocalStorage implements StorageInterface {
 	private localeStorageKey: string = 'liked-posts-v2';
+	private likedPosts: null|LikedPosts = null;
+
     public get(): LikedPosts {
-        const likedPostsJson = localStorage.getItem(this.localeStorageKey);
-        return likedPostsJson ? JSON.parse(likedPostsJson) : {};
+		if (!this.likedPosts) {
+			const likedPostsJson = localStorage.getItem(this.localeStorageKey);
+			this.likedPosts = likedPostsJson ? JSON.parse(likedPostsJson) : {};
+		}
+
+        return this.likedPosts as LikedPosts;
     }
 
     public set(postId: string, postType: string): void {
@@ -17,6 +23,7 @@ class LocalStorage implements StorageInterface {
 		}
 
 		localStorage.setItem(this.localeStorageKey, JSON.stringify(likedPostsIds));
+		this.likedPosts = likedPostsIds;
 	}
 }
 
