@@ -89,8 +89,8 @@ export default class Like {
 export function initializeLikeButtons(
     likeStorage: StorageInterface,
     likeInstancesStorage: LikeInstancesStorage,
-    tooltipLike: string|false, 
-    tooltipUnlike: string|false
+    tooltipLike: string, 
+    tooltipUnlike: string
 ) {
     const createLikeInstance = (button: Element) => {
         const postId   = button.getAttribute(postIdAttribute);
