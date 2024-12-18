@@ -60,6 +60,6 @@ $base: var(--base, 8px) !default;
 
 @media (min-width: 78em) {
     .c-collection.c-collection--compact-lg .like-posts__list-icon {
-        padding: calc($base * 1);
+        padding: $base calc($base * 2);
     }
 }
