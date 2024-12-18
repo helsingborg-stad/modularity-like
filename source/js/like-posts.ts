@@ -1,4 +1,3 @@
-import Like from './front/like';
 import { initializeLikedCounter } from "./front/likedCounter";
 import Shared from './front/shared';
 import Share from './front/share';
@@ -7,6 +6,7 @@ import { LikedPosts, WpApiSettings } from './front/like-posts';
 import { decodeLikedPosts } from './front/helpers/likeHelpers';
 import UserStorage from './front/storage/userStorage';
 import LocalStorage from './front/storage/localStorage';
+import { initializeLikeButtons } from "./front/like";
 
 declare const likedPosts : {
     currentUser: number|string,
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) : new LocalStorage();
 
     initializeLikedCounter(likeStorage);
-    new Like(likeStorage);
+    initializeLikeButtons(likeStorage);
 
     document.querySelectorAll('[data-js-like-posts]').forEach((likePostsContainer) => {
         const postTypesToShow   = JSON.parse(likePostsContainer.getAttribute('data-js-like-posts-post-types') || '[]');
