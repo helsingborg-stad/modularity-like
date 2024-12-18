@@ -5,7 +5,7 @@ const likedIconClass: string = 'material-symbols--filled';
 const postIdAttribute: string = 'data-post-id';
 const postTypeAttribute: string = 'data-post-type';
 
-class like {
+class Like {
     constructor(
         private likeStorage: StorageInterface,
         private button: Element,
@@ -58,7 +58,7 @@ export function initializeLikeButtons(likeStorage: StorageInterface) {
             return;
         }
 
-        new like(likeStorage, button, postId, postType);
+        new Like(likeStorage, button, postId, postType);
     };
 
     document.querySelectorAll(likeIconSelector).forEach((button) => {
