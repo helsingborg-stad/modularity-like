@@ -6,7 +6,7 @@ import { LikedPosts, WpApiSettings } from './front/like-posts';
 import { decodeLikedPosts } from './front/helpers/likeHelpers';
 import UserStorage from './front/storage/userStorage';
 import LocalStorage from './front/storage/localStorage';
-import { initializeLikeButtons } from "./front/like";
+import { initializeLikeButtons } from './front/like';
 
 declare const likedPosts : {
     currentUser: number|string,
