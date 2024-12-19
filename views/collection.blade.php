@@ -7,7 +7,7 @@
     ])
     @slot('floating')
         @element([
-            'attributeList' => $tooltip ? ['data-tooltip' => $tooltip] : [],
+            'attributeList' => ['data-js-like-icon-wrapper' => ''],
         ])
             @icon([
                 'icon' => $icon, 

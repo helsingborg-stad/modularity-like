@@ -22,12 +22,11 @@ class HtmlTransformer implements PostsTransformerInterface {
         }
 
         $icon = $this->getOptionFieldsHelper->getIcon();
-        $tooltip = $this->getOptionFieldsHelper->getTooltip();
         $emblem = get_theme_mod('logotype_emblem') ?? null;
 
         $html = $this->bladeInstance->render(
             $this->paramsConfig->getAppearance(),
-            ['posts' => $posts, 'icon' => $icon, 'emblem' => $emblem, 'tooltip' => $tooltip],
+            ['posts' => $posts, 'icon' => $icon, 'emblem' => $emblem],
             true,
             [MODULARITYLIKEPOSTS_VIEW_PATH]
         );
