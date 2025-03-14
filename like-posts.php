@@ -35,7 +35,9 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 $bladeInstance = new Blade(new ComponentLibraryInit([]));
 require_once MODULARITYLIKEPOSTS_PATH . 'Public.php';
 
-load_plugin_textdomain('modularity-like', false, plugin_basename(dirname(__FILE__)) . '/languages');
+add_action('init', function () {
+    load_plugin_textdomain('modularity-like', false, plugin_basename(dirname(__FILE__)) . '/languages');
+});
 
 add_filter('/Modularity/externalViewPath', function ($arr) {
     $arr['mod-liked-posts'] = MODULARITYLIKEPOSTS_MODULE_VIEW_PATH;
