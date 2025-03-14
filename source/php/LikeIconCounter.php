@@ -15,6 +15,10 @@ class LikeIconCounter {
      * Initializes the LikeIconCounter object and sets up the save_post action hook if the like_counter option is not empty.
      */
     public function __construct(private GetOptionFields $getOptionFieldsHelper) {
+        add_action('init', array($this, 'init'));
+    }
+
+    public function init() {
         $useMenuCounter = $this->getOptionFieldsHelper->getCounter();
         
         if (!empty($useMenuCounter)) {
