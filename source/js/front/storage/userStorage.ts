@@ -1,31 +1,41 @@
-import { LikedPosts, WpApiSettings } from "../like-posts";
+import { LikedPostMeta, LikedPosts, WpApiSettings } from "../like-posts";
 import StorageInterface from "./storageInterface";
 
 declare const wpApiSettings: any;
 
 class UserStorage implements StorageInterface {
-    private likedPosts: LikedPosts = {};
+    private likedPosts: LikedPostMeta = {};
     private userEndpoint: string = '';
 
     constructor(
         private wpApiSettings: WpApiSettings,
         private userId: number,
-        likedPostsMeta: any
+        likedPostsMeta: any,
+        private blogId: string | null = null
     ) {
         this.userEndpoint = `${this.wpApiSettings.root}wp/v2/users/${this.userId}`;
-        this.likedPosts = likedPostsMeta;
+        this.likedPosts = this.sanitizeLikedPostsMeta(likedPostsMeta);
     }
 
-    public get(): LikedPosts {
+    public get(): LikedPostMeta {
         return this.likedPosts;
     }
 
     public set(postId: string, postType: string) {
-        let runtimeLikedPosts = this.get();
-        if (runtimeLikedPosts[postId]) {
-            delete runtimeLikedPosts[postId];
+        if (!this.blogId) return;
+
+        const key = `${this.blogId}-${postId}`;
+        const runtimeLikedPosts = this.get();
+
+        if (runtimeLikedPosts[key]) {
+            delete runtimeLikedPosts[key];
         } else {
-            runtimeLikedPosts[postId] = postType;
+            runtimeLikedPosts[key] = {
+                postType: postType,
+                blogId: this.blogId,
+                postId: postId,
+                likedAt: Date.now()
+            };
         }
 
         fetch(this.userEndpoint, {
@@ -40,16 +50,30 @@ class UserStorage implements StorageInterface {
                 }
             }),
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to update user data');
-            } else {
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update user data');
+                }
                 return response.json();
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+   private sanitizeLikedPostsMeta(likedPostsMeta: any): LikedPostMeta {
+        if (!likedPostsMeta || typeof likedPostsMeta !== 'object') return {};
+
+        return Object.fromEntries(
+            Object.entries(likedPostsMeta).filter(([_, value]) =>
+                value &&
+                typeof value === 'object' &&
+                'postId' in value &&
+                'blogId' in value &&
+                'postType' in value &&
+                'likedAt' in value
+            )
+        ) as LikedPostMeta;
     }
 }
 

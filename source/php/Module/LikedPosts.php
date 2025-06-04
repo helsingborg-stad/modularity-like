@@ -64,18 +64,33 @@ class LikedPosts extends \Modularity\Module
     private function registerMeta(): void
     {
         register_meta('user', 'likedPosts', array(
-            'type' => 'object', // Keep as object for the overall structure
+            'type' => 'object',
+            'single' => true,
             'show_in_rest' => array(
                 'schema' => array(
-                    'type' => 'object', // The main type is an object
+                    'type' => 'object',
                     'additionalProperties' => array(
-                        'type' => 'string', // Each additional property should be a string
+                        'type' => 'object',
+                        'properties' => array(
+                            'postId'   => array(
+                                'type' => ['string', 'integer'], // accept string or int
+                            ),
+                            'blogId'   => array(
+                                'type' => ['string', 'integer'],
+                            ),
+                            'postType' => array(
+                                'type' => 'string',
+                            ),
+                            'likedAt'  => array(
+                                'type'   => ['string', 'integer'], // timestamp or ISO string
+                            ),
+                        ),
+                        'required'             => ['postId', 'blogId', 'postType', 'likedAt'],
+                        'additionalProperties' => false,
                     ),
                 ),
             ),
-            'single' => true, // Allow single meta value (it will be an object)
         ));
-        
     }
     
     

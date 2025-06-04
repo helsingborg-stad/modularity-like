@@ -2,7 +2,7 @@ import { initializeLikedCounter } from "./front/likedCounter";
 import Shared from './front/shared';
 import Share from './front/share';
 import LikeModule from './front/LikeModule';
-import { LikedPosts, WpApiSettings } from './front/like-posts';
+import { LikedPostMeta, LikedPosts, WpApiSettings } from './front/like-posts';
 import { decodeLikedPosts } from './front/helpers/likeHelpers';
 import UserStorage from './front/storage/userStorage';
 import LocalStorage from './front/storage/localStorage';
@@ -14,13 +14,14 @@ declare const likedPosts : {
     likedPostsMeta: any,
     tooltipLike: string,
     tooltipUnlike: string,
+    blogId: string
 };
 
 declare const wpApiSettings: WpApiSettings;
 
 document.addEventListener('DOMContentLoaded', () => {
     const localWpApiSettings = wpApiSettings;
-    const likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) : new LocalStorage();
+    const likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta, likedPosts.blogId) : new LocalStorage(likedPosts.blogId);
 
     const tooltipLike: string = likedPosts.tooltipLike;
     const tooltipUnlike: string = likedPosts.tooltipUnlike;
@@ -30,7 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         likeStorage, 
         new LikeInstancesStorage(), 
         tooltipLike, 
-        tooltipUnlike
+        tooltipUnlike,
+        likedPosts.blogId
     );
 
     document.querySelectorAll('[data-js-like-posts]').forEach((likePostsContainer) => {
@@ -48,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const urlParams = new URLSearchParams(window.location.search);
 		const sharedPosts = urlParams.get('liked-posts');
-        let postIds: LikedPosts = sharedPosts ? decodeLikedPosts(sharedPosts) : likeStorage.get();
+        // let postIds: LikedPostMeta = sharedPosts ? decodeLikedPosts(sharedPosts) : likeStorage.get();
 
         if (postTypesToShow && renderContainer && noPostsNotice && preLoaders) {
             if (sharedPosts) {
@@ -60,15 +62,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
             }
 
-            new LikeModule(
-                localWpApiSettings,
-                postIds,
-                postTypesToShow,
-                postAppearance,
-                renderContainer as HTMLElement,
-                noPostsNotice as HTMLElement,
-                preLoaders as NodeListOf<HTMLElement>
-            );
+            // new LikeModule(
+            //     localWpApiSettings,
+            //     postIds,
+            //     postTypesToShow,
+            //     postAppearance,
+            //     renderContainer as HTMLElement,
+            //     noPostsNotice as HTMLElement,
+            //     preLoaders as NodeListOf<HTMLElement>
+            // );
         }
 
         if (shareButton && shareUrlField && shareListField && shareExcerptField) {

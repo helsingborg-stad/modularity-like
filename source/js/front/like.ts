@@ -10,6 +10,7 @@ const iconWrapperAttribute: string = 'data-js-like-icon-wrapper';
 
 export default class Like {
     private hasTooltip: boolean;
+    private key: string;
     constructor(
         private likeStorage: StorageInterface,
         private likeInstancesStorage: LikeInstancesStorage,
@@ -18,8 +19,10 @@ export default class Like {
         private postId: string,
         private postType: string,
         private tooltipLike: string,
-        private tooltipUnlike: string
+        private tooltipUnlike: string,
+        private blogId: string
     ) {
+        this.key = `${this.blogId}-${this.postId}`;
         this.hasTooltip = Boolean(this.wrapper && (!!this.tooltipLike || !!this.tooltipUnlike));
         this.updateLikedStatus();
         this.setTooltip();
@@ -43,7 +46,7 @@ export default class Like {
             return;
         }
 
-        const isLiked = this.likeStorage.get()[this.postId];
+        const isLiked = this.likeStorage.get()[this.key];
 
         if (isLiked) {
             if (this.tooltipUnlike) {
@@ -62,16 +65,16 @@ export default class Like {
 
     // Toggles the like button (liked/not liked) and updates all like buttons with the same postId
     private toggleLiked() {
-        this.likeInstancesStorage.getInstances(this.postId).forEach((instance) => {
+        this.likeInstancesStorage.getInstances(this.key).forEach((instance) => {
             instance.updateLikedStatus();
             instance.setTooltip();
         });
 	}
 
     // Updates the state of the like button (liked/not liked)
-    private updateLikedStatus() {
-        const isLiked = this.likeStorage.get()[this.postId];
-
+    public updateLikedStatus() {
+        const isLiked = this.likeStorage.get()[this.key];
+        
         if (isLiked) {
             this.button.classList.add(likedIconClass);
         } else {
@@ -90,7 +93,8 @@ export function initializeLikeButtons(
     likeStorage: StorageInterface,
     likeInstancesStorage: LikeInstancesStorage,
     tooltipLike: string, 
-    tooltipUnlike: string
+    tooltipUnlike: string,
+    blogId: string
 ) {
     const createLikeInstance = (button: Element) => {
         const postId   = button.getAttribute(postIdAttribute);
@@ -103,7 +107,7 @@ export function initializeLikeButtons(
         const wrapper = button.closest(`[${iconWrapperAttribute}]`);
 
         likeInstancesStorage.addInstance(
-            postId,
+            `${blogId}-${postId}`,
             new Like(
                 likeStorage, 
                 likeInstancesStorage, 
@@ -112,7 +116,8 @@ export function initializeLikeButtons(
                 postId, 
                 postType, 
                 tooltipLike, 
-                tooltipUnlike
+                tooltipUnlike,
+                blogId
             )
         );
     };
