@@ -1,10 +1,5 @@
 import StorageInterface from "./storage/storageInterface";
 
-type CounterComponent = {
-    html: string;
-    key: string;
-}
-
 class LikedCounter {
     counterElements: (Element | null)[];
     constructor(private likeStorage: StorageInterface, counterIcons: Element[]) {       

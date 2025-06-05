@@ -35,7 +35,6 @@ class LikeModule {
     }
 
 	private handleLikedPosts(): void {
-        console.log('Liked posts:', this.likedPosts);
         if (Object.keys(this.likedPosts).length <= 0) {
             this.noPostsFound();
             return;
