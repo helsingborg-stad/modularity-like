@@ -1,6 +1,6 @@
-import { LikedPosts } from "../like-posts";
+import { LikedPosts, LikedPostsUserMeta } from "../like-posts";
 
 export default interface StorageInterface {
-    get(): LikedPosts;
+    get(): LikedPosts|LikedPostsUserMeta;
     set(postId: string, postType: string): void;
 }

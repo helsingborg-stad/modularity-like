@@ -121,11 +121,21 @@ class App
         $user = wp_get_current_user();
 
         $userLikedPosts = get_user_meta($user->ID, 'likedPosts', true);
+        $blogId = get_current_blog_id();
 
         $tooltipUnlike = $this->getOptionFieldsHelper->getTooltipUnlike();
         $tooltipLike = $this->getOptionFieldsHelper->getTooltipLike();
 
-        wp_localize_script('like-posts-js', 'likedPosts',  ['currentUser' => $user->ID, 'likedPostsMeta' => (object) $userLikedPosts, 'tooltipUnlike' => $tooltipUnlike, 'tooltipLike' => $tooltipLike]);
+        $data = [
+            'currentUser'     => $user->ID,
+            'blogId'          => $blogId,
+            'likedPostsMeta'  => (object) $userLikedPosts,
+            'tooltipUnlike'   => $tooltipUnlike,
+            'tooltipLike'     => $tooltipLike,
+        ];
+
+        $inlineJs = 'window.likedPosts = ' . wp_json_encode($data) . ';';
+        wp_add_inline_script('like-posts-js', $inlineJs, 'before');
 
         wp_enqueue_script('like-posts-js');
     }
