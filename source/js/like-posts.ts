@@ -3,7 +3,6 @@ import Shared from './front/shared';
 import Share from './front/share';
 import LikeModule from './front/LikeModule';
 import { LikedPostsMeta, LikedPosts, WpApiSettings } from './front/like-posts';
-import { decodeLikedPosts } from './front/helpers/likeHelpers';
 import UserStorage from './front/storage/userStorage';
 import LocalStorage from './front/storage/localStorage';
 import { initializeLikeButtons } from './front/like';
@@ -52,7 +51,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const urlParams = new URLSearchParams(window.location.search);
 		const sharedPosts = urlParams.get('liked-posts');
-        let LikedPostsMeta: LikedPostsMeta = sharedPosts ? decodeLikedPosts(sharedPosts) : likeStorage.get();
+
+        const likedPostsStructurer = new LikedPostsStructurer();
+        const likedPostsApiUrlBuilder = new LikedPostsApiUrlBuilder();
 
         if (postTypesToShow && renderContainer && noPostsNotice && preLoaders) {
             if (sharedPosts) {
@@ -65,9 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             new LikeModule(
-                LikedPostsMeta,
-                new LikedPostsStructurer(),
-                new LikedPostsApiUrlBuilder(),
+                likeStorage,
+                sharedPosts,
+                likedPostsStructurer,
+                likedPostsApiUrlBuilder,
                 postTypesToShow,
                 postAppearance,
                 renderContainer as HTMLElement,
@@ -79,6 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (shareButton && shareUrlField && shareListField && shareExcerptField) {
             new Share(
                 likeStorage,
+                postTypesToShow,
+                postAppearance,
+                likedPostsStructurer,
+                likedPostsApiUrlBuilder,
                 shareButton as HTMLButtonElement,
                 shareUrlField as HTMLInputElement,
                 shareListField as HTMLInputElement,

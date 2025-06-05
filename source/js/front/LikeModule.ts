@@ -1,11 +1,14 @@
 import LikedPostsApiUrlBuilder from "./helpers/likedPostsApiUrlBuilder";
 import LikedPostsStructurer from "./helpers/likedPostsStructurer";
 import { LikedPostsMeta, LikedPosts, WpApiSettings } from "./like-posts";
+import StorageInterface from "./storage/storageInterface";
 
 class LikeModule {
     private displayNoneClass: string = 'u-display--none';
+    private likedPosts: LikedPostsMeta;
 	constructor(
-        private likedPosts: LikedPostsMeta,
+        private likeStorage: StorageInterface,
+        private sharedPosts: string|null,
         private likedPostsStructurer: LikedPostsStructurer,
         private likedPostsApiUrlBuilder: LikedPostsApiUrlBuilder,
         private postTypesToShow: Array<string>,
@@ -15,10 +18,24 @@ class LikeModule {
         private preLoaders: NodeListOf<HTMLElement>,
 
     ) {
-        this.handleLikedPosts();
+        this.likedPosts = this.likeStorage.get();
+        if (this.sharedPosts) {
+            const decodedSharedPosts = atob(this.sharedPosts);
+            const apiUrls = JSON.parse(decodedSharedPosts);
+
+            if (Array.isArray(apiUrls) && apiUrls.length > 0) {
+                this.fetchPosts(apiUrls);
+            } else {
+                console.error('Invalid shared posts data:', this.sharedPosts);
+                this.noPostsFound();
+            }
+        } else {
+            this.handleLikedPosts();
+        }
     }
 
 	private handleLikedPosts(): void {
+        console.log('Liked posts:', this.likedPosts);
         if (Object.keys(this.likedPosts).length <= 0) {
             this.noPostsFound();
             return;

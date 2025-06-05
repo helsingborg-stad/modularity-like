@@ -1,3 +1,5 @@
+import LikedPostsApiUrlBuilder from './helpers/likedPostsApiUrlBuilder';
+import LikedPostsStructurer from './helpers/likedPostsStructurer';
 import StorageInterface from './storage/storageInterface';
 
 class Share {
@@ -5,7 +7,11 @@ class Share {
     private displayNoneClass: string = 'u-display--none';
 
     constructor(
-        private likeStorage: StorageInterface, 
+        private likeStorage: StorageInterface,
+        private postTypesToShow: string[],
+        private postAppearance: string,
+        private likedPostsStructurer: LikedPostsStructurer,
+        private likedPostsApiUrlBuilder: LikedPostsApiUrlBuilder,
         private shareButton: HTMLButtonElement,
         private urlField: HTMLInputElement,
         private nameField: HTMLInputElement,
@@ -14,6 +20,7 @@ class Share {
         const urlParams = new URLSearchParams(window.location.search);
 
         const encodedLikedPosts = urlParams.get(this.sharedParamKey);
+
         if (!encodedLikedPosts) {
             this.renderShareLink();
         }
@@ -39,20 +46,16 @@ class Share {
         if (Object.keys(likedPosts).length == 0) {
             return false;
         }
-    
-        let compactLikedPosts: { [key: string]: string[] } = {};
 
-        for (const postId in likedPosts) {
-            const postType = likedPosts[postId];
-            if (!compactLikedPosts[postType]) {
-                compactLikedPosts[postType] = [];
-            }
-            compactLikedPosts[postType].push(postId);
-        }
+        const apiUrls = this.likedPostsApiUrlBuilder.build(
+            this.likedPostsStructurer.structure(likedPosts),
+            this.postAppearance,
+            this.postTypesToShow
+        );
+
+        const encodedApiUrls = btoa(JSON.stringify(apiUrls));
     
-        const encodedLikedPosts = btoa(JSON.stringify(compactLikedPosts));
-    
-        return '?liked-posts=' + encodedLikedPosts;
+        return '?liked-posts=' + encodedApiUrls;
     }
 
     private updateShareLink(urlField: HTMLInputElement, nameField: HTMLInputElement, excerptField: HTMLInputElement) {
