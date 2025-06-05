@@ -1,10 +1,13 @@
-import { LikedPosts, WpApiSettings } from "./like-posts";
+import LikedPostsApiUrlBuilder from "./helpers/likedPostsApiUrlBuilder";
+import LikedPostsStructurer from "./helpers/likedPostsStructurer";
+import { LikedPostsMeta, LikedPosts, WpApiSettings } from "./like-posts";
 
 class LikeModule {
     private displayNoneClass: string = 'u-display--none';
 	constructor(
-        private wpApiSettings: WpApiSettings,
-        private postIds: LikedPosts,
+        private likedPosts: LikedPostsMeta,
+        private likedPostsStructurer: LikedPostsStructurer,
+        private likedPostsApiUrlBuilder: LikedPostsApiUrlBuilder,
         private postTypesToShow: Array<string>,
         private postAppearance: string,
         private renderContainer: HTMLElement,
@@ -16,28 +19,37 @@ class LikeModule {
     }
 
 	private handleLikedPosts(): void {
-        if (!this.wpApiSettings) {
-            console.error('wpApiSettings not found.');
+        if (Object.keys(this.likedPosts).length <= 0) {
             this.noPostsFound();
             return;
         }
 
-        this.fetchPosts();
+        const apiUrls = this.likedPostsApiUrlBuilder.build(
+            this.likedPostsStructurer.structure(this.likedPosts),
+            this.postAppearance,
+            this.postTypesToShow
+        );
+
+        this.fetchPosts(apiUrls);
 	}
 
-    private fetchPosts(): void {
-        fetch(`${this.wpApiSettings.root}like/v1/ids=${this.getFilteredPostIds()}?html&appearance=${this.postAppearance}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch posts');
-            }
-            return response.json();
-        }).then(posts => {
-            this.handleFetched(posts);
-        }).catch(error => {
-            console.error(error);
-            this.noPostsFound();
-        });
+    private fetchPosts(apiUrls: string[]): void {
+        Promise.all(apiUrls.map(url => fetch(url)))
+            .then(responses => {
+                if (!responses.every(response => response.ok)) {
+                    throw new Error('Failed to fetch some posts');
+                }
+
+                return Promise.all(responses.map(response => response.json()));
+            })
+            .then(postsMarkupArray => {
+                const combinedMarkup = postsMarkupArray.flat().join('');
+                this.handleFetched(combinedMarkup);
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                this.noPostsFound();
+            });
     }
 
     private handleFetched(posts: string): void {
@@ -60,17 +72,6 @@ class LikeModule {
         this.noPostsNotice.classList.remove(this.displayNoneClass);
         this.removePreloaders();
     }
-
-	private getFilteredPostIds(): string[] {
-        let filteredPostIds = [];
-        for (const likedPost of Object.keys(this.postIds)) {
-            if (this.postTypesToShow.includes(this.postIds[likedPost])) {
-                filteredPostIds.push(likedPost);
-            }
-        }
-
-        return filteredPostIds;
-	}
 }
 
 export default LikeModule;

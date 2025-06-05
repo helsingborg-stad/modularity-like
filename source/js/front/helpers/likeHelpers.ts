@@ -1,14 +1,15 @@
-import { LikedPosts } from "../like-posts";
+import { LikedPostsMeta } from "../like-posts";
 
-export function decodeLikedPosts(encodedLikedPosts: string): LikedPosts {
+export function decodeLikedPosts(encodedLikedPosts: string): LikedPostsMeta {
     const decodedLikedPosts = atob(encodedLikedPosts);
     const compactLikedPosts = JSON.parse(decodedLikedPosts);
 
-    let likedPostsStructuredObject: LikedPosts = {};
+    let likedPostsStructuredObject: LikedPostsMeta = {};
     for (const postType of Object.keys(compactLikedPosts)) {
         if (Array.isArray(compactLikedPosts[postType])) {
             compactLikedPosts[postType].forEach(id => {
-                likedPostsStructuredObject[id] = postType;
+                console.log(`Decoding liked post: ${id} of type ${postType}`);
+                // likedPostsStructuredObject[id] = postType;
             });
         }
     }

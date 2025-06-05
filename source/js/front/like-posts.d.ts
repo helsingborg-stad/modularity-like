@@ -3,16 +3,23 @@ export interface LikedPosts {
 }
 
 export interface LikedPostMeta {
-	[id: string]: {
-		postType: string;
-		blogId: string;
-		postId: string;
-		likedAt: number;
-	}
+	postType: string;
+	blogId: string;
+	postId: string;
+	likedAt: number;
+	website: string;
+}
+
+export interface LikedPostsMeta {
+	[id: string]: LikedPostMeta;
 }
 
 export interface WpApiSettings {
 	root: string;
 	nonce: string;
 	versionString: string;
+}
+
+export interface StructuredLikedPosts {
+	[website: string]: LikedPostMeta[];
 }

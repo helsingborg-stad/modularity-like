@@ -1,10 +1,10 @@
-import { LikedPostMeta, LikedPosts, WpApiSettings } from "../like-posts";
+import { LikedPostsMeta, LikedPosts, WpApiSettings } from "../like-posts";
 import StorageInterface from "./storageInterface";
 
 declare const wpApiSettings: any;
 
 class UserStorage implements StorageInterface {
-    private likedPosts: LikedPostMeta = {};
+    private likedPosts: LikedPostsMeta = {};
     private userEndpoint: string = '';
 
     constructor(
@@ -17,7 +17,7 @@ class UserStorage implements StorageInterface {
         this.likedPosts = this.sanitizeLikedPostsMeta(likedPostsMeta);
     }
 
-    public get(): LikedPostMeta {
+    public get(): LikedPostsMeta {
         return this.likedPosts;
     }
 
@@ -34,7 +34,8 @@ class UserStorage implements StorageInterface {
                 postType: postType,
                 blogId: this.blogId,
                 postId: postId,
-                likedAt: Date.now()
+                likedAt: Date.now(),
+                website: this.wpApiSettings.root
             };
         }
 
@@ -61,7 +62,7 @@ class UserStorage implements StorageInterface {
             });
     }
 
-   private sanitizeLikedPostsMeta(likedPostsMeta: any): LikedPostMeta {
+   private sanitizeLikedPostsMeta(likedPostsMeta: any): LikedPostsMeta {
         if (!likedPostsMeta || typeof likedPostsMeta !== 'object') return {};
 
         return Object.fromEntries(
@@ -73,7 +74,7 @@ class UserStorage implements StorageInterface {
                 'postType' in value &&
                 'likedAt' in value
             )
-        ) as LikedPostMeta;
+        ) as LikedPostsMeta;
     }
 }
 

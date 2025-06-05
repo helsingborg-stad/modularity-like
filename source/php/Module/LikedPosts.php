@@ -73,7 +73,7 @@ class LikedPosts extends \Modularity\Module
                         'type' => 'object',
                         'properties' => array(
                             'postId'   => array(
-                                'type' => ['string', 'integer'], // accept string or int
+                                'type' => ['string', 'integer'],
                             ),
                             'blogId'   => array(
                                 'type' => ['string', 'integer'],
@@ -82,8 +82,11 @@ class LikedPosts extends \Modularity\Module
                                 'type' => 'string',
                             ),
                             'likedAt'  => array(
-                                'type'   => ['string', 'integer'], // timestamp or ISO string
+                                'type'   => ['string', 'integer'],
                             ),
+                            'website' => array(
+                                'type' => 'string',
+                            )
                         ),
                         'required'             => ['postId', 'blogId', 'postType', 'likedAt'],
                         'additionalProperties' => false,

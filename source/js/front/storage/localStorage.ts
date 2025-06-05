@@ -1,15 +1,18 @@
-import { LikedPostMeta, LikedPosts } from "../like-posts";
+import { LikedPostsMeta, LikedPosts, WpApiSettings } from "../like-posts";
 import StorageInterface from "./storageInterface";
 
 class LocalStorage implements StorageInterface {
 	private localeStorageKey: string = 'liked-posts-v2';
-	private likedPosts: LikedPostMeta;
+	private likedPosts: LikedPostsMeta;
 
-	constructor(private blogId: string) {
+	constructor(
+		private wpApiSettings: WpApiSettings,
+		private blogId: string,
+	) {
 		this.likedPosts = this.sanitizeLikedPosts(JSON.parse(localStorage.getItem(this.localeStorageKey) || '{}'));
 	}
 
-    public get(): LikedPostMeta {
+    public get(): LikedPostsMeta {
         return this.likedPosts;
     }
 
@@ -24,7 +27,8 @@ class LocalStorage implements StorageInterface {
 				postType: postType,
 				blogId: this.blogId,
 				postId: postId,
-				likedAt: Date.now()
+				likedAt: Date.now(),
+				website: this.wpApiSettings.root
 			};
 		}
 
@@ -33,9 +37,9 @@ class LocalStorage implements StorageInterface {
 	}
 
 	// Sanitizes how old liked posts are stored in local storage.
-	private sanitizeLikedPosts(likedPosts: LikedPosts|LikedPostMeta): any {
+	private sanitizeLikedPosts(likedPosts: LikedPosts|LikedPostsMeta): any {
 
-		const localLikedPosts: LikedPostMeta = {};
+		const localLikedPosts: LikedPostsMeta = {};
 		for (const id in likedPosts) {
 			if (typeof likedPosts[id] !== 'string') {
 				localLikedPosts[id] = likedPosts[id];
@@ -48,7 +52,8 @@ class LocalStorage implements StorageInterface {
 				postType: likedPosts[id],
 				blogId: this.blogId,
 				postId: id,
-				likedAt: Date.now()
+				likedAt: Date.now(),
+				website: this.wpApiSettings.root
 			}
 		}
 
