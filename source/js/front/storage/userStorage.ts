@@ -10,8 +10,7 @@ class UserStorage implements StorageInterface {
     constructor(
         private wpApiSettings: WpApiSettings,
         private userId: number,
-        likedPostsMeta: any,
-        private blogId: string | null = null
+        likedPostsMeta: any
     ) {
         this.userEndpoint = `${this.wpApiSettings.root}wp/v2/users/${this.userId}`;
         this.likedPosts = this.sanitizeLikedPostsMeta(likedPostsMeta);
@@ -21,10 +20,8 @@ class UserStorage implements StorageInterface {
         return this.likedPosts;
     }
 
-    public set(postId: string, postType: string) {
-        if (!this.blogId) return;
-
-        const key = `${this.blogId}-${postId}`;
+    public set(postId: string, postType: string, blogId: string): void {
+        const key = `${blogId}-${postId}`;
         const runtimeLikedPosts = this.get();
 
         if (runtimeLikedPosts[key]) {
@@ -32,11 +29,18 @@ class UserStorage implements StorageInterface {
         } else {
             runtimeLikedPosts[key] = {
                 postType: postType,
-                blogId: this.blogId,
+                blogId: blogId,
                 postId: postId,
                 likedAt: Date.now(),
                 website: this.wpApiSettings.root
             };
+            // runtimeLikedPosts["2-1"] = {
+            //     postType: "post",
+            //     blogId: "2",
+            //     postId: "1",
+            //     likedAt: Date.now(),
+            //     website: "https://localhost:8443/dev-one/wp-json/"
+            // };
         }
 
         fetch(this.userEndpoint, {

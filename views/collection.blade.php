@@ -15,7 +15,8 @@
                 'attributeList' => [
                     'data-like-icon' => '', 
                     'data-post-type' => $post->postType, 
-                    'data-post-id' => $post->id
+                    'data-post-id' => $post->id,
+                    'data-blog-id' => $blogId
                 ],
                 'filled' => true,
             ])

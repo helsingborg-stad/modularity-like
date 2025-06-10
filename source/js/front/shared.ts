@@ -26,7 +26,6 @@ class Shared {
 
     private setSharedValue(element: HTMLElement, value: string) {
         element.textContent = this.sanitizeUrlParams(value);
-        console.log(this.sanitizeUrlParams(value));
         element.classList.remove(this.displayNoneClass);
     }
 
