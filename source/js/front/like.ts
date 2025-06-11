@@ -5,6 +5,7 @@ const likeIconSelector: string = '[data-like-icon]';
 const likedIconClass: string = 'material-symbols--filled';
 const postIdAttribute: string = 'data-post-id';
 const postTypeAttribute: string = 'data-post-type';
+const blogIdAttribute: string = 'data-blog-id';
 const tooltipAttribute: string = 'data-tooltip';
 const iconWrapperAttribute: string = 'data-js-like-icon-wrapper';
 
@@ -34,7 +35,7 @@ export default class Like {
         this.button.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            this.likeStorage.set(this.postId, this.postType);
+            this.likeStorage.set(this.postId, this.postType, this.blogId);
             this.toggleLiked();
             window.dispatchEvent(this.likedPostsUpdatedEvent());
         });
@@ -93,14 +94,15 @@ export function initializeLikeButtons(
     likeStorage: StorageInterface,
     likeInstancesStorage: LikeInstancesStorage,
     tooltipLike: string, 
-    tooltipUnlike: string,
-    blogId: string
+    tooltipUnlike: string
 ) {
     const createLikeInstance = (button: Element) => {
         const postId   = button.getAttribute(postIdAttribute);
         const postType = button.getAttribute(postTypeAttribute);
+        const blogId   = button.getAttribute(blogIdAttribute)
 
-        if (!postId || !postType) {
+        if (!postId || !postType || !blogId) {
+            console.warn('Like button is missing required blogId for likeable post', button);
             return;
         }
 

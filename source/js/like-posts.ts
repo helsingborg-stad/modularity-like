@@ -15,14 +15,14 @@ declare const likedPosts : {
     likedPostsMeta: any,
     tooltipLike: string,
     tooltipUnlike: string,
-    blogId: string
+    currentBlogId: string
 };
 
 declare const wpApiSettings: WpApiSettings;
 
 document.addEventListener('DOMContentLoaded', () => {
     const localWpApiSettings = wpApiSettings;
-    const likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta, likedPosts.blogId) : new LocalStorage(localWpApiSettings, likedPosts.blogId);
+    const likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) : new LocalStorage(localWpApiSettings, likedPosts.currentBlogId);
 
     const tooltipLike: string = likedPosts.tooltipLike;
     const tooltipUnlike: string = likedPosts.tooltipUnlike;
@@ -32,8 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         likeStorage, 
         new LikeInstancesStorage(), 
         tooltipLike, 
-        tooltipUnlike,
-        likedPosts.blogId
+        tooltipUnlike
     );
 
     document.querySelectorAll('[data-js-like-posts]').forEach((likePostsContainer) => {

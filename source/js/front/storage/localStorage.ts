@@ -7,7 +7,7 @@ class LocalStorage implements StorageInterface {
 
 	constructor(
 		private wpApiSettings: WpApiSettings,
-		private blogId: string,
+		private currentBlogId: string
 	) {
 		this.likedPosts = this.sanitizeLikedPosts(JSON.parse(localStorage.getItem(this.localeStorageKey) || '{}'));
 	}
@@ -16,16 +16,16 @@ class LocalStorage implements StorageInterface {
         return this.likedPosts;
     }
 
-    public set(postId: string, postType: string): void {
+    public set(postId: string, postType: string, blogId: string): void {
 		let likedPostsIds = this.get();
-		const key = `${this.blogId}-${postId}`;
+		const key = `${blogId}-${postId}`;
 
 		if (likedPostsIds[key]) {
 			delete likedPostsIds[key];
 		} else {
 			likedPostsIds[key] = {
 				postType: postType,
-				blogId: this.blogId,
+				blogId: blogId,
 				postId: postId,
 				likedAt: Date.now(),
 				website: this.wpApiSettings.root
@@ -37,6 +37,7 @@ class LocalStorage implements StorageInterface {
 	}
 
 	// Sanitizes how old liked posts are stored in local storage.
+	// This is for backwards compatibility with older versions of the plugin.
 	private sanitizeLikedPosts(likedPosts: LikedPosts|LikedPostsMeta): any {
 
 		const localLikedPosts: LikedPostsMeta = {};
@@ -46,11 +47,11 @@ class LocalStorage implements StorageInterface {
 				continue;
 			}
 
-			const key = `${this.blogId}-${id}`;
+			const key = `${this.currentBlogId}-${id}`;
 
 			localLikedPosts[key] = {
 				postType: likedPosts[id],
-				blogId: this.blogId,
+				blogId: this.currentBlogId,
 				postId: id,
 				likedAt: Date.now(),
 				website: this.wpApiSettings.root

@@ -89,7 +89,8 @@ class App
                     'attributeList' => [
                         'data-like-icon' => '', 
                         'data-post-id' => $post->ID, 
-                        'data-post-type' => $post->post_type
+                        'data-post-type' => $post->post_type,
+                        'data-blog-id' => get_current_blog_id()
                     ], 
                 ]
             ];
@@ -121,14 +122,13 @@ class App
         $user = wp_get_current_user();
 
         $userLikedPosts = get_user_meta($user->ID, 'likedPosts', true);
-        $blogId = get_current_blog_id();
 
         $tooltipUnlike = $this->getOptionFieldsHelper->getTooltipUnlike();
         $tooltipLike = $this->getOptionFieldsHelper->getTooltipLike();
 
         $data = [
             'currentUser'     => $user->ID,
-            'blogId'          => $blogId,
+            'currentBlogId'   => get_current_blog_id(),
             'likedPostsMeta'  => (object) $userLikedPosts,
             'tooltipUnlike'   => $tooltipUnlike,
             'tooltipLike'     => $tooltipLike,

@@ -26,7 +26,7 @@ class HtmlTransformer implements PostsTransformerInterface {
 
         $html = $this->bladeInstance->render(
             $this->paramsConfig->getAppearance(),
-            ['posts' => $posts, 'icon' => $icon, 'emblem' => $emblem],
+            ['posts' => $posts, 'icon' => $icon, 'emblem' => $emblem, 'blogId' => get_current_blog_id()],
             true,
             [MODULARITYLIKEPOSTS_VIEW_PATH]
         );
