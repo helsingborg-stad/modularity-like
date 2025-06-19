@@ -41,7 +41,8 @@ class LikePostsEndpoint extends RestApiEndpoint {
         $query = new \WP_Query(array(
             'post__in' => $idStrings,
             'post_type' => 'any',
-            'posts_per_page' => -1
+            'posts_per_page' => -1,
+            'post_status' => ['publish', 'private']
         ));
 
         if (empty($query->posts)) {
