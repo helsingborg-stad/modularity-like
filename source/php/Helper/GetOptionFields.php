@@ -30,7 +30,7 @@ class GetOptionFields
         return $icon;
     }
 
-    public function getPostTypes() 
+    public function getPostTypes(): array
     {
         static $postTypes = null;
 
