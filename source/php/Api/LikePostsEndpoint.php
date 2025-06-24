@@ -40,7 +40,7 @@ class LikePostsEndpoint extends RestApiEndpoint {
     private function getPosts(array $idStrings) {
         $query = new \WP_Query(array(
             'post__in' => $idStrings,
-            'post_type' => 'any',
+            'post_type' => $this->getOptionFieldsHelper->getPostTypes(),
             'posts_per_page' => -1,
             'ignore_sticky_posts' => true
         ));
