@@ -48,7 +48,7 @@ class Share {
         }
 
         const apiUrls = this.likedPostsApiUrlBuilder.build(
-            this.likedPostsStructurer.structure(likedPosts),
+            likedPosts,
             this.postAppearance,
             this.postTypesToShow
         );
