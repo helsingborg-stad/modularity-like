@@ -22,7 +22,9 @@ declare const wpApiSettings: WpApiSettings;
 
 document.addEventListener('DOMContentLoaded', () => {
     const localWpApiSettings = wpApiSettings;
-    const likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ? new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) : new LocalStorage(localWpApiSettings, likedPosts.currentBlogId);
+    const likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ?
+        new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) :
+        new LocalStorage(localWpApiSettings, likedPosts.currentBlogId);
 
     const tooltipLike: string = likedPosts.tooltipLike;
     const tooltipUnlike: string = likedPosts.tooltipUnlike;
@@ -52,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const sharedPosts = urlParams.get('liked-posts');
 
         const likedPostsStructurer = new LikedPostsStructurer();
-        const likedPostsApiUrlBuilder = new LikedPostsApiUrlBuilder();
+        const likedPostsApiUrlBuilder = new LikedPostsApiUrlBuilder(wpApiSettings);
 
         if (postTypesToShow && renderContainer && noPostsNotice && preLoaders) {
             if (sharedPosts) {
@@ -65,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             new LikeModule(
+                wpApiSettings,
                 likeStorage,
                 sharedPosts,
                 likedPostsStructurer,

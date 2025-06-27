@@ -3,6 +3,7 @@
 
 namespace ModularityLikePosts;
 
+use ModularityLikePosts\Api\GetPosts;
 use Municipio\Api\RestApiEndpointsRegistry;
 use ModularityLikePosts\Blade\Blade;
 use ModularityLikePosts\Helper\GetOptionFields;
@@ -33,7 +34,13 @@ class App
         add_filter('Municipio/Admin/Acf/PrefillIconChoice', array($this, 'addIconsToSelect'));
         add_filter('kirki_inline_styles', array($this, 'addIconColor'), 10, 1);
 
-        RestApiEndpointsRegistry::add(new \ModularityLikePosts\Api\LikePostsEndpoint($bladeInstance, $this->getOptionFieldsHelper));
+        RestApiEndpointsRegistry::add(new \ModularityLikePosts\Api\LikePostsEndpoint(
+            $bladeInstance,
+            $this->getOptionFieldsHelper,
+            new GetPosts(
+                $this->getOptionFieldsHelper
+            )
+        ));
         
         $this->cacheBust = new \ModularityLikePosts\Helper\CacheBust();
     }

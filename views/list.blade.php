@@ -1,4 +1,8 @@
-@foreach($posts as $post)
+@php
+print_r($postsArray);die;
+@endphp
+
+@foreach($postsArray as $post)
     @collection__item([
         'link' => $post->permalink,
         'displayIcon' => false,

@@ -12,8 +12,12 @@ class LikePostsEndpoint extends RestApiEndpoint {
     private const NAMESPACE = 'like/v1';
     private const ROUTE     = '/ids=(?P<ids>[\d,-]+)';
 
-    public function __construct(private Blade $bladeInstance, private GetOptionFields $getOptionFieldsHelper)
-    {}
+    public function __construct(
+        private Blade $bladeInstance,
+        private GetOptionFields $getOptionFieldsHelper,
+        private GetPosts $getPostsHelper
+    ) {
+    }
 
     public function handleRegisterRestRoute(): bool {
         return register_rest_route(self::NAMESPACE, self::ROUTE, array(
@@ -31,7 +35,8 @@ class LikePostsEndpoint extends RestApiEndpoint {
             return new WP_REST_Response(null, 400);
         }
         
-        $posts = $this->getPosts($paramsConfig->getIds());
+        // $posts = $this->getPosts($paramsConfig->getIds());
+        $posts = $this->getPostsHelper->getPosts($paramsConfig->getIds());
         $posts = (new HtmlTransformer($this->bladeInstance, $paramsConfig, $this->getOptionFieldsHelper))->transform($posts);
 
         return $posts;
@@ -40,9 +45,10 @@ class LikePostsEndpoint extends RestApiEndpoint {
     private function getPosts(array $idStrings) {
         $query = new \WP_Query(array(
             'post__in' => $idStrings,
+            // Only set available post types in options
             'post_type' => $this->getOptionFieldsHelper->getPostTypes(),
             'posts_per_page' => -1,
-            'ignore_sticky_posts' => true
+            'post_status' => ['publish'],
         ));
 
         if (empty($query->posts)) {
