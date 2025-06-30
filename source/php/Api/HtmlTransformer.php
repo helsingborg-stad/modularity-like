@@ -25,7 +25,7 @@ class HtmlTransformer implements PostsTransformerInterface {
         $emblem = get_theme_mod('logotype_emblem') ?? null;
         $html = $this->bladeInstance->render(
             $this->paramsConfig->getAppearance(),
-            ['postsArray' => $postsArray, 'icon' => $icon, 'emblem' => $emblem, 'blogId' => get_current_blog_id()],
+            ['postsArray' => $postsArray, 'icon' => $icon, 'emblem' => $emblem],
             true,
             [MODULARITYLIKEPOSTS_VIEW_PATH]
         );
