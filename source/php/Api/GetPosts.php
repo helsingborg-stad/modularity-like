@@ -9,11 +9,13 @@ class GetPosts {
     private bool $currentUser;
     private int $currentBlogIdContext;
     private array $orderedPosts = [];
+    private array $postTypes;
     public function __construct(
         private GetOptionFields $getOptionFieldsHelper
     ) {
         $this->blogId               = get_current_blog_id();
         $this->currentUser          = get_current_user_id();
+        $this->postTypes            = $this->getOptionFieldsHelper->getPostTypes();
         $this->currentBlogIdContext = $this->blogId;
     }
 
@@ -74,7 +76,7 @@ class GetPosts {
     {
         $query = new \WP_Query(array(
             'post__in' => $postIds,
-            'post_type' => $this->getOptionFieldsHelper->getPostTypes(),
+            'post_type' => $this->postTypes,
             'posts_per_page' => -1,
             'post_status' => $canReadPrivatePosts ? ['publish', 'private'] : ['publish'],
             'ignore_sticky_posts' => true
