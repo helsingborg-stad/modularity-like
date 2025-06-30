@@ -15,6 +15,12 @@ class HtmlTransformer implements PostsTransformerInterface {
     )
     {}
 
+    /**
+     * Transforms an array of posts into HTML based on the provided configuration.
+     *
+     * @param array $postsArray Array of posts to be transformed.
+     * @return mixed Transformed HTML or the original array if HTML generation is not enabled.
+     */
     public function transform(array $postsArray): mixed
     {
         if (!$this->paramsConfig->getHtml()) {

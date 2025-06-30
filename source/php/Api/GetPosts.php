@@ -16,6 +16,12 @@ class GetPosts {
         $this->currentBlogIdContext = $this->blogId;
     }
 
+    /**
+     * Get posts based on an array of unstructured post IDs.
+     *
+     * @param array $unstructuredIds Array of post IDs in the format 'blogId-postId'.
+     * @return array Array of posts structured by blog ID.
+     */
     public function getPosts(array $unstructuredIds): array
     {
         $structuredIds = $this->structurePostIds($unstructuredIds);
@@ -36,7 +42,13 @@ class GetPosts {
         return $posts;
     }
 
-    
+    /**
+     * Get posts based on the provided post IDs and user permissions.
+     *
+     * @param array $postIds Array of post IDs to retrieve.
+     * @param bool $canReadPrivatePosts Whether the current user can read private posts.
+     * @return array Array of prepared post objects.
+     */
     private function getPostsQuery(array $postIds, bool $canReadPrivatePosts): array
     {
         $query = new \WP_Query(array(
@@ -60,8 +72,12 @@ class GetPosts {
         return $posts;
     }
 
-
-
+    /**
+     * Switch to the specified blog if not already switched.
+     *
+     * @param int $blogId The ID of the blog to switch to.
+     * @return bool True if the switch was successful, false otherwise.
+     */
     private function maybeSwitchBlog(int $blogId): bool 
     {
         if ($this->currentBlogIdContext === $blogId) {
