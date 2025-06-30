@@ -1,5 +1,4 @@
-@foreach($postsArray as $blogId => $posts)
-    @foreach($posts as $post)
+@foreach($posts as $post)
     @collection__item([
         'link' => $post->getPermalink(),
         'displayIcon' => false,
@@ -16,7 +15,7 @@
                     'data-like-icon' => '', 
                     'data-post-type' => $post->getPostType(), 
                     'data-post-id' => $post->getId(),
-                    'data-blog-id' => $blogId
+                    'data-blog-id' => $post->blogId
                 ],
                 'classList' => [
                     'like-posts__list-icon',
@@ -34,5 +33,4 @@
             {!! $post->getTitle() !!}
         @endtypography
     @endcollection__item
-    @endforeach
 @endforeach

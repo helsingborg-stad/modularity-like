@@ -8,6 +8,7 @@ class GetPosts {
     private int $blogId;
     private bool $currentUser;
     private int $currentBlogIdContext;
+    private array $orderedPosts = [];
     public function __construct(
         private GetOptionFields $getOptionFieldsHelper
     ) {
@@ -24,8 +25,9 @@ class GetPosts {
      */
     public function getPosts(array $unstructuredIds): array
     {
+        $this->setupWantedOrder($unstructuredIds);
         $structuredIds = $this->structurePostIds($unstructuredIds);
-        $posts = [];
+
         foreach ($structuredIds as $blogId => $postIds) {
             $success = $this->maybeSwitchBlog($blogId);
             if (!$success) {
@@ -33,13 +35,32 @@ class GetPosts {
             }
 
             $canReadPrivatePosts = user_can($this->currentUser, 'read_private_posts');
+            $this->populatePosts($blogId, $postIds, $canReadPrivatePosts);
 
-            $posts[$blogId] = $this->getPostsQuery($postIds, $canReadPrivatePosts);
+            if ($this->currentBlogIdContext !== $this->blogId) {
+                restore_current_blog();
+                $this->currentBlogIdContext = $this->blogId;
+            }
         }
 
-        restore_current_blog();
+        return $this->orderedPosts;
+    }
 
-        return $posts;
+    /**
+     * Set up the order of posts based on the provided unstructured IDs.
+     *
+     * @param array $unstructuredIds Array of post IDs in the format 'blogId-postId'.
+     */
+    private function setUpWantedOrder(array $unstructuredIds): void
+    {
+        $this->orderedPosts = [];
+        foreach ($unstructuredIds as $id) {
+            if (!is_string($id)) {
+                continue;
+            }
+
+            $this->orderedPosts[$id] = null;
+        }
     }
 
     /**
@@ -49,27 +70,31 @@ class GetPosts {
      * @param bool $canReadPrivatePosts Whether the current user can read private posts.
      * @return array Array of prepared post objects.
      */
-    private function getPostsQuery(array $postIds, bool $canReadPrivatePosts): array
+    private function populatePosts(int $blogId, array $postIds, bool $canReadPrivatePosts): void
     {
         $query = new \WP_Query(array(
             'post__in' => $postIds,
             'post_type' => $this->getOptionFieldsHelper->getPostTypes(),
             'posts_per_page' => -1,
-            'post_status' => $canReadPrivatePosts ? ['publish'] : ['publish', 'private'],
+            'post_status' => $canReadPrivatePosts ? ['publish', 'private'] : ['publish'],
             'ignore_sticky_posts' => true
         ));
 
         if (empty($query->posts)) {
-            return [];
+            return;
         }
-
-        $posts = [];
 
         foreach ($query->posts as $post) {
-            $posts[] = \Municipio\Helper\Post::preparePostObject($post);
-        }
+            $key = $blogId . '-' . $post->ID;
 
-        return $posts;
+            if (!array_key_exists($key, $this->orderedPosts)) {
+                continue;
+            }
+
+            $preparedPost = \Municipio\Helper\Post::preparePostObject($post);
+            $preparedPost->blogId = $this->currentBlogIdContext;
+            $this->orderedPosts[$key] = $preparedPost;
+        }
     }
 
     /**
