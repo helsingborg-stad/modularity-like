@@ -1,8 +1,5 @@
-@php
-print_r($postsArray);die;
-@endphp
-
-@foreach($postsArray as $post)
+@foreach($postsArray as $blogId => $posts)
+    @foreach($posts as $post)
     @collection__item([
         'link' => $post->permalink,
         'displayIcon' => false,
@@ -17,8 +14,8 @@ print_r($postsArray);die;
                 'size' => 'md',
                 'attributeList' => [
                     'data-like-icon' => '', 
-                    'data-post-type' => $post->postType, 
-                    'data-post-id' => $post->id,
+                    'data-post-type' => $post->getPostType(), 
+                    'data-post-id' => $post->getId(),
                     'data-blog-id' => $blogId
                 ],
                 'classList' => [
@@ -34,7 +31,8 @@ print_r($postsArray);die;
             'variant' => 'h4',
             'useHeadingsContext' => false,
         ])
-            {!! $post->postTitle !!}
+            {!! $post->getTitle() !!}
         @endtypography
     @endcollection__item
+    @endforeach
 @endforeach
