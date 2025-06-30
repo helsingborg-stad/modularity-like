@@ -45,8 +45,7 @@ class LikePostsEndpoint extends RestApiEndpoint {
         if (empty($paramsConfig->getIds())) {
             return new WP_REST_Response(null, 400);
         }
-        
-        // $posts = $this->getPosts($paramsConfig->getIds());
+
         $posts = $this->getPostsHelper->getPosts($paramsConfig->getIds());
         $posts = (new HtmlTransformer($this->bladeInstance, $paramsConfig, $this->getOptionFieldsHelper))->transform($posts);
 
