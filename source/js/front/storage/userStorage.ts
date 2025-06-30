@@ -34,13 +34,6 @@ class UserStorage implements StorageInterface {
                 likedAt: Date.now(),
                 website: this.wpApiSettings.root
             };
-            // runtimeLikedPosts["2-1"] = {
-            //     postType: "post",
-            //     blogId: "2",
-            //     postId: "1",
-            //     likedAt: Date.now(),
-            //     website: "https://localhost:8443/dev-one/wp-json/"
-            // };
         }
 
         fetch(this.userEndpoint, {

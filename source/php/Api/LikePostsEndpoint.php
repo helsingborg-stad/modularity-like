@@ -12,9 +12,18 @@ class LikePostsEndpoint extends RestApiEndpoint {
     private const NAMESPACE = 'like/v1';
     private const ROUTE     = '/ids=(?P<ids>[\d,-]+)';
 
-    public function __construct(private Blade $bladeInstance, private GetOptionFields $getOptionFieldsHelper)
-    {}
+    public function __construct(
+        private Blade $bladeInstance,
+        private GetOptionFields $getOptionFieldsHelper,
+        private GetPosts $getPostsHelper
+    ) {
+    }
 
+    /**
+     * Register the REST route for the LikePosts endpoint.
+     *
+     * @return bool True if the route was registered successfully, false otherwise.
+     */
     public function handleRegisterRestRoute(): bool {
         return register_rest_route(self::NAMESPACE, self::ROUTE, array(
             'methods'             => 'GET',
@@ -23,6 +32,12 @@ class LikePostsEndpoint extends RestApiEndpoint {
         ));
     }
 
+    /**
+     * Handle the REST request for the LikePosts endpoint.
+     *
+     * @param WP_REST_Request $request The REST request object.
+     * @return WP_REST_Response The response containing the posts or an error.
+     */
     public function handleRequest(WP_REST_Request $request)
     {
         $paramsConfig = new ParamsConfig($request->get_params());
@@ -30,30 +45,9 @@ class LikePostsEndpoint extends RestApiEndpoint {
         if (empty($paramsConfig->getIds())) {
             return new WP_REST_Response(null, 400);
         }
-        
-        $posts = $this->getPosts($paramsConfig->getIds());
+
+        $posts = $this->getPostsHelper->getPosts($paramsConfig->getIds());
         $posts = (new HtmlTransformer($this->bladeInstance, $paramsConfig, $this->getOptionFieldsHelper))->transform($posts);
-
-        return $posts;
-    }
-
-    private function getPosts(array $idStrings) {
-        $query = new \WP_Query(array(
-            'post__in' => $idStrings,
-            'post_type' => $this->getOptionFieldsHelper->getPostTypes(),
-            'posts_per_page' => -1,
-            'ignore_sticky_posts' => true
-        ));
-
-        if (empty($query->posts)) {
-            return [];
-        }
-
-        $posts = [];
-
-        foreach ($query->posts as $post) {
-            $posts[] = \Municipio\Helper\Post::preparePostObject($post);
-        }
 
         return $posts;
     }
