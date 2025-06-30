@@ -67,11 +67,8 @@ class LikeModule {
                 }
                 return response.json();
             })
-            .then(postsMarkupArray => {
-                const combinedMarkup = Array.isArray(postsMarkupArray)
-                    ? postsMarkupArray.flat().join('')
-                    : postsMarkupArray.toString(); // fallback in case it's not an array
-                this.handleFetched(combinedMarkup);
+            .then(postsMarkup => {
+                this.handleFetched(postsMarkup);
             })
             .catch(error => {
                 console.error('Fetch error:', error);
