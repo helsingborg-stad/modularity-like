@@ -41,26 +41,4 @@ class LikePostsEndpoint extends RestApiEndpoint {
 
         return $posts;
     }
-
-    private function getPosts(array $idStrings) {
-        $query = new \WP_Query(array(
-            'post__in' => $idStrings,
-            // Only set available post types in options
-            'post_type' => $this->getOptionFieldsHelper->getPostTypes(),
-            'posts_per_page' => -1,
-            'post_status' => ['publish'],
-        ));
-
-        if (empty($query->posts)) {
-            return [];
-        }
-
-        $posts = [];
-
-        foreach ($query->posts as $post) {
-            $posts[] = \Municipio\Helper\Post::preparePostObject($post);
-        }
-
-        return $posts;
-    }
 }
