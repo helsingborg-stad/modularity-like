@@ -1,7 +1,7 @@
 @foreach($postsArray as $blogId => $posts)
     @foreach($posts as $post)
     @collection__item([
-        'link' => $post->permalink,
+        'link' => $post->getPermalink(),
         'displayIcon' => false,
         'classList' => ['like-posts__list-item'],
     ])
