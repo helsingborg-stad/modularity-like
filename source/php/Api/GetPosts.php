@@ -6,7 +6,7 @@ use ModularityLikePosts\Helper\GetOptionFields;
 
 class GetPosts {
     private int $blogId;
-    private bool $currentUser;
+    private int $currentUser;
     private int $currentBlogIdContext;
     private array $orderedPosts = [];
     private array $postTypes;
@@ -14,7 +14,6 @@ class GetPosts {
         private GetOptionFields $getOptionFieldsHelper
     ) {
         $this->blogId               = get_current_blog_id();
-        $this->currentUser          = get_current_user_id();
         $this->postTypes            = $this->getOptionFieldsHelper->getPostTypes();
         $this->currentBlogIdContext = $this->blogId;
     }
@@ -27,6 +26,7 @@ class GetPosts {
      */
     public function getPosts(array $unstructuredIds): array
     {
+        $this->currentUser = $this->getCurrentUser();
         $this->setupWantedOrder($unstructuredIds);
         $structuredIds = $this->structurePostIds($unstructuredIds);
 
@@ -45,7 +45,12 @@ class GetPosts {
             }
         }
 
-        return $this->orderedPosts;
+        // Filter out empty items from orderedPosts
+        $filteredPosts = array_filter($this->orderedPosts, function ($item) {
+            return !empty($item);
+        });
+
+        return $filteredPosts;
     }
 
     /**
@@ -95,6 +100,7 @@ class GetPosts {
 
             $preparedPost = \Municipio\Helper\Post::preparePostObject($post);
             $preparedPost->blogId = $this->currentBlogIdContext;
+
             $this->orderedPosts[$key] = $preparedPost;
         }
     }
@@ -120,6 +126,22 @@ class GetPosts {
         $this->currentBlogIdContext = $blogId;
 
         return true;
+    }
+
+    /**
+     * Get the current user ID, caching it for performance.
+     *
+     * @return int The ID of the current user.
+     */
+    private function getCurrentUser(): int
+    {
+        static $currentUser = null;
+
+        if ($currentUser === null) {
+            $currentUser = get_current_user_id();
+        }
+
+        return $currentUser;
     }
 
     /**
