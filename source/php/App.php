@@ -29,7 +29,7 @@ class App
         
         add_action('wp_enqueue_scripts', array($this, 'enqueueFrontend'));
         add_filter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
-        add_action('plugins_loaded', array($this, 'registerModule'));
+        add_action('init', array($this, 'registerModule'));
         add_filter('Municipio/Helper/Post/CallToActionItems', array($this, 'postsIcon'), 10, 2);
         add_filter('Municipio/Admin/Acf/PrefillIconChoice', array($this, 'addIconsToSelect'));
         add_filter('kirki_inline_styles', array($this, 'addIconColor'), 10, 1);
