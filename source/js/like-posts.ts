@@ -22,7 +22,8 @@ declare const wpApiSettings: WpApiSettings;
 
 document.addEventListener('DOMContentLoaded', () => {
     const localWpApiSettings = wpApiSettings;
-    const likeStorage = likedPosts && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ?
+
+    const likeStorage = likedPosts && likedPosts.currentUser && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ?
         new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) :
         new LocalStorage(localWpApiSettings, likedPosts.currentBlogId);
 
