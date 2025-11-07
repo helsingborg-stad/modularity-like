@@ -19,30 +19,12 @@
             "ModularityLikePosts\\": "source/php/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "extra": {
-        "installer-paths": {
-            "vendor/{$vendor}/{$name}": [
-                "type:wordpress-muplugin",
-                "type:wordpress-theme",
-                "type:wordpress-plugin",
-                "type:acf-plugin"
-            ]
-        }
-    },
-    "require": {
-        "helsingborg-stad/municipio": "^6.0.0"
-    },
+    "minimum-stability": "stable",
+    "require": {},
     "require-dev": {
         "brain/monkey": "^2.6",
         "codedungeon/phpunit-result-printer": "^0.31.0",
         "phpunit/phpunit": "^9.5"
     },
-    "version": "3.0.1",
-    "config": {
-        "allow-plugins": {
-            "composer/installers": true
-        }
-    }
+    "version": "3.0.0"
 }
