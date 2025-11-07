@@ -26,5 +26,10 @@
         "codedungeon/phpunit-result-printer": "^0.31.0",
         "phpunit/phpunit": "^9.5"
     },
-    "version": "3.0.0"
+    "version": "3.0.2",
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
 }
