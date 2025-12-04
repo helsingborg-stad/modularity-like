@@ -11,7 +11,7 @@ class LikedPostsApiUrlBuilder {
             }
         }
 
-        return `${this.wpApiSettings.root}like/v1/ids=${postIds.join(',')}?html&appearance=${appearance}`;
+        return `${this.wpApiSettings.root}like/v1/ids=${postIds.join(',')}?html&appearance=${appearance}&cache-bust=${Date.now()}`;
     }
 }
 
