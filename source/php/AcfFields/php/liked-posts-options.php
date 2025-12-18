@@ -53,7 +53,7 @@ if (function_exists('acf_add_local_field_group')) {
             'label' => __('Select "like" icon', 'modularity-like'),
             'name' => 'like_icon',
             'aria-label' => '',
-            'type' => 'select',
+            'type' => 'icon',
             'instructions' => '',
             'required' => 0,
             'conditional_logic' => 0,

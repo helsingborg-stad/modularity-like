@@ -48,7 +48,7 @@
             "label": "Select \"like\" icon",
             "name": "like_icon",
             "aria-label": "",
-            "type": "select",
+            "type": "icon",
             "instructions": "",
             "required": 0,
             "conditional_logic": 0,
