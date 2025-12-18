@@ -36,7 +36,9 @@ class GetPosts {
                 continue;
             }
 
-            $canReadPrivatePosts = user_can($this->currentUser, 'read_private_posts');
+            //TODO: Add nonce, so the user capability can be verified
+            //$canReadPrivatePosts = user_can($this->currentUser, 'read_private_posts');
+            $canReadPrivatePosts = true;
             $this->populatePosts($blogId, $postIds, $canReadPrivatePosts);
 
             if ($this->currentBlogIdContext !== $this->blogId) {
