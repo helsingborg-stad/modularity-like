@@ -72,7 +72,6 @@ class App implements \Municipio\HooksRegistrar\Hookable
         $this->wpService->addFilter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
         $this->wpService->addAction('init', array($this, 'registerModule'));
         $this->wpService->addFilter('Municipio/Helper/Post/CallToActionItems', array($this, 'postsIcon'), 10, 2);
-        $this->wpService->addFilter('Municipio/Admin/Acf/PrefillIconChoice', array($this, 'addIconsToSelect'));
         $this->wpService->addFilter('kirki_inline_styles', array($this, 'addIconColor'), 10, 1);
     }
 
@@ -88,19 +87,6 @@ class App implements \Municipio\HooksRegistrar\Hookable
         $inlineStyles .= ':root { --like-icon-color: ' . $color . '; }';
 
         return $inlineStyles;
-    }
-
-    /**
-     * Add like icon field to ACF icon select fields.
-     *
-     * @param array $fields The existing ACF fields.
-     * @return array The modified ACF fields with the like icon field added.
-     */
-    public function addIconsToSelect($fields) 
-    {
-        $fields[] = 'like_icon';
-
-        return $fields;
     }
 
     /**
@@ -149,13 +135,13 @@ class App implements \Municipio\HooksRegistrar\Hookable
                 ],
                 'icon' => [
                     'icon' => $this->getOptionFieldsHelper->getIcon(), 
-                    'filled' => false, 
-                    'size' => 'md', 
+                    'filled' => false,
+                    'size' => 'md',
                     'attributeList' => [
                         'data-like-icon' => '', 
                         'data-post-id' => $post->ID, 
                         'data-post-type' => $post->post_type,
-                        'data-blog-id' => get_current_blog_id()
+                        'data-blog-id' => $this->wpService->getCurrentBlogId()
                     ], 
                 ]
             ];
