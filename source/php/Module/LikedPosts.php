@@ -22,15 +22,15 @@ class LikedPosts extends \Modularity\Module
     {
         //Define module
         $this->nameSingular = __("Liked posts", 'modularity-like');
-        $this->namePlural = __("Liked posts", 'modularity-like');
-        $this->description = __("Shows the users liked posts", 'modularity-like');
+        $this->namePlural   = __("Liked posts", 'modularity-like');
+        $this->description  = __("Shows the users liked posts", 'modularity-like');
 
         //Initialize services, helpers etc.
         $this->acfService            = new NativeAcfService();
         $this->wpService             = new WpServiceWithTypecastedReturns(new NativeWpService());
         $this->getOptionFieldsHelper = new GetOptionFields($this->acfService);
 
-        $this->registerMeta();
+        $this->registerMeta();//TODO: Does this need to be here? Maybe move to plugin init?
     }
 
      /**
@@ -63,7 +63,7 @@ class LikedPosts extends \Modularity\Module
         return $this->acfService->getField(
             'like_no_posts_found_text',
             'option'
-        ) ?: __('No liked posts were found', 'modularity-like');
+        ) ?: $this->wpService->__('No liked posts were found', 'modularity-like');
     }
 
     /**
@@ -101,37 +101,39 @@ class LikedPosts extends \Modularity\Module
      */
     private function registerMeta(): void
     {
-        register_meta('user', 'likedPosts', array(
-            'type' => 'object',
-            'single' => true,
-            'show_in_rest' => array(
-                'schema' => array(
-                    'type' => 'object',
-                    'additionalProperties' => array(
+        $this->wpService->registerMeta(
+            'user', 'likedPosts', [
+                'type' => 'object',
+                'single' => true,
+                'show_in_rest' => array(
+                    'schema' => array(
                         'type' => 'object',
-                        'properties' => array(
-                            'postId'   => array(
-                                'type' => ['string', 'integer'],
+                        'additionalProperties' => array(
+                            'type' => 'object',
+                            'properties' => array(
+                                'postId'   => array(
+                                    'type' => ['string', 'integer'],
+                                ),
+                                'blogId'   => array(
+                                    'type' => ['string', 'integer'],
+                                ),
+                                'postType' => array(
+                                    'type' => 'string',
+                                ),
+                                'likedAt'  => array(
+                                    'type'   => ['string', 'integer'],
+                                ),
+                                'website' => array(
+                                    'type' => 'string',
+                                )
                             ),
-                            'blogId'   => array(
-                                'type' => ['string', 'integer'],
-                            ),
-                            'postType' => array(
-                                'type' => 'string',
-                            ),
-                            'likedAt'  => array(
-                                'type'   => ['string', 'integer'],
-                            ),
-                            'website' => array(
-                                'type' => 'string',
-                            )
+                            'required'             => ['postId', 'blogId', 'postType', 'likedAt'],
+                            'additionalProperties' => false,
                         ),
-                        'required'             => ['postId', 'blogId', 'postType', 'likedAt'],
-                        'additionalProperties' => false,
                     ),
                 ),
-            ),
-        ));
+            ]
+        );
     }
     
     
