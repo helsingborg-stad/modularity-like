@@ -32,7 +32,8 @@
         }
     },
     "require": {
-        "helsingborg-stad/municipio": "^6.0.0"
+        "helsingborg-stad/municipio": "^6.0.0",
+        "helsingborg-stad/wpservice": "^2.0"
     },
     "require-dev": {
         "brain/monkey": "^2.6",
