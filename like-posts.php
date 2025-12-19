@@ -15,6 +15,12 @@
 
 use ModularityLikePosts\Blade\Blade;
 use ComponentLibrary\Init as ComponentLibraryInit;
+use WpService\Implementations\NativeWpService;
+use WpService\Implementations\WpServiceWithTypecastedReturns;
+use Municipio\Helper\SiteSwitcher\SiteSwitcher;
+use AcfService\AcfService;
+use AcfService\Implementations\NativeAcfService;
+use ModularityLikePosts\Helper\CacheBust;
 
  // Protect agains direct file access
 if (! defined('WPINC')) {
@@ -64,5 +70,29 @@ add_action('acf/init', function () {
     $acfExportManager->import();
 });
 
-// Start application
-new ModularityLikePosts\App($bladeInstance);
+//Services 
+$wpService    = new WpServiceWithTypecastedReturns(new NativeWpService());
+$acfService   = new NativeAcfService();
+$siteSwitcher = new SiteSwitcher(
+    $wpService,
+    $acfService
+);
+$getOptionFieldsHelper = new \ModularityLikePosts\Helper\GetOptionFields(
+    $acfService
+);
+$cacheBust = new \ModularityLikePosts\Helper\CacheBust();
+$getPostsHelper = new \ModularityLikePosts\Api\GetPosts(
+    $wpService,
+    $getOptionFieldsHelper,
+    $siteSwitcher
+);
+
+//Init
+(new ModularityLikePosts\App(
+    $bladeInstance, 
+    $siteSwitcher, 
+    $wpService, 
+    $getPostsHelper, 
+    $getOptionFieldsHelper, 
+    $cacheBust
+))->addHooks();
