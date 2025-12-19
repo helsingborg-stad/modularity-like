@@ -77,11 +77,14 @@ $siteSwitcher = new SiteSwitcher(
     $wpService,
     $acfService
 );
-$getOptionFieldsHelper = new \ModularityLikePosts\Helper\GetOptionFields();
+$getOptionFieldsHelper = new \ModularityLikePosts\Helper\GetOptionFields(
+    $acfService
+);
 $cacheBust = new \ModularityLikePosts\Helper\CacheBust();
 $getPostsHelper = new \ModularityLikePosts\Api\GetPosts(
     $wpService,
-    $getOptionFieldsHelper
+    $getOptionFieldsHelper,
+    $siteSwitcher
 );
 
 //Init

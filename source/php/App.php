@@ -120,13 +120,13 @@ class App implements \Municipio\HooksRegistrar\Hookable
      */
     public function postsIcon($callToActionArray, $post)
     {
-        $frontPageId = (int) $this->wpService->getOption('page_on_front', 0);
+        $frontPageId     = (int) $this->wpService->getOption('page_on_front', 0);
+        $isFrontPage     = $frontPageId === $post->ID;
+        $hasPostType     = !empty($post->post_type);
+        $enabledPostType = in_array($post->post_type, $this->getOptionFieldsHelper->getPostTypes());
 
-        if (
-            $frontPageId !== $post->ID &&
-            !empty($post->post_type) && 
-            in_array($post->post_type, $this->getOptionFieldsHelper->getPostTypes())
-        ) {
+        if (!$isFrontPage && $hasPostType && $enabledPostType) {
+
             $callToActionArray['floating'] = [
                 'wrapper' => [
                     'attributeList' => [

@@ -4,6 +4,7 @@ namespace ModularityLikePosts\Api;
 
 use ModularityLikePosts\Helper\GetOptionFields;
 use WpService\WpService;
+use \Municipio\Helper\SiteSwitcher\SiteSwitcher;
 
 class GetPosts {
     private int $blogId;
@@ -14,7 +15,8 @@ class GetPosts {
 
     public function __construct(
         private WpService $wpService,
-        private GetOptionFields $getOptionFieldsHelper
+        private GetOptionFields $getOptionFieldsHelper,
+        private SiteSwitcher $siteSwitcher
     ) {
 
         $this->blogId               = $this->wpService->getCurrentBlogId();
@@ -40,11 +42,6 @@ class GetPosts {
             if (!$success) {
                 continue;
             }
-
-            //TODO: Add nonce, so the user capability can be verified
-
-            $this->wpService->userCan($this->currentUser, 'read_post');
-
             $canReadPrivatePosts = $this->wpService->userCan($this->currentUser, 'read_private_posts');
             $this->populatePosts($blogId, $postIds, $canReadPrivatePosts);
 
@@ -95,8 +92,6 @@ class GetPosts {
             'post_status'         => $canReadPrivatePosts ? ['publish', 'private'] : ['publish'],
             'ignore_sticky_posts' => false
         ));
-
-        var_dump($query->request);
 
         foreach ($query->posts as $post) {
             $key = $blogId . '-' . $post->ID;
