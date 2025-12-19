@@ -7,6 +7,9 @@ use ModularityLikePosts\Api\GetPosts;
 use Municipio\Api\RestApiEndpointsRegistry;
 use ModularityLikePosts\Blade\Blade;
 use ModularityLikePosts\Helper\GetOptionFields;
+use WpService\Implementations\NativeWpService;
+use WpService\Implementations\WpServiceWithTypecastedReturns;
+use WpService\WpService;
 
 /**
  * Class App
@@ -20,8 +23,9 @@ class App
     private $cacheBust;
     private $getOptionFieldsHelper;
     private int $frontPageId;
+    private WpService $wpService;
 
-    public function __construct(Blade $bladeInstance)
+    public function __construct(Blade $bladeInstance, WpService $wpService)
     {
         $this->frontPageId = (int) get_option('page_on_front', 0);
         $this->getOptionFieldsHelper = new GetOptionFields();

@@ -15,6 +15,8 @@
 
 use ModularityLikePosts\Blade\Blade;
 use ComponentLibrary\Init as ComponentLibraryInit;
+use WpService\Implementations\NativeWpService;
+use WpService\Implementations\WpServiceWithTypecastedReturns;
 
  // Protect agains direct file access
 if (! defined('WPINC')) {
@@ -64,5 +66,8 @@ add_action('acf/init', function () {
     $acfExportManager->import();
 });
 
+//Wp service 
+$wpService = new WpServiceWithTypecastedReturns(new NativeWpService());
+
 // Start application
-new ModularityLikePosts\App($bladeInstance);
+new ModularityLikePosts\App($bladeInstance, $wpService);
