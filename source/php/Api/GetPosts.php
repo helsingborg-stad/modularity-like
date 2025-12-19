@@ -6,6 +6,13 @@ use ModularityLikePosts\Helper\GetOptionFields;
 use WpService\WpService;
 use \Municipio\Helper\SiteSwitcher\SiteSwitcher;
 
+/**
+ * TODO: Stop manipulating class properties directly from functions. Use return values instead.
+ *       This will make the class more predictable and easier to test. There are unexpected side effects
+ *       when class properties are changed in methods, which can lead to bugs that are hard to trace.
+ *       Also, consider adding type hints to all properties and methods for better clarity and type safety.
+ */
+
 class GetPosts {
     private int $blogId;
     private int $currentUser;
