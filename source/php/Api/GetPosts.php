@@ -3,6 +3,7 @@
 namespace ModularityLikePosts\Api;
 
 use ModularityLikePosts\Helper\GetOptionFields;
+use WpService\WpService;
 
 class GetPosts {
     private int $blogId;
@@ -10,10 +11,13 @@ class GetPosts {
     private int $currentBlogIdContext;
     private array $orderedPosts = [];
     private array $postTypes;
+
     public function __construct(
+        private WpService $wpService,
         private GetOptionFields $getOptionFieldsHelper
     ) {
-        $this->blogId               = get_current_blog_id();
+
+        $this->blogId               = $this->wpService->getCurrentBlogId();
         $this->postTypes            = $this->getOptionFieldsHelper->getPostTypes();
         $this->currentBlogIdContext = $this->blogId;
     }
@@ -26,8 +30,9 @@ class GetPosts {
      */
     public function getPosts(array $unstructuredIds): array
     {
+
         $this->currentUser = $this->getCurrentUser();
-        $this->setupWantedOrder($unstructuredIds);
+        $this->setUpWantedOrder($unstructuredIds);
         $structuredIds = $this->structurePostIds($unstructuredIds);
 
         foreach ($structuredIds as $blogId => $postIds) {
@@ -37,8 +42,10 @@ class GetPosts {
             }
 
             //TODO: Add nonce, so the user capability can be verified
-            //$canReadPrivatePosts = user_can($this->currentUser, 'read_private_posts');
-            $canReadPrivatePosts = true;
+
+            $this->wpService->userCan($this->currentUser, 'read_post');
+
+            $canReadPrivatePosts = $this->wpService->userCan($this->currentUser, 'read_private_posts');
             $this->populatePosts($blogId, $postIds, $canReadPrivatePosts);
 
             if ($this->currentBlogIdContext !== $this->blogId) {
@@ -82,16 +89,14 @@ class GetPosts {
     private function populatePosts(int $blogId, array $postIds, bool $canReadPrivatePosts): void
     {
         $query = new \WP_Query(array(
-            'post__in' => $postIds,
-            'post_type' => $this->postTypes,
-            'posts_per_page' => -1,
-            'post_status' => $canReadPrivatePosts ? ['publish', 'private'] : ['publish'],
-            'ignore_sticky_posts' => true
+            'post__in'            => $postIds,
+            'post_type'           => $this->postTypes,
+            'posts_per_page'      => 500,
+            'post_status'         => $canReadPrivatePosts ? ['publish', 'private'] : ['publish'],
+            'ignore_sticky_posts' => false
         ));
 
-        if (empty($query->posts)) {
-            return;
-        }
+        var_dump($query->request);
 
         foreach ($query->posts as $post) {
             $key = $blogId . '-' . $post->ID;
