@@ -156,39 +156,36 @@ class App implements \Municipio\HooksRegistrar\Hookable
      */
     public function enqueueFrontend()
     {
-        wp_register_style(
+        $this->wpService->wpEnqueueStyle(
             'like-posts-css',
             MODULARITYLIKEPOSTS_URL . '/dist/' .
             $this->cacheBust->name('css/like-posts.css')
         );
 
-        wp_enqueue_style('like-posts-css');
-
-        wp_register_script(
+        $this->wpService->wpRegisterScript(
             'like-posts-js',
             MODULARITYLIKEPOSTS_URL . '/dist/' .
             $this->cacheBust->name('js/like-posts.js')
         );
 
-        $user = wp_get_current_user();
-
-        $userLikedPosts = get_user_meta($user->ID, 'likedPosts', true);
-
-        $tooltipUnlike = $this->getOptionFieldsHelper->getTooltipUnlike();
-        $tooltipLike = $this->getOptionFieldsHelper->getTooltipLike();
+        $userId = $this->wpService->wpGetCurrentUser()->ID ?? 0;
 
         $data = [
-            'currentUser'     => $user->ID,
-            'currentBlogId'   => get_current_blog_id(),
-            'likedPostsMeta'  => (object) $userLikedPosts,
-            'tooltipUnlike'   => $tooltipUnlike,
-            'tooltipLike'     => $tooltipLike,
+            'currentUser'     => $userId,
+            'currentBlogId'   => $this->wpService->getCurrentBlogId(),
+            'likedPostsMeta'  => (object) $this->wpService->getUserMeta(
+                $userId, 
+                'likedPosts', 
+                true
+            ) ?? [],
+            'tooltipUnlike'   => $this->getOptionFieldsHelper->getTooltipUnlike(),
+            'tooltipLike'     => $this->getOptionFieldsHelper->getTooltipLike()
         ];
 
         $inlineJs = 'window.likedPosts = ' . wp_json_encode($data) . ';';
-        wp_add_inline_script('like-posts-js', $inlineJs, 'before');
+        $this->wpService->wpAddInlineScript('like-posts-js', $inlineJs, 'before');
 
-        wp_enqueue_script('like-posts-js');
+        $this->wpService->wpEnqueueScript('like-posts-js');
     }
 
     /**
