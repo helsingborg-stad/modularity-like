@@ -156,6 +156,8 @@ class App implements \Municipio\HooksRegistrar\Hookable
      */
     public function enqueueFrontend()
     {
+
+        //TODO: Implement wputilservice
         $this->wpService->wpEnqueueStyle(
             'like-posts-css',
             MODULARITYLIKEPOSTS_URL . '/dist/' .
