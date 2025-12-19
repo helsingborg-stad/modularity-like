@@ -38,17 +38,22 @@ class GetPosts {
         $structuredIds = $this->structurePostIds($unstructuredIds);
 
         foreach ($structuredIds as $blogId => $postIds) {
-            $success = $this->maybeSwitchBlog($blogId);
-            if (!$success) {
-                continue;
-            }
-            $canReadPrivatePosts = $this->wpService->userCan($this->currentUser, 'read_private_posts');
-            $this->populatePosts($blogId, $postIds, $canReadPrivatePosts);
+            $this->siteSwitcher->runInSite(
+                $blogId,
+                function () use ($blogId, $postIds) {
+                    
+                    $userCanReadPrivatePostsOnCurrentBlog = $this->wpService->userCan(
+                        $this->currentUser,
+                        'read_private_posts'
+                    );
 
-            if ($this->currentBlogIdContext !== $this->blogId) {
-                restore_current_blog();
-                $this->currentBlogIdContext = $this->blogId;
-            }
+                    $this->populatePosts(
+                        $blogId, 
+                        $postIds, 
+                        $userCanReadPrivatePostsOnCurrentBlog
+                    );
+                }
+            );
         }
 
         // Filter out empty items from orderedPosts
