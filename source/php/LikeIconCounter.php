@@ -46,11 +46,15 @@ class LikeIconCounter implements \Municipio\HooksRegistrar\Hookable {
      * @return array The modified menu item.
      */
     public function addMenuItemIcon($menuItem, $menuId) {
+        static $likedPostsPageIds = null;
+
         if (empty($menuItem['id'])) {
             return $menuItem;
         }
 
-        $likedPostsPageIds = $this->getOptionFieldsHelper->getLikedPostsPageIds();
+        if ($likedPostsPageIds === null) {
+            $likedPostsPageIds = $this->getOptionFieldsHelper->getLikedPostsPageIds();
+        }
 
         if (isset($likedPostsPageIds[$menuItem['id'] ?? 0])) {
             $menuItem['icon'] = [
