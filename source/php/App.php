@@ -58,7 +58,11 @@ class App implements \Municipio\HooksRegistrar\Hookable
      */
     private function setUpLikeIconCounter(): void
     {
-        new LikeIconCounter($this->getOptionFieldsHelper);
+        $likeIconCounter = new LikeIconCounter(
+            $this->getOptionFieldsHelper,
+            $this->wpService
+        );
+        $likeIconCounter->addHooks();
     }
 
     /**

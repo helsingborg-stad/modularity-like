@@ -23,7 +23,7 @@ class GetOptionFields implements GetOptionFieldsInterface
      */
     public function getIcon() 
     {
-        return $this->staticFieldGetter('like_icon', 'heart');
+        return $this->staticFieldGetter('like_icon', 'favorite');
     }
 
     /**
@@ -56,6 +56,16 @@ class GetOptionFields implements GetOptionFieldsInterface
     public function getTooltipUnlike()
     {
         return $this->staticFieldGetter('like_tooltip_unlike_text', '');
+    }
+
+    /**
+     * Retrieves the liked posts page IDs from the options table.
+     * 
+     * @return array The liked posts page IDs.
+     */
+    public function getLikedPostsPageIds(): array
+    {
+        return get_option('liked_posts_page_ids', []);
     }
 
     /**

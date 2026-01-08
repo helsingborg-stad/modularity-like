@@ -3,30 +3,38 @@
 namespace ModularityLikePosts;
 
 use ModularityLikePosts\Helper\GetOptionFields;
+use WpService\WpService;
 
-class LikeIconCounter {
-    private bool $hasLikeModule = false;
-    private string $likeIcon = 'favorite';
-    private array $likedPostsPageIds = [];
-
+class LikeIconCounter implements \Municipio\HooksRegistrar\Hookable {
     /**
      * Constructor method.
      * 
      * Initializes the LikeIconCounter object and sets up the save_post action hook if the like_counter option is not empty.
      */
-    public function __construct(private GetOptionFields $getOptionFieldsHelper) {
-        add_action('init', array($this, 'init'));
+    public function __construct(
+        private GetOptionFields $getOptionFieldsHelper,
+        private WpService $wpService
+    ) {}
+
+    /**
+     * Adds hooks for the LikeIconCounter functionality.
+     * 
+     * This method registers the init action hook to initialize the like icon counter functionality.
+     */
+    public function addHooks(): void {
+        $this->wpService->addAction('init', [$this, 'init']);
     }
 
+    /**
+     * Initializes the like icon counter functionality.
+     * 
+     * This method checks if the like counter option is enabled and, if so, registers the save_post action hook
+     * and the Municipio/Navigation/Item filter hook to handle updating the like counter and adding menu item icons.
+     */
     public function init() {
-        $useMenuCounter = $this->getOptionFieldsHelper->getCounter();
-        
-        if (!empty($useMenuCounter)) {
-            $this->likeIcon = $this->getOptionFieldsHelper->getIcon();
-            $this->likedPostsPageIds = get_option('liked_posts_page_ids', []);
-
-            add_action('save_post', array($this, 'checkForLikedModule'), 10, 2);
-            add_filter('Municipio/Navigation/Item', array($this, 'addMenuItemIcon'), 10, 2);
+        if (!empty($this->getOptionFieldsHelper->getCounter())) {
+            $this->wpService->addAction('save_post', [$this, 'checkForLikedModule'], 10, 2);
+            $this->wpService->addFilter('Municipio/Navigation/Item', [$this, 'addMenuItemIcon'], 10, 2);
         }
     }
 
@@ -42,11 +50,11 @@ class LikeIconCounter {
             return $menuItem;
         }
 
-        $pageId = !empty($menuItem['page_id']) ? $menuItem['page_id'] : $menuItem['id'];
+        $likedPostsPageIds = $this->getOptionFieldsHelper->getLikedPostsPageIds();
 
-        if (isset($this->likedPostsPageIds[$pageId])) {
+        if (isset($likedPostsPageIds[$menuItem['id'] ?? 0])) {
             $menuItem['icon'] = [
-                'icon' => $this->likeIcon,
+                'icon' => $this->getOptionFieldsHelper->getIcon(),
                 'size' => 'md',
                 'filled' => true,
                 'attributeList' => [
@@ -73,47 +81,65 @@ class LikeIconCounter {
         $this->updateLikeCounterPageIdOption($postId);
     }
 
-    private function checkifLikedPostsBlockExistsOnPage($post)
-    {
-        if (!empty($post->post_content) && !$this->hasLikeModule) {
-            if (str_contains($post->post_content, 'wp:acf/liked-posts')) {
-                $this->hasLikeModule = true;
-            }
-        }
-    }
-
     /**
-     * Checks if the Liked Posts module exists on the page for a given post ID.
+     * Checks if the liked posts block exists in the content of the given post.
      *
-     * @param int $postId The ID of the post to check.
+     * @param WP_Post $post The post object to check.
      * @return void
      */
-    private function checkIfLikedPostsModuleExistsOnPage($postId)
+    private function checkifLikedPostsBlockExistsOnPage(null|object $post)
     {
-        $sidebarsArray = get_post_meta($postId, 'modularity-modules', false);
+        if(empty($post) || !property_exists($post, 'ID')) {
+            return false;
+        }
 
-        $this->lookForLikedPostsModule($sidebarsArray);
+        static $hasLikeModule = [];
+        if (!empty($post->post_content) && empty($hasLikeModule[$post->ID])) {
+            if (str_contains($post->post_content, 'wp:acf/liked-posts')) {
+                $hasLikeModule[$post->ID] = true;
+            }
+        }
     }
 
     /**
      * Recursively looks for a liked posts module in the given array.
      * 
      * @param array $array The array to search for the liked posts module.
+     * @return bool True if the liked posts module is found, false otherwise.
      */
-    private function lookForLikedPostsModule($array) {
-        if (empty($array) || !is_array($array) || $this->hasLikeModule) {
-            return;
+    private function lookForLikedPostsModule($array): bool {
+        if (empty($array) || !is_array($array)) {
+            return false;
         }
 
         if (isset($array['name']) && $array['name'] === 'mod-liked-posts') {
-            $this->hasLikeModule = true;
-            return;
+            return true;
         }
+
         foreach ($array as $value) {
-            if (is_array($value)) {
-                $this->lookForLikedPostsModule($value);
+            if (is_array($value) && $this->lookForLikedPostsModule($value)) {
+                return true;
             }
         }
+        return false;
+    }
+
+    /**
+     * Checks if the Liked Posts module exists on the page for a given post ID.
+     *
+     * @param int $postId The ID of the post to check.
+     * @return bool True if the liked posts module exists, false otherwise.
+     */
+    private function checkIfLikedPostsModuleExistsOnPage($postId): bool {
+        $sidebarsArray = $this->wpService->getPostMeta(
+            $postId,
+            'modularity-modules',
+            false
+        );
+
+        return $this->lookForLikedPostsModule(
+            is_array($sidebarsArray) && !empty($sidebarsArray) ? $sidebarsArray : []
+        );
     }
 
     /**
@@ -123,14 +149,18 @@ class LikeIconCounter {
      */
     private function updateLikeCounterPageIdOption($postId)
     {
-        $likedPostsPageIds = $this->likedPostsPageIds;
-        if ($this->hasLikeModule) {
+        $likedPostsPageIds = $this->getOptionFieldsHelper->getLikedPostsPageIds();
+        $hasLikeModule     = $this->checkIfLikedPostsModuleExistsOnPage($postId);
+
+        if ($hasLikeModule) {
             $likedPostsPageIds[$postId] = $postId;
         } else {
             unset($likedPostsPageIds[$postId]);
         }
 
-        $this->likedPostsPageIds = $likedPostsPageIds;
-        update_option('liked_posts_page_ids', $likedPostsPageIds);
+        $this->wpService->updateOption(
+            'liked_posts_page_ids', 
+            $likedPostsPageIds
+        );
     }
 }
