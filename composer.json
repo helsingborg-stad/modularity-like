@@ -12,6 +12,10 @@
         {
             "name": "Niclas Norin",
             "email": "niclas.norin@frontwalker.se"
+        },
+        {
+            "name": "Sebastian Thulin",
+            "email": "sebastian.thulin@helsingborg.se"
         }
     ],
     "autoload": {
