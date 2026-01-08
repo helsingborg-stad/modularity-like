@@ -86,12 +86,16 @@ $getPostsHelper = new \ModularityLikePosts\Api\GetPosts(
     $getOptionFieldsHelper,
     $siteSwitcher
 );
+$wpUtilService = new WpUtilService\WpUtilService(
+    $wpService
+);
 
 //Init
 (new ModularityLikePosts\App(
     $bladeInstance, 
     $siteSwitcher, 
     $wpService, 
+    $wpUtilService,
     $getPostsHelper, 
     $getOptionFieldsHelper, 
     $cacheBust

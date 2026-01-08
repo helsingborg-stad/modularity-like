@@ -14,6 +14,7 @@ use AcfService\AcfService;
 use Municipio\Helper\SiteSwitcher\SiteSwitcher;
 use Municipio\HooksRegistrar\HooksRegistrar;
 use ModularityLikePosts\Helper\CacheBust;
+use WpUtilService\WpUtilService;
 
 /**
  * Class App
@@ -28,11 +29,13 @@ class App implements \Municipio\HooksRegistrar\Hookable
         private Blade $bladeInstance, 
         private SiteSwitcher $siteSwitcher, 
         private WpService $wpService,
+        private WpUtilService $wpUtilService,
         private GetPosts $getPostsHelper,
         private GetOptionFields $getOptionFieldsHelper,
         private CacheBust $cacheBust
     )
     {
+        $this->setUpEnqueue();
         $this->setUpRestEndpoints();
         $this->setUpLikeIconCounter();
     }
@@ -72,7 +75,6 @@ class App implements \Municipio\HooksRegistrar\Hookable
      */
     public function addHooks(): void
      {
-        $this->wpService->addAction('wp_enqueue_scripts', array($this, 'enqueueFrontend'));
         $this->wpService->addFilter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
         $this->wpService->addAction('init', array($this, 'registerModule'));
         $this->wpService->addFilter('Municipio/Helper/Post/CallToActionItems', array($this, 'postsIcon'), 10, 2);
@@ -155,43 +157,30 @@ class App implements \Municipio\HooksRegistrar\Hookable
     }
 
     /**
-     * Enqueue required scripts
+     * Set up enqueueing of scripts and styles.
+     *
      * @return void
      */
-    public function enqueueFrontend()
+    private function setUpEnqueue(): void
     {
+        $enqueue = $this->wpUtilService->enqueue(__DIR__, 'dist'); 
 
-        //TODO: Implement wputilservice
-        $this->wpService->wpEnqueueStyle(
-            'like-posts-css',
-            MODULARITYLIKEPOSTS_URL . '/dist/' .
-            $this->cacheBust->name('css/like-posts.css')
-        );
-
-        $this->wpService->wpRegisterScript(
-            'like-posts-js',
-            MODULARITYLIKEPOSTS_URL . '/dist/' .
-            $this->cacheBust->name('js/like-posts.js')
-        );
-
-        $userId = $this->wpService->wpGetCurrentUser()->ID ?? 0;
-
-        $data = [
-            'currentUser'     => $userId,
-            'currentBlogId'   => $this->wpService->getCurrentBlogId(),
-            'likedPostsMeta'  => (object) $this->wpService->getUserMeta(
-                $userId, 
-                'likedPosts', 
-                true
-            ) ?? [],
-            'tooltipUnlike'   => $this->getOptionFieldsHelper->getTooltipUnlike(),
-            'tooltipLike'     => $this->getOptionFieldsHelper->getTooltipLike()
-        ];
-
-        $inlineJs = 'window.likedPosts = ' . wp_json_encode($data) . ';';
-        $this->wpService->wpAddInlineScript('like-posts-js', $inlineJs, 'before');
-
-        $this->wpService->wpEnqueueScript('like-posts-js');
+        $enqueue->on('wp_enqueue_scripts', 20)->add('css/like-posts.css');
+        
+        $enqueue->on('wp_enqueue_scripts', 20)
+            ->add('js/like-posts.js')
+            ->with()
+            ->data('likedPosts', [
+                'currentUser'     => fn() => $this->wpService->wpGetCurrentUser()->ID ?? 0,
+                'currentBlogId'   => fn() => $this->wpService->getCurrentBlogId(),
+                'likedPostsMeta'  => fn() => (object) $this->wpService->getUserMeta(
+                    $this->wpService->wpGetCurrentUser()->ID ?? 0, 
+                    'likedPosts', 
+                    true
+                ) ?? [],
+                'tooltipUnlike'   => fn() => $this->getOptionFieldsHelper->getTooltipUnlike(),
+                'tooltipLike'     => fn() => $this->getOptionFieldsHelper->getTooltipLike()
+            ]);
     }
 
     /**
