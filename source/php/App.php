@@ -165,7 +165,9 @@ class App implements \Municipio\HooksRegistrar\Hookable
     {
         $enqueue = $this->wpUtilService->enqueue(__DIR__, 'dist'); 
 
-        $enqueue->on('wp_enqueue_scripts', 20)->add('css/like-posts.css');
+   
+
+        /*$enqueue->on('wp_enqueue_scripts', 20)->add('css/like-posts.css');
         
         $enqueue->on('wp_enqueue_scripts', 20)
             ->add('js/like-posts.js')
@@ -180,7 +182,7 @@ class App implements \Municipio\HooksRegistrar\Hookable
                 ) ?? [],
                 'tooltipUnlike'   => fn() => $this->getOptionFieldsHelper->getTooltipUnlike(),
                 'tooltipLike'     => fn() => $this->getOptionFieldsHelper->getTooltipLike()
-            ]);
+            ]);*/ 
     }
 
     /**
