@@ -6,7 +6,8 @@
     "scripts": {
         "test": "./vendor/bin/phpunit --testdox",
         "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --testdox",
-        "minimal": "./vendor/bin/phpunit"
+        "minimal": "./vendor/bin/phpunit",
+        "scope": "rm -rf vendor composer.lock build && composer install && vendor/bin/php-scoper add-prefix --config=scoper.inc.php"
     },
     "authors": [
         {
@@ -26,6 +27,10 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
+         "mozart": {
+            "dep_namespace": "ModularityLikePosts\\Dependencies\\",
+            "dep_directory": "source/php/Dependencies/"
+        },
         "installer-paths": {
             "vendor/{$vendor}/{$name}": [
                 "type:wordpress-muplugin",
@@ -43,7 +48,8 @@
     "require-dev": {
         "brain/monkey": "^2.6",
         "codedungeon/phpunit-result-printer": "^0.31.0",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "humbug/php-scoper": "^0.18.18"
     },
     "suggest": {
         "helsingborg-stad/municipio": "^6.0.0"

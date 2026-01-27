@@ -50,6 +50,9 @@ Thumbs.db
 dist/temp
 dist/.temp
 
+# Ignore build folder created by PHP-Scoper
+/build
+
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------
