@@ -33,11 +33,9 @@ define('MODULARITYLIKEPOSTS_TEMPLATE_PATH', MODULARITYLIKEPOSTS_PATH . 'template
 define('MODULARITYLIKEPOSTS_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'views/');
 define('MODULARITYLIKEPOSTS_MODULE_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'source/php/Module/views');
 
-// Register the autoloader
-foreach(['vendor-scoped', 'vendor'] as $autoloadPath) {
-    $autoloadFile = MODULARITYLIKEPOSTS_PATH . $autoloadPath . '/autoload.php';
-    if (file_exists($autoloadFile)) {
-        require_once $autoloadFile;
+foreach (['vendor-scoped', 'vendor'] as $path) {
+    if (file_exists($file = MODULARITYLIKEPOSTS_PATH . "$path/autoload.php")) {
+        require_once $file;
         break;
     }
 }
