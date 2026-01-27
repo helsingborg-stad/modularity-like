@@ -10,4 +10,5 @@ return [
     'expose-classes' => [
         'ModularityLikePosts\\*',
     ],
+    'output-dir' => 'vendor-scoped',
 ];

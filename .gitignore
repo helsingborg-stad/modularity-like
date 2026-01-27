@@ -51,7 +51,7 @@ dist/temp
 dist/.temp
 
 # Ignore build folder created by PHP-Scoper
-/build
+/vendor-scoped/
 
 # -------------------------
 # BEGIN Whitelisted Files

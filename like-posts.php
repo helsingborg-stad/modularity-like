@@ -34,8 +34,12 @@ define('MODULARITYLIKEPOSTS_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'views/');
 define('MODULARITYLIKEPOSTS_MODULE_VIEW_PATH', MODULARITYLIKEPOSTS_PATH . 'source/php/Module/views');
 
 // Register the autoloader
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require __DIR__ . '/vendor/autoload.php';
+foreach(['vendor-scoped', 'vendor'] as $autoloadPath) {
+    $autoloadFile = MODULARITYLIKEPOSTS_PATH . $autoloadPath . '/autoload.php';
+    if (file_exists($autoloadFile)) {
+        require_once $autoloadFile;
+        break;
+    }
 }
 
 $bladeInstance = new Blade(new ComponentLibraryInit([]));
