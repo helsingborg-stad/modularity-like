@@ -35,7 +35,6 @@ class App implements \Municipio\HooksRegistrar\Hookable
         private CacheBust $cacheBust
     )
     {
-        $this->setUpEnqueue();
         $this->setUpRestEndpoints();
         $this->setUpLikeIconCounter();
     }
@@ -76,7 +75,10 @@ class App implements \Municipio\HooksRegistrar\Hookable
     public function addHooks(): void
      {
         $this->wpService->addFilter('acf/load_field/name=liked_post_types_to_show', array($this, 'setModulePostTypes'));
-        $this->wpService->addAction('init', array($this, 'registerModule'));
+        $this->wpService->addAction('init', function () {
+            $this->registerModule();
+            $this->setUpEnqueue();
+        });
         $this->wpService->addFilter('Municipio/Helper/Post/CallToActionItems', array($this, 'postsIcon'), 10, 2);
         $this->wpService->addFilter('kirki_inline_styles', array($this, 'addIconColor'), 10, 1);
     }
@@ -161,25 +163,25 @@ class App implements \Municipio\HooksRegistrar\Hookable
      *
      * @return void
      */
-    private function setUpEnqueue(): void
+    public function setUpEnqueue(): void
     {
         $enqueue = $this->wpUtilService->enqueue(__DIR__, 'dist'); 
-
+        
         $enqueue->on('wp_enqueue_scripts', 20)->add('css/like-posts.css');
         
         $enqueue->on('wp_enqueue_scripts', 20)
             ->add('js/like-posts.js')
             ->with()
             ->data('likedPosts', [
-                'currentUser'     => fn() => $this->wpService->wpGetCurrentUser()->ID ?? 0,
-                'currentBlogId'   => fn() => $this->wpService->getCurrentBlogId(),
-                'likedPostsMeta'  => fn() => (object) $this->wpService->getUserMeta(
+                'currentUser'     => $this->wpService->wpGetCurrentUser()->ID ?? 0,
+                'currentBlogId'   => $this->wpService->getCurrentBlogId(),
+                'likedPostsMeta'  => (object) $this->wpService->getUserMeta(
                     $this->wpService->wpGetCurrentUser()->ID ?? 0, 
                     'likedPosts', 
                     true
                 ) ?? [],
-                'tooltipUnlike'   => fn() => $this->getOptionFieldsHelper->getTooltipUnlike(),
-                'tooltipLike'     => fn() => $this->getOptionFieldsHelper->getTooltipLike()
+                'tooltipUnlike'   => $this->getOptionFieldsHelper->getTooltipUnlike(),
+                'tooltipLike'     => $this->getOptionFieldsHelper->getTooltipLike()
             ]);
     }
 
