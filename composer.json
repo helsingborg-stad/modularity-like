@@ -7,7 +7,7 @@
         "test": "./vendor/bin/phpunit --testdox",
         "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --testdox",
         "minimal": "./vendor/bin/phpunit",
-        "scope": "rm -rf vendor composer.lock build && composer install && vendor/bin/php-scoper add-prefix --config=scoper.inc.php && rm -rf vendor"
+        "scope": "rm -rf vendor composer.lock vendor-scoped && composer install && vendor/bin/php-scoper add-prefix --config=scoper.inc.php && rm -rf vendor"
     },
     "authors": [
         {
