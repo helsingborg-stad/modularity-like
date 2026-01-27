@@ -11,4 +11,7 @@ return [
         'ModularityLikePosts\\*',
     ],
     'output-dir' => 'vendor-scoped',
+    'exclude-namespaces' => [
+        'Composer\\',
+    ],
 ];
