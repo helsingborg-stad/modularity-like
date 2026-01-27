@@ -31,8 +31,7 @@ class GetOptionFields implements GetOptionFieldsInterface
      */
     public function getPostTypes(): array
     {
-        // TODO: Not working corrrectly, returns empty array
-        return $this->staticFieldGetter('like_post_types', []);
+        return $this->staticFieldGetter('select_post_type', []);
     }
 
     /**
