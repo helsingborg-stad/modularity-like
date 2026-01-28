@@ -5,6 +5,7 @@ namespace ModularityLikePosts\Api;
 use ModularityLikePosts\Helper\GetOptionFields;
 use WpService\WpService;
 use \Municipio\Helper\SiteSwitcher\SiteSwitcher;
+use Municipio\MirroredPost\PostObject\MirroredPostObject;
 
 /**
  * TODO: Stop manipulating class properties directly from functions. Use return values instead.
@@ -55,8 +56,8 @@ class GetPosts {
                     );
 
                     $this->populatePosts(
-                        $blogId, 
-                        $postIds, 
+                        $blogId,
+                        $postIds,
                         $userCanReadPrivatePostsOnCurrentBlog
                     );
                 }
@@ -113,7 +114,7 @@ class GetPosts {
             }
 
             $preparedPost = \Municipio\Helper\Post::preparePostObject($post);
-            $preparedPost->blogId = $this->currentBlogIdContext;
+            $preparedPost = new MirroredPostObject($preparedPost, $this->wpService, $blogId);
 
             $this->orderedPosts[$key] = $preparedPost;
         }
