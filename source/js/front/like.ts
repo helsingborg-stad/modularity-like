@@ -8,6 +8,7 @@ const postTypeAttribute: string = 'data-post-type';
 const blogIdAttribute: string = 'data-blog-id';
 const tooltipAttribute: string = 'data-tooltip';
 const iconWrapperAttribute: string = 'data-js-like-icon-wrapper';
+const likeIconInitializedAttribute: string = 'data-like-icon-initialized';
 
 export default class Like {
     private hasTooltip: boolean;
@@ -75,7 +76,6 @@ export default class Like {
     // Updates the state of the like button (liked/not liked)
     public updateLikedStatus() {
         const isLiked = this.likeStorage.get()[this.key];
-        
         if (isLiked) {
             this.button.classList.add(likedIconClass);
         } else {
@@ -106,6 +106,7 @@ export function initializeLikeButtons(
             return;
         }
 
+        
         const wrapper = button.closest(`[${iconWrapperAttribute}]`);
 
         likeInstancesStorage.addInstance(
@@ -136,12 +137,23 @@ export function initializeLikeButtons(
                         const element = node as Element;
     
                         if (element.matches(likeIconSelector)) {
+                            if (element.hasAttribute(likeIconInitializedAttribute)) {
+                                return;
+                            }
+                            
+                            element.setAttribute(likeIconInitializedAttribute, 'true');
                             createLikeInstance(element);
-                        }
+                        } else {
+                            element.querySelectorAll(likeIconSelector).forEach((button) => {
+                                if (button.hasAttribute(likeIconInitializedAttribute)) {
+                                    return;
+                                }
     
-                        element.querySelectorAll(likeIconSelector).forEach((button) => {
-                            createLikeInstance(button);
-                        });
+                                button.setAttribute(likeIconInitializedAttribute, 'true');
+                                createLikeInstance(button);
+                            });
+                        }
+
                     }
                 });
             }
