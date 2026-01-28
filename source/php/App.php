@@ -165,24 +165,59 @@ class App implements \Municipio\HooksRegistrar\Hookable
      */
     public function setUpEnqueue(): void
     {
-        $enqueue = $this->wpUtilService->enqueue(__DIR__, 'dist'); 
+        // TODO: Make enqueue work correctly with assets (localize script data)
+        // $enqueue = $this->wpUtilService->enqueue(__DIR__, 'dist'); 
         
-        $enqueue->on('wp_enqueue_scripts', 20)->add('css/like-posts.css');
+        // $enqueue->on('wp_enqueue_scripts', 20)->add('css/like-posts.css');
         
-        $enqueue->on('wp_enqueue_scripts', 20)
-            ->add('js/like-posts.js')
-            ->with()
-            ->data('likedPosts', [
-                'currentUser'     => $this->wpService->wpGetCurrentUser()->ID ?? 0,
-                'currentBlogId'   => $this->wpService->getCurrentBlogId(),
-                'likedPostsMeta'  => (object) $this->wpService->getUserMeta(
-                    $this->wpService->wpGetCurrentUser()->ID ?? 0, 
-                    'likedPosts', 
-                    true
-                ) ?? [],
-                'tooltipUnlike'   => $this->getOptionFieldsHelper->getTooltipUnlike(),
-                'tooltipLike'     => $this->getOptionFieldsHelper->getTooltipLike()
-            ]);
+        // $enqueue->on('wp_enqueue_scripts', 20)
+        //     ->add('js/like-posts.js')
+        //     ->with()
+        //     ->data('likedPosts', [
+        //         'currentUser'     => $this->wpService->wpGetCurrentUser()->ID ?? 0,
+        //         'currentBlogId'   => $this->wpService->getCurrentBlogId(),
+        //         'likedPostsMeta'  => (object) $this->wpService->getUserMeta(
+        //             $this->wpService->wpGetCurrentUser()->ID ?? 0, 
+        //             'likedPosts', 
+        //             true
+        //         ) ?? [],
+        //         'tooltipUnlike'   => $this->getOptionFieldsHelper->getTooltipUnlike(),
+        //         'tooltipLike'     => $this->getOptionFieldsHelper->getTooltipLike()
+        //     ]);
+
+        wp_register_style(
+            'like-posts-css',
+            MODULARITYLIKEPOSTS_URL . '/dist/' .
+            $this->cacheBust->name('css/like-posts.css')
+        );
+
+        wp_enqueue_style('like-posts-css');
+
+        wp_register_script(
+            'like-posts-js',
+            MODULARITYLIKEPOSTS_URL . '/dist/' .
+            $this->cacheBust->name('js/like-posts.js')
+        );
+
+        $user = wp_get_current_user();
+
+        $userLikedPosts = get_user_meta($user->ID, 'likedPosts', true);
+
+        $tooltipUnlike = $this->getOptionFieldsHelper->getTooltipUnlike();
+        $tooltipLike = $this->getOptionFieldsHelper->getTooltipLike();
+
+        $data = [
+            'currentUser'     => $user->ID,
+            'currentBlogId'   => get_current_blog_id(),
+            'likedPostsMeta'  => (object) $userLikedPosts,
+            'tooltipUnlike'   => $tooltipUnlike,
+            'tooltipLike'     => $tooltipLike,
+        ];
+
+        $inlineJs = 'window.likedPosts = ' . wp_json_encode($data) . ';';
+        wp_add_inline_script('like-posts-js', $inlineJs, 'before');
+
+        wp_enqueue_script('like-posts-js');
     }
 
     /**
