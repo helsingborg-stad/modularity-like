@@ -20,6 +20,9 @@ declare const likedPosts : {
 
 declare const wpApiSettings: WpApiSettings;
 
+/**
+ * Initializes the like system when the DOM is fully loaded.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     const likeStorage = getStorage(likedPosts as LikedPosts, wpApiSettings);
 
@@ -34,6 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeModules(likeStorage, wpApiSettings);
 });
 
+/**
+ * Returns the appropriate storage implementation based on user authentication.
+ *
+ * @param likedPosts - The liked posts data for the current user/session.
+ * @param localWpApiSettings - The WP API settings object.
+ * @returns StorageInterface instance for user or local storage.
+ */
 function getStorage(likedPosts: LikedPosts, localWpApiSettings: WpApiSettings): StorageInterface {
     return likedPosts && likedPosts.currentUser && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ?
         new UserStorage(localWpApiSettings, likedPosts.currentUser as unknown as number, likedPosts.likedPostsMeta) :
@@ -41,7 +51,14 @@ function getStorage(likedPosts: LikedPosts, localWpApiSettings: WpApiSettings): 
 }
 
 
-// Initialize like buttons/icons
+/**
+ * Initializes all like buttons/icons on the page and observes for dynamically added buttons.
+ *
+ * @param likeStorage - The storage interface for like data.
+ * @param likeInstancesStorage - Storage for Like instances.
+ * @param tooltipLike - Tooltip text for the like action.
+ * @param tooltipUnlike - Tooltip text for the unlike action.
+ */
 function initializeLikeButtons(
     likeStorage: StorageInterface,
     likeInstancesStorage: LikeInstancesStorage,
@@ -83,6 +100,12 @@ function initializeLikeButtons(
     observer.observe(document.body, { childList: true, subtree: true });
 }
 
+/**
+ * Initializes LikeModule and ShareModule for all containers on the page.
+ *
+ * @param likeStorage - The storage interface for like data.
+ * @param localWpApiSettings - The WP API settings object.
+ */
 function initializeModules(
     likeStorage: StorageInterface,
     localWpApiSettings: WpApiSettings

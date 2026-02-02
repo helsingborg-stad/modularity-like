@@ -25,7 +25,9 @@ export default class Like {
         this.setListener();
     }
 
-    // Sets the event listener for the like button
+    /**
+     * Sets the event listener for the like button.
+     */
     private setListener() {
         this.button.addEventListener('click', (e) => {
             e.preventDefault();
@@ -36,7 +38,9 @@ export default class Like {
         });
     }
 
-    // Sets the tooltip for the like button
+    /**
+     * Sets the tooltip for the like button.
+     */
     private setTooltip() {
         if (!this.hasTooltip) {
             return;
@@ -59,7 +63,9 @@ export default class Like {
         }
     }
 
-    // Toggles the like button (liked/not liked) and updates all like buttons with the same postId
+    /**
+     * Toggles the like button (liked/not liked) and updates all like buttons with the same postId.
+     */
     private toggleLiked() {
         this.likeInstancesStorage.getInstances(this.key).forEach((instance) => {
             instance.updateLikedStatus();
@@ -67,7 +73,9 @@ export default class Like {
         });
 	}
 
-    // Updates the state of the like button (liked/not liked)
+    /**
+     * Updates the state of the like button (liked/not liked).
+     */
     public updateLikedStatus() {
         const isLiked = this.likeStorage.get()[this.key];
         if (isLiked) {
@@ -77,7 +85,10 @@ export default class Like {
         }
     }
 
-    // Custom event to update liked posts length
+    /**
+     * Custom event to update liked posts length.
+     * @returns {CustomEvent}
+     */
     public likedPostsUpdatedEvent() { 
 		return new CustomEvent('likedPostsLengthUpdated', {});
     }
