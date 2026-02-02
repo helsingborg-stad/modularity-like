@@ -1,7 +1,6 @@
-import LikedPostsApiUrlBuilder from "./helpers/likedPostsApiUrlBuilder";
-import LikedPostsStructurer from "./helpers/likedPostsStructurer";
-import { LikedPostsMeta, LikedPosts, WpApiSettings } from "./like-posts";
-import StorageInterface from "./storage/storageInterface";
+import LikedPostsApiUrlBuilder from "../helpers/likedPostsApiUrlBuilder";
+import { LikedPostsMeta, LikedPosts, WpApiSettings } from "../like-posts";
+import StorageInterface from "../storage/storageInterface";
 
 class LikeModule {
     private displayNoneClass: string = 'u-display--none';
@@ -10,7 +9,6 @@ class LikeModule {
         private wpApiSettings: WpApiSettings,
         private likeStorage: StorageInterface,
         private sharedPosts: string|null,
-        private likedPostsStructurer: LikedPostsStructurer,
         private likedPostsApiUrlBuilder: LikedPostsApiUrlBuilder,
         private postTypesToShow: Array<string>,
         private postAppearance: string,

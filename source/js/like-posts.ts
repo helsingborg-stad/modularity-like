@@ -1,17 +1,17 @@
 import { initializeLikedCounter } from "./front/likedCounter";
-import Shared from './front/shared';
-import Share from './front/share';
-import LikeModule from './front/LikeModule';
-import { LikedPostsMeta, LikedPosts, WpApiSettings } from './front/like-posts';
+import { LikedPosts, WpApiSettings } from './front/like-posts';
 import UserStorage from './front/storage/userStorage';
 import LocalStorage from './front/storage/localStorage';
-import { initializeLikeButtons } from './front/like';
 import LikeInstancesStorage from "./front/storage/likeInstancesStorage";
 import LikedPostsStructurer from "./front/helpers/likedPostsStructurer";
 import LikedPostsApiUrlBuilder from "./front/helpers/likedPostsApiUrlBuilder";
+import LikeModuleFactory from "./front/module/likeModuleFactory";
+import ShareFactory from "./front/module/shareFactory";
+import StorageInterface from "./front/storage/storageInterface";
+import LikeFactory from "./front/like/likeFactory";
 
 declare const likedPosts : {
-    currentUser: number|string,
+    currentUser: number|"0",
     likedPostsMeta: any,
     tooltipLike: string,
     tooltipUnlike: string,
@@ -21,78 +21,99 @@ declare const likedPosts : {
 declare const wpApiSettings: WpApiSettings;
 
 document.addEventListener('DOMContentLoaded', () => {
-    const localWpApiSettings = wpApiSettings;
-
-    const likeStorage = likedPosts && likedPosts.currentUser && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ?
-        new UserStorage(localWpApiSettings, likedPosts.currentUser as number, likedPosts.likedPostsMeta) :
-        new LocalStorage(localWpApiSettings, likedPosts.currentBlogId);
-
-    const tooltipLike: string = likedPosts.tooltipLike;
-    const tooltipUnlike: string = likedPosts.tooltipUnlike;
+    const likeStorage = getStorage(likedPosts as LikedPosts, wpApiSettings);
 
     initializeLikedCounter(likeStorage);
     initializeLikeButtons(
         likeStorage, 
         new LikeInstancesStorage(), 
-        tooltipLike, 
+        likedPosts.tooltipLike, 
+        likedPosts.tooltipUnlike
+    );
+
+    initializeModules(likeStorage, wpApiSettings);
+});
+
+function getStorage(likedPosts: LikedPosts, localWpApiSettings: WpApiSettings): StorageInterface {
+    return likedPosts && likedPosts.currentUser && likedPosts.currentUser !== '0' && likedPosts.likedPostsMeta && localWpApiSettings ?
+        new UserStorage(localWpApiSettings, likedPosts.currentUser as unknown as number, likedPosts.likedPostsMeta) :
+        new LocalStorage(localWpApiSettings, likedPosts.currentBlogId);
+}
+
+
+// Initialize like buttons/icons
+function initializeLikeButtons(
+    likeStorage: StorageInterface,
+    likeInstancesStorage: LikeInstancesStorage,
+    tooltipLike: string, 
+    tooltipUnlike: string
+) {
+    const likeFactory = new LikeFactory(
+        likeStorage,
+        likeInstancesStorage,
+        tooltipLike,
         tooltipUnlike
     );
 
-    document.querySelectorAll('[data-js-like-posts]').forEach((likePostsContainer) => {
-        const postTypesToShow   = JSON.parse(likePostsContainer.getAttribute('data-js-like-posts-post-types') || '[]');
-        const postAppearance    = likePostsContainer.getAttribute('data-js-like-posts-appearance') || 'collection';
-        const renderContainer   = likePostsContainer.querySelector('[data-js-render-container]');
-        const noPostsNotice     = likePostsContainer.querySelector('[data-js-no-posts-notice]');
-        const preLoaders        = likePostsContainer.querySelectorAll('[data-js-like-preloader]');
-        const sharedTitle       = likePostsContainer.querySelector('[data-js-liked-posts-share-title]');
-        const sharedExcerpt     = likePostsContainer.querySelector('[data-js-liked-posts-share-excerpt]');
-        const shareUrlField     = likePostsContainer.querySelector('[data-js-like-share-url]');
-        const shareListField    = likePostsContainer.querySelector('[data-js-like-share-name]');
-        const shareExcerptField = likePostsContainer.querySelector('[data-js-like-share-excerpt]');
-        const shareButton       = likePostsContainer.querySelector('[data-js-like-share-button]');
+    document.querySelectorAll('[data-like-icon]').forEach((button) => {
+        likeFactory.create(button as HTMLElement);
+    });
 
-        const urlParams = new URLSearchParams(window.location.search);
-		const sharedPosts = urlParams.get('liked-posts');
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                [...mutation.addedNodes].forEach((node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        const element = node as Element;
+    
+                        if (element.matches('[data-like-icon]')) {
+                            likeFactory.create(element as HTMLElement);
+                        } else {
+                            element.querySelectorAll('[data-like-icon]').forEach((button) => {
+                                likeFactory.create(button as HTMLElement);
+                            });
+                        }
 
-        const likedPostsStructurer = new LikedPostsStructurer();
-        const likedPostsApiUrlBuilder = new LikedPostsApiUrlBuilder(wpApiSettings);
-
-        if (postTypesToShow && renderContainer && noPostsNotice && preLoaders) {
-            if (sharedPosts) {
-                new Shared(
-                    renderContainer as HTMLElement,
-                    urlParams, 
-                    sharedTitle as HTMLElement, 
-                    sharedExcerpt as HTMLElement
-                );
+                    }
+                });
             }
+        });
+    });
+    
+    observer.observe(document.body, { childList: true, subtree: true });
+}
 
-            new LikeModule(
-                wpApiSettings,
-                likeStorage,
-                sharedPosts,
-                likedPostsStructurer,
-                likedPostsApiUrlBuilder,
-                postTypesToShow,
-                postAppearance,
-                renderContainer as HTMLElement,
-                noPostsNotice as HTMLElement,
-                preLoaders as NodeListOf<HTMLElement>,
-            );
+function initializeModules(
+    likeStorage: StorageInterface,
+    localWpApiSettings: WpApiSettings
+): void {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const sharedPosts: string|null = urlParams.get('liked-posts');
+
+    const moduleFactory = new LikeModuleFactory(
+        localWpApiSettings,
+        likeStorage,
+        urlParams,
+        sharedPosts
+    );
+
+    const shareFactory = new ShareFactory(
+        likeStorage,
+        new LikedPostsStructurer(),
+        new LikedPostsApiUrlBuilder(localWpApiSettings)
+    );
+
+    document.querySelectorAll('[data-js-like-posts]').forEach((likePostsContainer) => {
+        const likeModule = moduleFactory.create(likePostsContainer as HTMLElement);
+
+        if (!likeModule) {
+            console.error('Failed to initialize LikeModule for container:', likePostsContainer);
+            return;
         }
 
-        if (shareButton && shareUrlField && shareListField && shareExcerptField) {
-            new Share(
-                likeStorage,
-                postTypesToShow,
-                postAppearance,
-                likedPostsStructurer,
-                likedPostsApiUrlBuilder,
-                shareButton as HTMLButtonElement,
-                shareUrlField as HTMLInputElement,
-                shareListField as HTMLInputElement,
-                shareExcerptField as HTMLInputElement
-            );
+        if (likePostsContainer.hasAttribute('data-js-like-posts-share')) {
+            shareFactory.create(likePostsContainer as HTMLElement);
         }
     });
-});
+}
