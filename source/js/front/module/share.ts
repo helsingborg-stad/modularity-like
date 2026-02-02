@@ -1,6 +1,6 @@
-import LikedPostsApiUrlBuilder from './helpers/likedPostsApiUrlBuilder';
-import LikedPostsStructurer from './helpers/likedPostsStructurer';
-import StorageInterface from './storage/storageInterface';
+import LikedPostsApiUrlBuilder from '../helpers/likedPostsApiUrlBuilder';
+import LikedPostsStructurer from '../helpers/likedPostsStructurer';
+import StorageInterface from '../storage/storageInterface';
 
 class Share {
     private sharedParamKey: string = 'liked-posts';
