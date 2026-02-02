@@ -10,6 +10,11 @@ class ShareFactory {
         private likedPostsApiUrlBuilder: LikedPostsApiUrlBuilder
     ) {}
 
+    /**
+     * Creates a Share instance for the given container if all required elements are present.
+     * @param likePostsContainer - The container element for like posts.
+     * @returns Share instance or null if creation fails.
+     */
     public create(likePostsContainer: HTMLElement): Share|null {
         const postTypesToShow   = JSON.parse(likePostsContainer.getAttribute('data-js-like-posts-post-types') || '[]');
         const postAppearance    = likePostsContainer.getAttribute('data-js-like-posts-appearance') || 'collection';

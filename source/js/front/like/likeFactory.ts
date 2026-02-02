@@ -16,6 +16,13 @@ class LikeFactory {
         private tooltipUnlike: string
     ) {}
 
+    /**
+     * Creates and initializes a Like instance for a given like button element.
+     * Ensures the button is only initialized once and stores the instance.
+     *
+     * @param likeButton - The HTML element representing the like button.
+     * @returns The created Like instance, or undefined if already initialized or missing attributes.
+     */
     public create(likeButton: HTMLElement): Like | undefined {
         if (likeButton.hasAttribute(this.likeIconInitializedAttribute)) {
             return undefined;

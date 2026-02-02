@@ -26,6 +26,9 @@ class Share {
         }
     }
 
+    /**
+     * Renders the share link and sets up event listeners for name and excerpt fields.
+     */
     private renderShareLink() {
         const url = window.location.href.split('?')[0];
         const encodedLikedPostsParam = this.generateEncodedLikedPostsParam();
@@ -41,6 +44,10 @@ class Share {
         this.shareButton.classList.remove(this.displayNoneClass);
     }
 
+    /**
+     * Generates the encoded liked posts parameter for sharing.
+     * @returns The encoded liked posts query string or false if no liked posts.
+     */
     private generateEncodedLikedPostsParam() {
         const likedPosts = this.likeStorage.get();
         if (Object.keys(likedPosts).length == 0) {
@@ -58,6 +65,12 @@ class Share {
         return '?liked-posts=' + encodedApiUrls;
     }
 
+    /**
+     * Updates the share link with the encoded name and excerpt.
+     * @param urlField - The input field for the share URL.
+     * @param nameField - The input field for the name.
+     * @param excerptField - The input field for the excerpt.
+     */
     private updateShareLink(urlField: HTMLInputElement, nameField: HTMLInputElement, excerptField: HTMLInputElement) {
         const newName = btoa(nameField.value);
         const newExcerpt = btoa(excerptField.value);

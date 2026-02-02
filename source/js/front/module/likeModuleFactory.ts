@@ -12,6 +12,11 @@ class LikeModuleFactory {
         private sharedPosts: string|null,
     ) {}
 
+    /**
+     * Creates a LikeModule or Shared module for the given container.
+     * @param likePostsContainer - The container element for like posts.
+     * @returns LikeModule instance or undefined if creation fails.
+     */
     public create(likePostsContainer: HTMLElement): LikeModule | undefined {
         const [postTypesToShow, postAppearance] = this.extractAttributes(likePostsContainer);
         const [renderContainer, noPostsNotice, preLoaders] = this.extractElements(likePostsContainer);
@@ -46,6 +51,11 @@ class LikeModuleFactory {
         );
     }
 
+    /**
+     * Extracts shared elements (title and excerpt) from the container.
+     * @param likePostsContainer - The container element.
+     * @returns Tuple of title and excerpt elements.
+     */
     private extractSharedElements(likePostsContainer: HTMLElement): [HTMLElement | null, HTMLElement | null] {
         const title = likePostsContainer.querySelector('[data-js-liked-posts-share-title]');
         const excerpt = likePostsContainer.querySelector('[data-js-liked-posts-share-excerpt]');
@@ -53,6 +63,11 @@ class LikeModuleFactory {
         return [title as HTMLElement, excerpt as HTMLElement];
     }
 
+    /**
+     * Extracts key elements (render container, notice, preloaders) from the container.
+     * @param likePostsContainer - The container element.
+     * @returns Tuple of render container, notice, and preloaders.
+     */
     private extractElements(likePostsContainer: HTMLElement): [HTMLElement | null, HTMLElement | null, NodeListOf<HTMLElement> | null] {
         const renderContainer = likePostsContainer.querySelector('[data-js-render-container]');
         const noPostsNotice = likePostsContainer.querySelector('[data-js-no-posts-notice]');
@@ -61,6 +76,11 @@ class LikeModuleFactory {
         return [renderContainer as HTMLElement, noPostsNotice as HTMLElement, preLoaders as NodeListOf<HTMLElement>];
     }
 
+    /**
+     * Extracts post types and appearance attributes from the container.
+     * @param likePostsContainer - The container element.
+     * @returns Tuple of post types array and appearance string.
+     */
     private extractAttributes(likePostsContainer: HTMLElement): [Array<string>, string] {
         const postTypesToShow = JSON.parse(likePostsContainer.getAttribute('data-js-like-posts-post-types') || '[]');
         const postAppearance  = likePostsContainer.getAttribute('data-js-like-posts-appearance') || 'collection';
