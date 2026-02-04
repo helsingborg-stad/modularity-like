@@ -38,7 +38,7 @@ class LikeModuleFactory {
             );
         }
 
-        new LikeModule(
+        return new LikeModule(
             this.wpApiSettings,
             this.likeStorage,
             this.sharedPosts,
