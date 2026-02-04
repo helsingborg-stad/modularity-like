@@ -3,6 +3,7 @@ style="height:170px;width:100%;" data-js-like-preloader></div>
 @notice([
     'message' => [
         'title' => $noPostsFound,
+        'text' => '',
     ],
     'classList' => array_merge($classList ?? [], [
         'u-display--none',

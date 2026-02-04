@@ -2,83 +2,93 @@
 
 namespace ModularityLikePosts\Helper;
 
-class GetOptionFields
+use AcfService\AcfService;
+
+class GetOptionFields implements GetOptionFieldsInterface
 {
+    public function __construct(private AcfService $acfService)
+    {
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getIconColor()
     {
-        static $color = null;
-
-        if (!is_null($color)) {
-            return $color;
-        }
-
-        $color = get_field('like_icon_color', 'option') ?? '#e84666';
-
-        return $color;
+        return $this->staticFieldGetter('like_icon_color', '#e84666');
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getIcon() 
     {
-        static $icon = null;
-
-        if (!is_null($icon)) {
-            return $icon;
-        }
-
-        $icon = get_field('like_icon', 'option') ?? 'favorite';
-
-        return $icon;
+        return $this->staticFieldGetter('like_icon', 'favorite');
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getPostTypes(): array
     {
-        static $postTypes = null;
-
-        if (!is_null($postTypes)) {
-            return $postTypes;
-        }
-
-        $postTypes = get_field('select_post_type', 'option') ?? [];
-
-        return $postTypes;
+        return $this->staticFieldGetter('select_post_type', []);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getCounter()
     {
-        static $counter = null;
-
-        if (!is_null($counter)) {
-            return $counter;
-        }
-
-        $counter = get_field('like_counter', 'option') ?? false;
-
-        return $counter;
+        return $this->staticFieldGetter('like_counter', false);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getTooltipLike()
     {
-        static $tooltipLike = null;
-
-        if (!is_null($tooltipLike)) {
-            return $tooltipLike;
-        }
-
-        $tooltipLike = get_field('like_tooltip_like_text', 'option') ?? false;
-
-        return $tooltipLike;
+        return $this->staticFieldGetter('like_tooltip_like_text', '');
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getTooltipUnlike()
     {
-        static $tooltipUnlike = null;
+        return $this->staticFieldGetter('like_tooltip_unlike_text', '');
+    }
 
-        if (!is_null($tooltipUnlike)) {
-            return $tooltipUnlike;
+    /**
+     * Retrieves the liked posts page IDs from the options table.
+     * 
+     * @return array The liked posts page IDs.
+     */
+    public function getLikedPostsPageIds(): array
+    {
+        return get_option('liked_posts_page_ids', []);
+    }
+
+    /**
+     * Generic static field getter to reduce code duplication.
+     *
+     * @param string $fieldName The name of the ACF field to retrieve.
+     * @return mixed The value of the ACF field.
+     */
+    private function staticFieldGetter(string $fieldName, mixed $default = null): mixed
+    {
+        static $fields = [];
+
+        if (array_key_exists($fieldName, $fields)) {
+            return $fields[$fieldName];
         }
 
-        $tooltipUnlike = get_field('like_tooltip_unlike_text', 'option') ?? false;
+        $fieldValue = $this->acfService->getField(
+            $fieldName,
+            'option'
+        );
 
-        return $tooltipUnlike;
+        $fields[$fieldName] = $fieldValue ?? $default;
+
+        return $fields[$fieldName];
     }
 }

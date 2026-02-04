@@ -18,7 +18,7 @@
                             'data-like-icon' => '', 
                             'data-post-type' => $post->getPostType(), 
                             'data-post-id' => $post->getId(),
-                            'data-blog-id' => $post->blogId
+                            'data-blog-id' => $post->getBlogId()
                         ],
                         'filled' => true,
                     ])
