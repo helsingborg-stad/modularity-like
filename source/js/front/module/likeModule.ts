@@ -1,7 +1,6 @@
-import LikedPostsApiUrlBuilder from "./helpers/likedPostsApiUrlBuilder";
-import LikedPostsStructurer from "./helpers/likedPostsStructurer";
-import { LikedPostsMeta, LikedPosts, WpApiSettings } from "./like-posts";
-import StorageInterface from "./storage/storageInterface";
+import LikedPostsApiUrlBuilder from "../helpers/likedPostsApiUrlBuilder";
+import { LikedPostsMeta, LikedPosts, WpApiSettings } from "../like-posts";
+import StorageInterface from "../storage/storageInterface";
 
 class LikeModule {
     private displayNoneClass: string = 'u-display--none';
@@ -10,7 +9,6 @@ class LikeModule {
         private wpApiSettings: WpApiSettings,
         private likeStorage: StorageInterface,
         private sharedPosts: string|null,
-        private likedPostsStructurer: LikedPostsStructurer,
         private likedPostsApiUrlBuilder: LikedPostsApiUrlBuilder,
         private postTypesToShow: Array<string>,
         private postAppearance: string,
@@ -35,7 +33,10 @@ class LikeModule {
         }
     }
 
-	private handleLikedPosts(): void {
+    /**
+     * Handles liked posts for the current user/session.
+     */
+    private handleLikedPosts(): void {
         if (Object.keys(this.likedPosts).length <= 0) {
             this.noPostsFound();
             return;
@@ -50,6 +51,10 @@ class LikeModule {
         this.fetchPosts(apiUrl);
 	}
 
+    /**
+     * Fetches posts from the API and handles the response.
+     * @param apiUrl - The API URL to fetch posts from.
+     */
     private fetchPosts(apiUrl: string): void {
         fetch(
             apiUrl,
@@ -77,6 +82,10 @@ class LikeModule {
     }
 
 
+    /**
+     * Handles the fetched posts markup and updates the DOM.
+     * @param posts - The HTML markup for the posts.
+     */
     private handleFetched(posts: string): void {
         if (!posts || typeof posts !== 'string') {
             this.noPostsFound();
@@ -87,12 +96,18 @@ class LikeModule {
         this.renderContainer.innerHTML = posts;
     }
 
+    /**
+     * Removes all preloader elements from the DOM.
+     */
     private removePreloaders() {
         this.preLoaders.forEach((preloader) => {
             preloader.remove();
         });
     }
 
+    /**
+     * Handles the case when no posts are found.
+     */
     private noPostsFound() {
         this.noPostsNotice.classList.remove(this.displayNoneClass);
         this.removePreloaders();

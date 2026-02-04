@@ -12,6 +12,9 @@ class Shared {
         this.addSharedData();
     }
 
+    /**
+     * Adds shared data (name and excerpt) to the DOM from URL parameters.
+     */
     private addSharedData() {
         let listName = this.urlParams.get(this.nameParamKey);
         let listExcerpt = this.urlParams.get(this.excerptParamKey);
@@ -24,11 +27,21 @@ class Shared {
         }
     }
 
+    /**
+     * Sets the shared value for an element and makes it visible.
+     * @param element - The element to update.
+     * @param value - The value to set (encoded).
+     */
     private setSharedValue(element: HTMLElement, value: string) {
         element.textContent = this.sanitizeUrlParams(value);
         element.classList.remove(this.displayNoneClass);
     }
 
+    /**
+     * Decodes and sanitizes a base64-encoded string from URL parameters.
+     * @param encodedString - The encoded string to decode and sanitize.
+     * @returns The sanitized string.
+     */
     private sanitizeUrlParams(encodedString: string) {
 		let string = atob(encodedString);
 		string = string.replace(/(<([^>]+)>)/gi, '');

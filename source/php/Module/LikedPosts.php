@@ -50,6 +50,16 @@ class LikedPosts extends \Modularity\Module
         $data['labels']       = $this->getLabels();
         $data['id']           = uniqid();
 
+        $data['attributeList'] = [
+            'data-js-like-posts' => true,
+            'data-js-like-posts-post-types' => $data['postTypes'],
+            'data-js-like-posts-appearance' => $data['appearance'],
+        ];
+
+        if ($data['shareButton']) {
+            $data['attributeList']['data-js-like-posts-share'] = true;
+        }
+
         return $data;
     }
 
