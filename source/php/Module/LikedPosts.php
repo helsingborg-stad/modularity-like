@@ -20,17 +20,17 @@ class LikedPosts extends \Modularity\Module
 
     public function init()
     {
-        //Define module
-        $this->nameSingular = __("Liked posts", 'modularity-like');
-        $this->namePlural   = __("Liked posts", 'modularity-like');
-        $this->description  = __("Shows the users liked posts", 'modularity-like');
-
-        //Initialize services, helpers etc.
         $this->acfService            = new NativeAcfService();
         $this->wpService             = new WpServiceWithTypecastedReturns(new NativeWpService());
+
+        //Define module
+        $this->nameSingular = $this->wpService->__("Liked posts", 'modularity-like');
+        $this->namePlural   = $this->wpService->__("Liked posts", 'modularity-like');
+        $this->description  = $this->wpService->__("Shows the users liked posts", 'modularity-like');
+
         $this->getOptionFieldsHelper = new GetOptionFields($this->acfService);
 
-        $this->registerMeta();//TODO: Does this need to be here? Maybe move to plugin init?
+        $this->registerMeta();
     }
 
      /**
@@ -84,13 +84,13 @@ class LikedPosts extends \Modularity\Module
     private function getLabels()
     {
         return [
-            'shareButtonLabel' => __('Share favorites', 'modularity-like'),
-            'shareSuccess'     => __('Link was copied successfully', 'modularity-like'),
-            'shareError'       => __('Something went wrong, link: ', 'modularity-like'),
-            'close'            => __('Close', 'modularity-like'),
-            'shareLinkLabel'   => __('Share your link', 'modularity-like'),
-            'shareLinkName'    => __('List name', 'modularity-like'), 
-            'shareLinkExcerpt' => __('List excerpt', 'modularity-like'), 
+            'shareButtonLabel' => $this->wpService->__('Share favorites', 'modularity-like'),
+            'shareSuccess'     => $this->wpService->__('Link was copied successfully', 'modularity-like'),
+            'shareError'       => $this->wpService->__('Something went wrong, link: ', 'modularity-like'),
+            'close'            => $this->wpService->__('Close', 'modularity-like'),
+            'shareLinkLabel'   => $this->wpService->__('Share your link', 'modularity-like'),
+            'shareLinkName'    => $this->wpService->__('List name', 'modularity-like'), 
+            'shareLinkExcerpt' => $this->wpService->__('List excerpt', 'modularity-like'), 
         ];
     }
 
