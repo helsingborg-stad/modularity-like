@@ -19,7 +19,7 @@ class GetPosts {
     private int $currentUser;
     private int $currentBlogIdContext;
     private array $orderedPosts = [];
-    private array $postTypes;
+    private array $postTypes = [];
 
     public function __construct(
         private WpService $wpService,
@@ -28,7 +28,6 @@ class GetPosts {
     ) {
 
         $this->blogId               = $this->wpService->getCurrentBlogId();
-        $this->postTypes            = $this->getOptionFieldsHelper->getPostTypes();
         $this->currentBlogIdContext = $this->blogId;
     }
 
@@ -40,7 +39,7 @@ class GetPosts {
      */
     public function getPosts(array $unstructuredIds): array
     {
-
+        $this->postTypes = $this->getOptionFieldsHelper->getPostTypes();
         $this->currentUser = $this->getCurrentUser();
         $this->setUpWantedOrder($unstructuredIds);
         $structuredIds = $this->structurePostIds($unstructuredIds);
