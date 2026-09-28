@@ -14,7 +14,6 @@
  */
 
 use ModularityLikePosts\Blade\Blade;
-use ComponentLibrary\Init as ComponentLibraryInit;
 use WpService\Implementations\NativeWpService;
 use WpService\Implementations\WpServiceWithTypecastedReturns;
 use Municipio\Helper\SiteSwitcher\SiteSwitcher;
@@ -38,7 +37,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require __DIR__ . '/vendor/autoload.php';
 }
 
-$bladeInstance = new Blade(new ComponentLibraryInit([]));
+$bladeInstance = new Blade();
 require_once MODULARITYLIKEPOSTS_PATH . 'Public.php';
 
 add_action('init', function () {
