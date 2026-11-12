@@ -48,6 +48,7 @@ To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them (mac os).
+* PHP 8.2–8.5 (required by wpservice 3)
 * composer
 ```sh
 brew install composer
